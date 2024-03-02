@@ -16,6 +16,9 @@ const app = express()
 app.use(cors());
 app.use(express.json())
 app.use(cookieParser());
+app.get('/',(req,res)=>{
+    res.send('server is working')
+})
 app.use('/api',router)
 
 async function startApp(){
