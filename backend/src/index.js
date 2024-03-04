@@ -6,6 +6,7 @@ const cors = require('cors');
 const router = require('./router/router');
 const crypto = require('crypto')
 const cookieParser = require('cookie-parser');
+const fileUpload = require("express-fileupload")
 
 
 
@@ -14,6 +15,7 @@ const app = express()
 
 
 app.use(cors());
+app.use(fileUpload({}))
 app.use(express.json())
 app.use(cookieParser());
 app.get('/',(req,res)=>{

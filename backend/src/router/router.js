@@ -1,13 +1,11 @@
 const Router = require('express');
 const UserControlers = require('../Contolers/UserControlers');
-const verifyToken = require('../middleware/Middleware')
+const verifyToken = require('../middleware/Middleware');
+const UserRouter = require('./UserRouter');
+const CollectionRouter = require('./CollectionRouter');
 const router = new Router()
 
-router.get('/',verifyToken,UserControlers.users)
-router.post('/signin', UserControlers.createUsers);
-router.post('/auth' , UserControlers.login)
-router.put('/block' ,verifyToken,UserControlers.block)
-router.delete('/delete/:id' ,verifyToken, UserControlers.delete)
-
+router.use('/',UserRouter)
+router.use('/collections',CollectionRouter )
 
 module.exports = router;
