@@ -1,4 +1,4 @@
-const Users = require("../db/Users")
+const Users = require("../db/Collections")
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
@@ -49,9 +49,11 @@ class UserContolers{
             const ecryptedPass = enctypt(password)
 
             const user = await Users.find({email: email}) 
+            
 
             if(user[0].password === ecryptedPass && user[0].status != 'blocked'){
                 const token = jwt.sign({ user }, process.env.TOKENKEY, { expiresIn: '7d' })
+                console.log(token);
                 res.cookie('token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 })
 
                 res.status(200).json(user)

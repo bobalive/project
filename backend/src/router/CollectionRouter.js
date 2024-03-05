@@ -3,7 +3,11 @@ const CollectionControler = require('../Contolers/CollectionControler');
 const verifyToken = require('../middleware/Middleware')
 const CollectionRouter = new Router()
 
-CollectionRouter.post("/create", CollectionControler.createCollections)
+CollectionRouter.post("/edit" , verifyToken , CollectionControler.editCollection)
+CollectionRouter.get("/collection/:id" , CollectionControler.getOneCollection)
+CollectionRouter.get("/user/:id" , verifyToken, CollectionControler.getAllCollections)
+CollectionRouter.post("/change",verifyToken, CollectionControler.addFields)
+CollectionRouter.post("/create", verifyToken,CollectionControler.createCollections)
 
 
 
