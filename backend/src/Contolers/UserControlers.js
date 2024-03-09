@@ -45,25 +45,39 @@ class UserContolers{
     
     async login(req,res){
         try{
+
+            const token = req.cookies.token;
+
+        if (!token) {
             const {email , password} = req.body
-            const ecryptedPass = enctypt(password)
+                const ecryptedPass = enctypt(password)
 
-            const user = await Users.find({email: email}) 
-            
+                const user = await Users.find({email: email}) 
+                
 
-            if(user[0].password === ecryptedPass && user[0].status != 'blocked'){
-                const token = jwt.sign({ user }, process.env.TOKENKEY, { expiresIn: '7d' })
-                console.log(token);
-                res.cookie('token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 })
+                if(user[0].password === ecryptedPass && user[0].status != 'blocked'){
+                    const token = jwt.sign({ user }, process.env.TOKENKEY, { expiresIn: '7d' })
+                    console.log(token);
+                    res.cookie('token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 })
 
-                res.status(200).json(user)
-            }else{
-                res.status(400).json('false')
+                    return res.status(200).json(user)
+                }else{
+                     return res.status(400).json('false')
+                }
+        }   
+
+        jwt.verify(token,  process.env.TOKENKEY, (err, decoded) => {
+            if (err) {
+                return res.sendStatus(403); // Forbidden if token is invalid
             }
-        }catch (e){
-            res.status(500).json(e)
+            req.user = decoded.user;
+            return res.status(200).json(decoded.user)
+        });
+                
+            }catch (e){
+                res.status(500).json(e)
+            }
         }
-    }
 
     async block(req,res){
         try{

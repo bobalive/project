@@ -19,12 +19,23 @@ class CollectionControler{
         }
         
     }
+    async getTopCollections(req,res){
+        try{
+            let collections = await Collections.find()
+
+            collections = collections.sort((a,b)=> a.items.length - b.items.length)
+            return res.status(200).json(collections.slice(4, collections.length))
+        }catch (e){
+            return res.status(400).json(e)
+        }
+    }
     async getOneCollection(req,res){
         const {id} = req.params
         if(id){
             try{
                 const colletion = await Collections.find({_id:id})
                 
+               
                 res.status(200).json(colletion)
             }catch(e){
                 res.status(500)
@@ -42,10 +53,6 @@ class CollectionControler{
         if(id && collections){
             const userCollections = await Collections.create({...collections , userId:id})
             
-            const user = await Users.findById(id)
-            
-            user.collections.push({...collections})
-            user.save()
             return res.status(200).json(userCollections)
         }else{
             return res.status(400).json('incorrect data')
