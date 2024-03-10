@@ -1,58 +1,81 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../ui/table.tsx";
+import {TableInterface} from "./Table.interface.ts";
+import {NavLink} from "react-router-dom";
 
-export const TableMenu = ()=>{
+
+export const TableMenu = ({collection,item}:TableInterface)=>{
+
+
+
     return (
         <div className="border shadow-sm rounded-lg">
-            <Table>
+            <Table >
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[150px]">Collection</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead className="w-[150px]">Theme</TableHead>
-                        <TableHead className="w-[150px]">Items</TableHead>
+                        <TableHead  className="w-[150px]">Id</TableHead>
+                        <TableHead className="w-[150px]">{item?'Name':"Collection"}</TableHead>
+                        <TableHead>{item?'Tags':"Description"}</TableHead>
+                        {collection&&<>
+                            <TableHead className="w-[150px]">Theme</TableHead>
+                            <TableHead className="w-[150px]">Items</TableHead>
+                            </>}
+                        {item &&
+                            <>
+                            {item[0].fields.map(field=>(
+                                <TableHead className="w-[150px]">{field.name}</TableHead>
+                            ))}
+                            {item[0].req_fields &&
+                                item[0].req_fields.map(field=>(
+                                    <TableHead className="w-[150px]">{field.name}</TableHead>
+                                ))}
+                        </>}
+
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>
-                            <a className="font-semibold" href="#">
-                                My Books
-                            </a>
-                        </TableCell>
-                        <TableCell className="text-sm">A collection of my favorite books</TableCell>
-                        <TableCell>Books</TableCell>
-                        <TableCell>25</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>
-                            <a className="font-semibold" href="#">
-                                Travel Memories
-                            </a>
-                        </TableCell>
-                        <TableCell className="text-sm">Capturing the essence of my adventures</TableCell>
-                        <TableCell>Travel</TableCell>
-                        <TableCell>50</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>
-                            <a className="font-semibold" href="#">
-                                Culinary Creations
-                            </a>
-                        </TableCell>
-                        <TableCell className="text-sm">Exploring the art of gastronomy</TableCell>
-                        <TableCell>Food</TableCell>
-                        <TableCell>10</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>
-                            <a className="font-semibold" href="#">
-                                Artistic Inspirations
-                            </a>
-                        </TableCell>
-                        <TableCell className="text-sm">Embracing the beauty of creativity</TableCell>
-                        <TableCell>Art</TableCell>
-                        <TableCell>30</TableCell>
-                    </TableRow>
+                    {collection&&collection.map(item=> {
+                            return(
+                                <TableRow>
+                                    <TableCell>
+                                        <NavLink className="font-semibold" to={"collection/" + item._id}>
+                                            {item._id}
+                                        </NavLink>
+                                    </TableCell>
+                                    <TableCell>
+                                        <NavLink className="font-semibold" to={"collection/" + item._id}>
+                                            {item.name}
+                                        </NavLink>
+                                    </TableCell>
+                                    <TableCell className="text-sm">{item.description}</TableCell>
+                                    <TableCell>{item.theme}</TableCell>
+                                    <TableCell>{item.items.length}</TableCell>
+                                </TableRow>
+                            )
+                    })}
+                    {item&&item.map(data=>{
+
+                        return(<TableRow>
+                            <TableCell>
+                                <NavLink className="font-semibold" to={"item/" + data._id}>
+                                    {data._id}
+                                </NavLink>
+                            </TableCell>
+                            <TableCell>
+                                <NavLink className="font-semibold" to={"item/" + data._id}>
+                                    {data.name}
+                                </NavLink>
+                            </TableCell>
+                            <TableCell className="w-[150px]">{data.tags&&[...data.tags]}</TableCell>
+                            {data.fields.map(field=>(
+                                <TableCell className="w-[150px]">{field.value}</TableCell>
+                            ))}
+                            {data.req_fields &&
+                                data.req_fields.map(field=>(
+                                    <TableCell>{field.value}</TableCell>
+                                ))}
+
+                        </TableRow>)
+                    })}
                 </TableBody>
             </Table>
         </div>

@@ -1,6 +1,7 @@
 import {Package2Icon} from "../../helpers/Icons/Package2Icon.tsx";
 import {PackageIcon} from "../../helpers/Icons/PackageIcon.tsx";
 import {useState} from "react"
+import {NavLink} from "react-router-dom";
 
 
 
@@ -9,10 +10,10 @@ export const Sidebar = ()=>{
     return (
         <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-[60px] items-center border-b px-6">
-                <a className="flex items-center gap-2 font-semibold" href="#">
+                <NavLink className="flex items-center gap-2 font-semibold" to="/">
                     <Package2Icon className="h-6 w-6"/>
                     <span className="">Course project</span>
-                </a>
+                </NavLink>
             </div>
             <div className="flex-1 overflow-auto py-2">
                 <nav className="grid items-start px-4 text-sm font-medium">

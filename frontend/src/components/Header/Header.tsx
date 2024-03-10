@@ -11,6 +11,7 @@ import {Package2Icon} from "../../helpers/Icons/Package2Icon.tsx";
 import {UserIcon} from "../../helpers/Icons/UserIcon.tsx";
 import {SearchIcon} from "../../helpers/Icons/SearchIcon.tsx";
 import {PlusIcon} from "../../helpers/Icons/PlusIcon.tsx";
+import {Login} from "../Login/Login.tsx";
 
 
 export const Header = ()=>{
@@ -47,13 +48,8 @@ export const Header = ()=>{
                         <span className="sr-only">Toggle user menu</span>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator/>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>Support</DropdownMenuItem>
-                    <DropdownMenuSeparator/>
-                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuContent align="center">
+                    <Login/>
                 </DropdownMenuContent>
             </DropdownMenu>
         </header>

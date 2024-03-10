@@ -7,6 +7,7 @@ const CollectionSchema = new mongoose.Schema({
             type: String,
             enum: ["Books", "Signs", "Silverware"],
         },
+        description:String,
         photo: String,
         custom_Fields:{
             custom_string: [{ name: String , state: Boolean  }],
