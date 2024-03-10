@@ -18,8 +18,8 @@ import {
 
 export function Login() {
     return (
-        <Tabs defaultValue="account" className="w-[400px]">
-            <TabsList className="grid w-full grid-cols-2">
+        <Tabs defaultValue="account" className="w-[400px] dark:text-white">
+            <TabsList className="grid w-full grid-cols-2 ">
                 <TabsTrigger value="account">Account</TabsTrigger>
                 <TabsTrigger value="password">Password</TabsTrigger>
             </TabsList>
@@ -47,7 +47,7 @@ export function Login() {
                 </Card>
             </TabsContent>
             <TabsContent value="password">
-                <Card>
+                <Card className='dark'>
                     <CardHeader>
                         <CardTitle>Password</CardTitle>
                         <CardDescription>

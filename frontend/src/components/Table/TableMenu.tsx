@@ -35,7 +35,7 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
                 <TableBody>
                     {collection&&collection.map(item=> {
                             return(
-                                <TableRow>
+                                <TableRow key={item._id}>
                                     <TableCell>
                                         <NavLink className="font-semibold" to={"collection/" + item._id}>
                                             {item._id}
@@ -54,14 +54,14 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
                     })}
                     {item&&item.map(data=>{
 
-                        return(<TableRow>
+                        return(<TableRow key={data._id}>
                             <TableCell>
-                                <NavLink className="font-semibold" to={"item/" + data._id}>
+                                <NavLink className="font-semibold" to={"/item/" + data._id}>
                                     {data._id}
                                 </NavLink>
                             </TableCell>
                             <TableCell>
-                                <NavLink className="font-semibold" to={"item/" + data._id}>
+                                <NavLink className="font-semibold" to={"/item/" + data._id}>
                                     {data.name}
                                 </NavLink>
                             </TableCell>

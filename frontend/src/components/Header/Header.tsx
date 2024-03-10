@@ -2,9 +2,7 @@ import {Input} from "../ui/input.tsx";
 import {Button} from "../ui/button.tsx";
 import {
     DropdownMenu,
-    DropdownMenuContent, DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
+    DropdownMenuContent,
     DropdownMenuTrigger
 } from "../ui/dropdown-menu.tsx";
 import {Package2Icon} from "../../helpers/Icons/Package2Icon.tsx";
@@ -26,7 +24,7 @@ export const Header = ()=>{
                     <div className="relative">
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400"/>
                         <Input
-                            className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
+                            className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3 dark:bg-gray-950 dark:text-white"
                             placeholder="Search collections..."
                             type="search"
                         />
