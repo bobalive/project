@@ -1,11 +1,11 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../ui/table.tsx";
 import {TableInterface} from "./Table.interface.ts";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
 
 export const TableMenu = ({collection,item}:TableInterface)=>{
 
-
+    const navigate = useNavigate()
 
     return (
         <div className="border shadow-sm rounded-lg">
@@ -35,7 +35,7 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
                 <TableBody>
                     {collection&&collection.map(item=> {
                             return(
-                                <TableRow key={item._id}>
+                                <TableRow key={item._id} onClick={()=> navigate("/collection/" + item._id)}>
                                     <TableCell>
                                         <NavLink className="font-semibold" to={"collection/" + item._id}>
                                             {item._id}
@@ -54,7 +54,7 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
                     })}
                     {item&&item.map(data=>{
 
-                        return(<TableRow key={data._id}>
+                        return(<TableRow key={data._id} onClick={()=> navigate("/item/" + data._id)}>
                             <TableCell>
                                 <NavLink className="font-semibold" to={"/item/" + data._id}>
                                     {data._id}

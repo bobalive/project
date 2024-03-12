@@ -32,7 +32,7 @@ export const Collection = () => {
 
 
     return (
-        <div className="grid min-h-screen items-start w-full gap-4 lg:grid-cols-[280px_1fr] bg-gray-400 p-3">
+        <div className="grid min-h-screen items-start w-full gap-4 lg:grid-cols-[280px_1fr] bg-gray-950 p-3">
             <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
                 <Sidebar/>
             </div>
