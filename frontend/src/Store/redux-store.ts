@@ -1,5 +1,5 @@
 import {configureStore} from "@reduxjs/toolkit";
-import collectionReduser from "./collectionSlice.ts";
+import collectionReduser from "./Slices/collectionSlice.ts";
 
 
 export const store = configureStore({

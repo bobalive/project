@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {CollectionInterface} from "../interfaces/Collection.interface.ts";
+import {CollectionInterface} from "../../interfaces/Collection.interface.ts";
 
 
 interface InitialStateInterface{

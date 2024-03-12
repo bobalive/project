@@ -4,8 +4,8 @@ import {Header} from "../components/Header/Header.tsx";
 import {useEffect } from 'react'
 import {getTopCollections} from "../api/api.ts";
 import {useDispatch, useSelector} from "react-redux";
-import {StoreInterface} from "../interfaces/store.interface.ts";
-import {setCollection} from "../Store/collectionSlice.ts";
+import {StoreInterface} from "../interfaces/Store.interface.ts";
+import {setCollection} from "../Store/Slices/collectionSlice.ts";
 export const Home = ()=> {
     const topCollections = useSelector((state:StoreInterface) => state.collections.topCollections)
     const dispatch = useDispatch()
