@@ -16,58 +16,98 @@ import {
     TabsTrigger,
 } from "../ui/tabs"
 
+import { useForm, SubmitHandler } from "react-hook-form"
+import {UserInteface} from "../../interfaces/User.interface.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {StoreInterface} from "../../interfaces/Store.interface.ts";
+import {login} from "../../api/api.ts";
+import {useState} from "react";
+import {putUser} from "../../Store/Slices/userSlice.ts";
+
 export function Login() {
+
+    const user:(UserInteface | unknown) = useSelector<StoreInterface>(state => state.user)
+    const dispatch = useDispatch()
+
+    const [err , setErr] = useState(false)
+
+    const {register, handleSubmit:loginSubmit, formState: { errors },} = useForm<UserInteface>()
+    const onLogin: SubmitHandler<UserInteface> = async (data) => {
+        const newUser = await login(data)
+        if(newUser){
+            dispatch(putUser({...newUser}))
+        }else {
+            setErr(true)
+        }
+    }
+
+    const {register:newregister , handleSubmit:signinSubmit , formState:{errors:newerrors}} = useForm<UserInteface>()
+
     return (
         <Tabs defaultValue="account" className="w-[400px] dark:text-white">
             <TabsList className="grid w-full grid-cols-2 ">
-                <TabsTrigger value="account">Account</TabsTrigger>
-                <TabsTrigger value="password">Password</TabsTrigger>
+                <TabsTrigger value="account">Login</TabsTrigger>
+                <TabsTrigger value="password">Sign In</TabsTrigger>
             </TabsList>
             <TabsContent value="account">
+                <form action="" onSubmit={loginSubmit(onLogin)}>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Account</CardTitle>
+                        <CardTitle>Login</CardTitle>
+                        {err && <span className="bg-red-500 p-1"> email or password is incorrect</span>}
                         <CardDescription>
-                            Make changes to your account here. Click save when you're done.
+                            If you already have account
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">
                         <div className="space-y-1">
-                            <Label htmlFor="name">Name</Label>
-                            <Input id="name" defaultValue="Pedro Duarte" />
+                            <Label htmlFor="login-email">Email</Label>
+                            <Input id="login-email"  type="email" {...register('email',{required:true})}/>
+                            {errors.email && <span className="text-red-500">Email is required</span>}
                         </div>
                         <div className="space-y-1">
-                            <Label htmlFor="username">Username</Label>
-                            <Input id="username" defaultValue="@peduarte" />
+                            <Label htmlFor="login-password">Password</Label>
+                            <Input id="login-password" type="password" {...register('password' ,{required:true,minLength:6})}/>
+                            {errors.password && <span className="text-red-500">Password shoud be at least 6 char </span>}
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button>Save changes</Button>
+                        <Button>Submit</Button>
                     </CardFooter>
                 </Card>
+                </form>
             </TabsContent>
             <TabsContent value="password">
+                <form action="" onSubmit={signinSubmit(onLogin)}>
                 <Card className='dark'>
                     <CardHeader>
-                        <CardTitle>Password</CardTitle>
+                        <CardTitle>Sign in</CardTitle>
                         <CardDescription>
-                            Change your password here. After saving, you'll be logged out.
+                            Create account
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">
                         <div className="space-y-1">
-                            <Label htmlFor="current">Current password</Label>
-                            <Input id="current" type="password" />
+                            <Label htmlFor="current">Name</Label>
+                            <Input id="current" type="text" {...newregister("name" ,{required:true})}/>
+                            {newerrors.name && <span className="text-red-500">Name is required </span>}
                         </div>
                         <div className="space-y-1">
-                            <Label htmlFor="new">New password</Label>
-                            <Input id="new" type="password" />
+                            <Label htmlFor="new">Email</Label>
+                            <Input id="new" type="email" {...newregister("email" ,{required:true})}/>
+                            {newerrors.email && <span className="text-red-500">Password shoud be at least 6 char </span>}
+                        </div>
+                        <div className="space-y-1">
+                            <Label htmlFor="new">Password</Label>
+                            <Input id="new" type="password" {...newregister("password" , {required:true ,minLength:6}) }/>
+                            {newerrors.password && <span className="text-red-500">Password shoud be at least 6 char </span>}
                         </div>
                     </CardContent>
                     <CardFooter>
                         <Button>Save password</Button>
                     </CardFooter>
                 </Card>
+                </form>
             </TabsContent>
         </Tabs>
     )

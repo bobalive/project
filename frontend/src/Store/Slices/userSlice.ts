@@ -1,18 +1,29 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {UserInteface} from "../../interfaces/User.interface.ts";
 
-const initialState = {
-    count:1
+const initialState:UserInteface = {
+    id:"",
+    name:'',
+    email:'',
+    password:'',
+    role:'user',
+    status:'blocked'
 }
 
 export const userSlice = createSlice({
     name:'user',
     initialState,
     reducers:{
-        addNumber:(state , action)=>{
-            state.count += action.payload
+        putUser(state:UserInteface, action:PayloadAction<UserInteface>){
+            const {status,name,email,password,role}= action.payload
+            state.role = role
+            state.status = status
+            state.name= name
+            state.email = email
+            state.password = password
         }
     }
 })
 
-export const {addNumber }= userSlice.actions
+export const {putUser }= userSlice.actions
 export default userSlice.reducer

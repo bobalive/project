@@ -41,39 +41,39 @@ class UserContolers{
             res.status(500).json(e)
         }
 
-    } 
-    
+    }
+
     async login(req,res){
         try{
 
             const token = req.cookies.token;
-
         if (!token) {
             const {email , password} = req.body
                 const ecryptedPass = enctypt(password)
+                const user = await Users.find({email: email})
 
-                const user = await Users.find({email: email}) 
-                
+            if (user[0] && (user[0].password === ecryptedPass && user[0].status !== 'blocked')) {
+                const newToken = jwt.sign({ user }, process.env.TOKENKEY, { expiresIn: '7d' });
 
-                if(user[0].password === ecryptedPass && user[0].status != 'blocked'){
-                    const token = jwt.sign({ user }, process.env.TOKENKEY, { expiresIn: '7d' })
-                    console.log(token);
-                    res.cookie('token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 })
+                res.cookie('token', newToken, { maxAge: 7 * 24 * 60 * 60 * 1000 });
 
-                    return res.status(200).json(user)
-                }else{
-                     return res.status(400).json('false')
-                }
-        }   
-
-        jwt.verify(token,  process.env.TOKENKEY, (err, decoded) => {
-            if (err) {
-                return res.sendStatus(403); // Forbidden if token is invalid
+                return res.status(200).json(user);
             }
-            req.user = decoded.user;
-            return res.status(200).json(decoded.user)
-        });
-                
+            else {
+                return res.status(400).json({ error: 'Invalid email or password' });
+            }
+
+        } else{
+            console.log('bob')
+            jwt.verify(token,  process.env.TOKENKEY, (err, decoded) => {
+                if (err) {
+                    return res.sendStatus(403); // Forbidden if token is invalid
+                }
+                req.user = decoded.user;
+                return res.status(200).json(decoded.user)
+            });
+
+        }
             }catch (e){
                 res.status(500).json(e)
             }

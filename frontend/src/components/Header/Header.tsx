@@ -10,14 +10,20 @@ import {UserIcon} from "../../helpers/Icons/UserIcon.tsx";
 import {SearchIcon} from "../../helpers/Icons/SearchIcon.tsx";
 import {PlusIcon} from "../../helpers/Icons/PlusIcon.tsx";
 import {Login} from "../Login/Login.tsx";
+import {useSelector} from "react-redux";
+import {StoreInterface} from "../../interfaces/Store.interface.ts";
+import {Profile} from "../Profile/Profile.tsx";
+import {UserInteface} from "../../interfaces/User.interface.ts";
 
 
-export const Header = ()=>{
+export const Header = () => {
+    const user = useSelector<StoreInterface ,UserInteface>(state => state.user);
+
     return (
         <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
             <a className="lg:hidden flex items-center gap-2 font-semibold" href="#">
                 <Package2Icon className="h-6 w-6"/>
-                <span className="">Collections</span>
+                <span>Collections</span>
             </a>
             <div className="w-full flex-1">
                 <form>
@@ -47,9 +53,13 @@ export const Header = ()=>{
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center">
-                    <Login/>
+                    {user.name !== '' ? (
+                        <Profile id={user.id} name={user.name} email={user.email} />
+                    ) : (
+                        <Login />
+                    )}
                 </DropdownMenuContent>
             </DropdownMenu>
         </header>
-    )
-}
+    );
+};

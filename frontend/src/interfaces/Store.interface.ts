@@ -1,8 +1,8 @@
-import {UserInteface} from "./User.inteface.ts";
+import {UserInteface} from "./User.interface.ts";
 import {CollectionInterface} from "./Collection.interface.ts";
 
 export interface StoreInterface{
-    user?:UserInteface,
+    user:UserInteface,
     collections:{
         topCollections:CollectionInterface[],
         myCollections?:CollectionInterface[]

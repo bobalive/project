@@ -23,8 +23,7 @@ class CollectionControler{
         try{
             let collections = await Collections.find()
             collections = collections.sort((a,b)=> b.items.length - a.items.length)
-            console.log(collections[0].items.length)
-            return res.status(200).json(collections.filter((item, i)=> i< 5))
+            return res.status(200).json(collections.filter((item, i)=> (item.items.length>0 && i< 5)))
         }catch (e){
             return res.status(400).json(e)
         }
