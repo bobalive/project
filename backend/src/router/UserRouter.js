@@ -3,7 +3,7 @@ const UserControlers = require('../Contolers/UserControlers');
 const verifyToken = require('../middleware/Middleware')
 const UserRouter = new Router()
 
-UserRouter.get('/',verifyToken,UserControlers.users)
+UserRouter.get('/',UserControlers.users)
 UserRouter.post('/signin', UserControlers.createUsers);
 UserRouter.post('/auth' , UserControlers.login)
 UserRouter.put('/block' ,verifyToken,UserControlers.block)

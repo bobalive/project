@@ -18,36 +18,47 @@ import {
 
 import { useForm, SubmitHandler } from "react-hook-form"
 import {UserInteface} from "../../interfaces/User.interface.ts";
-import {useDispatch, useSelector} from "react-redux";
-import {StoreInterface} from "../../interfaces/Store.interface.ts";
-import {login} from "../../api/api.ts";
+import {useDispatch} from "react-redux";
+import {login, signin} from "../../api/api.ts";
 import {useState} from "react";
 import {putUser} from "../../Store/Slices/userSlice.ts";
+import {SigninInterface} from "../../interfaces/Login.interface.ts";
 
 export function Login() {
+    const {register:newregister , handleSubmit:signinSubmit , formState:{errors:newerrors}} = useForm<UserInteface>()
+    const {register, handleSubmit:loginSubmit, formState: { errors },} = useForm<UserInteface>()
 
-    const user:(UserInteface | unknown) = useSelector<StoreInterface>(state => state.user)
+
     const dispatch = useDispatch()
 
     const [err , setErr] = useState(false)
 
-    const {register, handleSubmit:loginSubmit, formState: { errors },} = useForm<UserInteface>()
-    const onLogin: SubmitHandler<UserInteface> = async (data) => {
-        const newUser = await login(data)
-        if(newUser){
-            dispatch(putUser({...newUser}))
+
+        const onLogin: SubmitHandler<UserInteface> = async (data) => {
+        const user = await login(data)
+            console.log(user)
+        if(user){
+            dispatch(putUser({...user[0]}))
         }else {
             setErr(true)
         }
     }
 
-    const {register:newregister , handleSubmit:signinSubmit , formState:{errors:newerrors}} = useForm<UserInteface>()
+    const onSignin:SubmitHandler<SigninInterface> = async (data)=>{
+        const newUser:UserInteface|null|undefined = await signin(data)
+
+        if(newUser){
+            dispatch(putUser({...newUser}))
+        }else{
+            setErr(true)
+        }
+    }
 
     return (
         <Tabs defaultValue="account" className="w-[400px] dark:text-white">
             <TabsList className="grid w-full grid-cols-2 ">
-                <TabsTrigger value="account">Login</TabsTrigger>
-                <TabsTrigger value="password">Sign In</TabsTrigger>
+                <TabsTrigger value="account" onClick={()=> setErr(false)}>Login</TabsTrigger>
+                <TabsTrigger value="password" onClick={()=> setErr(false)}>Sign In</TabsTrigger>
             </TabsList>
             <TabsContent value="account">
                 <form action="" onSubmit={loginSubmit(onLogin)}>
@@ -78,10 +89,11 @@ export function Login() {
                 </form>
             </TabsContent>
             <TabsContent value="password">
-                <form action="" onSubmit={signinSubmit(onLogin)}>
+                <form action="" onSubmit={signinSubmit(onSignin)}>
                 <Card className='dark'>
                     <CardHeader>
                         <CardTitle>Sign in</CardTitle>
+                        {err && <span className="bg-red-500 p-1"> User alredy exist</span>}
                         <CardDescription>
                             Create account
                         </CardDescription>
@@ -104,7 +116,7 @@ export function Login() {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button>Save password</Button>
+                        <Button>Submit</Button>
                     </CardFooter>
                 </Card>
                 </form>

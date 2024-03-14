@@ -14,7 +14,10 @@ const fileUpload = require("express-fileupload")
 const app = express()
 
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Replace with the actual origin of your frontend application
+    credentials: true // Allow credentials (cookies) to be sent with requests
+}))
 app.use(fileUpload({}))
 app.use(express.json())
 app.use(cookieParser());
