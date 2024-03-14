@@ -12,7 +12,7 @@ function App() {
       <Provider store={store}>
         <Routes>
             <Route path={'/collection/:id'} element={<Collection/>}></Route>
-          <Route path={'/'} element={<Home/>}/>
+                <Route path={'/'} element={<Home/>}/>
         </Routes>
       </Provider>
       </BrowserRouter>

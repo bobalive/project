@@ -71,3 +71,22 @@ export const signin = async ({name, password,email}:SigninInterface):Promise<Use
         return null
     }
 }
+
+export const getUser = async ()=>{
+    try{
+        const response = await axios.get('http://localhost:5000/api/',{
+            withCredentials:true
+        })
+        console.log(response.data);
+        return response.data
+    }catch (e){
+        return null
+    }
+}
+
+export const logout = async ()=>{
+    const response = await axios.get('http://localhost:5000/api/logout')
+    if(response.status == 200){
+        return true;
+    }
+}

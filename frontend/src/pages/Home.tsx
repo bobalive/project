@@ -2,11 +2,22 @@ import {Sidebar} from "../components/Sidebar/Sidebar.tsx";
 import {TableMenu} from "../components/Table/TableMenu.tsx";
 import {Header} from "../components/Header/Header.tsx";
 import {useEffect } from 'react'
-import {getTopCollections} from "../api/api.ts";
+import {getTopCollections, getUser} from "../api/api.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreInterface} from "../interfaces/Store.interface.ts";
 import {setCollection} from "../Store/Slices/collectionSlice.ts";
+import {putUser} from "../Store/Slices/userSlice.ts";
 export const Home = ()=> {
+    const checkUser = async () => {
+        const user = await getUser()
+        console.log(user)
+        if(user){
+            dispatch(putUser({...user[0]}))
+        }
+    }
+    useEffect(() => {
+        checkUser()
+    }, []);
     const topCollections = useSelector((state:StoreInterface) => state.collections.topCollections)
     const dispatch = useDispatch()
 

@@ -45,12 +45,28 @@ class UserContolers{
 
     }
 
+
+    async getUser(req,res){
+        const token = req.cookies.token;
+
+        try{
+
+                jwt.verify(token, process.env.TOKENKEY, (err, decoded) => {
+                    if (err) {
+                        return res.sendStatus(403); // Forbidden if token is invalid
+                    }
+                    req.user = decoded.user;
+                    return res.status(200).json(decoded.user)
+                });
+            }catch (e){
+            return res.json(e)
+        }
+    }
     async login(req,res){
         try{
-            const token = req.cookies.token;
 
-            console.log(token)
-        if (!token) {
+
+
             const {email , password} = req.body
                 const ecryptedPass = enctypt(password)
                 const user = await Users.find({email: email})
@@ -72,16 +88,7 @@ class UserContolers{
                 return res.status(400).json({ error: 'Invalid email or password' });
             }
 
-        } else{
-            jwt.verify(token,  process.env.TOKENKEY, (err, decoded) => {
-                if (err) {
-                    return res.sendStatus(403); // Forbidden if token is invalid
-                }
-                req.user = decoded.user;
-                return res.status(200).json(decoded.user)
-            });
 
-        }
             }catch (e){
                 res.status(500).json(e)
             }
