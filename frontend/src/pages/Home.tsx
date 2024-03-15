@@ -28,7 +28,7 @@ export const Home = ()=> {
 
     return (
         <div className="grid min-h-screen items-start w-full gap-4 lg:grid-cols-[280px_1fr] bg-gray-95  0 p-3">
-            <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
+            <div className=" hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
                <Sidebar/>
             </div>
             <div className="flex flex-col">

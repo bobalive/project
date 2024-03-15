@@ -14,6 +14,8 @@ import {useSelector} from "react-redux";
 import {StoreInterface} from "../../interfaces/Store.interface.ts";
 import {Profile} from "../Profile/Profile.tsx";
 import {UserInteface} from "../../interfaces/User.interface.ts";
+import {NavLink} from "react-router-dom";
+import {Sidebar} from "../Sidebar/Sidebar.tsx";
 
 
 export const Header = () => {
@@ -21,10 +23,18 @@ export const Header = () => {
 
     return (
         <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
-            <a className="lg:hidden flex items-center gap-2 font-semibold" href="#">
-                <Package2Icon className="h-6 w-6"/>
-                <span>Collections</span>
-            </a>
+            <DropdownMenu>
+                <DropdownMenuTrigger>
+                    <NavLink className="lg:hidden flex items-center gap-2 font-semibold" to="/">
+                        <Package2Icon className="h-6 w-6"/>
+                        <span>Course project</span>
+                    </NavLink>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <Sidebar></Sidebar>
+                </DropdownMenuContent>
+
+            </DropdownMenu>
             <div className="w-full flex-1">
                 <form>
                     <div className="relative">
