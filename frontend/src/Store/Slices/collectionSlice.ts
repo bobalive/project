@@ -17,6 +17,16 @@ const initialState:InitialStateInterface = {
         description:'',
         theme:"Silverware",
         _id:"0"
+    }],
+    myCollections:[{
+        name: '',
+        items: [],
+        custom_Fields: {},
+        photo: '',
+        userId: '',
+        description:'',
+        theme:"Silverware",
+        _id:"0"
     }]
 }
 
@@ -27,9 +37,12 @@ export const collectionSlice = createSlice({
     reducers:{
         setCollection:(state:InitialStateInterface, action:PayloadAction<CollectionInterface[]>)=>{
             state.topCollections = [...action.payload]
+        },
+        setMyCollection:(state:InitialStateInterface , action:PayloadAction<CollectionInterface[]>)=>{
+            state.myCollections= [...action.payload]
         }
     }
 })
 
-export const {setCollection} = collectionSlice.actions
+export const {setCollection, setMyCollection} = collectionSlice.actions
 export default collectionSlice.reducer

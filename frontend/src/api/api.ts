@@ -85,8 +85,19 @@ export const getUser = async ()=>{
 }
 
 export const logout = async ()=>{
-    const response = await axios.get('http://localhost:5000/api/logout')
+    const response = await axios.get('http://localhost:5000/api/logout',{
+        withCredentials:true
+    })
     if(response.status == 200){
         return true;
+    }
+}
+
+export const getMyColletion = async ():Promise<CollectionInterface[]|undefined>=>{
+    const response:AxiosResponse<CollectionInterface[]>= await axios.get('http://localhost:5000/api/collections/my-collection' ,{
+        withCredentials:true
+    })
+    if(response.status == 200){
+        return response.data
     }
 }

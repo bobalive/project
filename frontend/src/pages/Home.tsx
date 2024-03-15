@@ -1,13 +1,19 @@
 import {Sidebar} from "../components/Sidebar/Sidebar.tsx";
-import {TableMenu} from "../components/Table/TableMenu.tsx";
 import {Header} from "../components/Header/Header.tsx";
 import {useEffect } from 'react'
-import {getTopCollections, getUser} from "../api/api.ts";
-import {useDispatch, useSelector} from "react-redux";
-import {StoreInterface} from "../interfaces/Store.interface.ts";
-import {setCollection} from "../Store/Slices/collectionSlice.ts";
+import { getUser} from "../api/api.ts";
+import {useDispatch} from "react-redux";
 import {putUser} from "../Store/Slices/userSlice.ts";
+import {Route, Routes} from "react-router";
+import {Collection} from "../components/Collection/Collection.tsx";
+import {TopCollections} from "../components/Top-collections/TopCollections.tsx";
+import {TagCloud} from "../components/Tag-cloud/Tag-cloud.tsx";
+import {MyCollections} from "../components/MyCollections/MyCollections.tsx";
+
+
+
 export const Home = ()=> {
+    const dispatch = useDispatch()
     const checkUser = async () => {
         const user = await getUser()
         console.log(user)
@@ -18,16 +24,8 @@ export const Home = ()=> {
     useEffect(() => {
         checkUser()
     }, []);
-    const topCollections = useSelector((state:StoreInterface) => state.collections.topCollections)
-    const dispatch = useDispatch()
 
-    useEffect(() => {
-        const getCollections = async ()=>{
-            const topCollections = await getTopCollections()
-            dispatch(setCollection(topCollections))
-        }
-        getCollections()
-    }, []);
+
     return (
         <div className="grid min-h-screen items-start w-full gap-4 lg:grid-cols-[280px_1fr] bg-gray-95  0 p-3">
             <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
@@ -36,10 +34,12 @@ export const Home = ()=> {
             <div className="flex flex-col">
                     <Header/>
                 <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-                    {topCollections[0]._id != '0'?
-                        <TableMenu collection={topCollections}/>
-                        :"Loading ..."
-                    }
+                    <Routes>
+                        <Route path={'/'} element={<TopCollections/>}/>
+                        <Route path={'/tag-cloud'} element={<TagCloud/>}/>
+                        <Route path={'collection/:id'} element={<Collection/>}></Route>
+                        <Route path={'my-collections/'} element={<MyCollections/>}></Route>
+                    </Routes>
 
                 </main>
             </div>

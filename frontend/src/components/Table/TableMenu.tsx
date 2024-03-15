@@ -19,7 +19,7 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
                             <TableHead className="w-[150px]">Theme</TableHead>
                             <TableHead className="w-[150px]">Items</TableHead>
                             </>}
-                        {item &&
+                        {item&&item.length>0 &&
                             <>
                             {item[0].fields.map(field=>(
                                 <TableHead className="w-[150px]">{field.name}</TableHead>
@@ -52,7 +52,7 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
                                 </TableRow>
                             )
                     })}
-                    {item&&item.map(data=>{
+                    {item&& item.length>0&&item.map(data=>{
 
                         return(<TableRow key={data._id} onClick={()=> navigate("/item/" + data._id)}>
                             <TableCell>

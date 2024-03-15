@@ -5,6 +5,6 @@ export interface StoreInterface{
     user:UserInteface,
     collections:{
         topCollections:CollectionInterface[],
-        myCollections?:CollectionInterface[]
+        myCollections:CollectionInterface[]
     }
 }

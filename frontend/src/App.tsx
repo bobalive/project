@@ -2,18 +2,22 @@ import './App.css';
 import {Provider} from "react-redux";
 import {store} from "./Store/redux-store.ts";
 import {Home} from "./pages/Home.tsx";
-import {Route, Routes} from "react-router";
 import {BrowserRouter} from "react-router-dom";
-import {Collection} from "./pages/Collection.tsx";
+import {Route, Routes} from "react-router";
+import {AddCollection} from "./pages/AddCollection.tsx";
+
 
 function App() {
   return (
       <BrowserRouter>
       <Provider store={store}>
-        <Routes>
-            <Route path={'/collection/:id'} element={<Collection/>}></Route>
-                <Route path={'/'} element={<Home/>}/>
-        </Routes>
+            <Routes>
+
+                <Route path={'/*'} element={<Home/>} />
+                <Route path={'/add-collection'} element={<AddCollection/>}/>
+            </Routes>
+
+
       </Provider>
       </BrowserRouter>
   )

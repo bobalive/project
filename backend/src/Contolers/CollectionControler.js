@@ -96,6 +96,16 @@ class CollectionControler{
         }
         
     }
+    async getUserCollection(req,res){
+        const userId= req.user._id
+        try{
+            const collection = await Collections.find({userId:userId})
+            return res.status(200).json(collection)
+        }catch (e){
+            return res.status(500).json(e)
+        }
+    }
+
 }
 
 module.exports = new CollectionControler()
