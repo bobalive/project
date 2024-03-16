@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import {CollectionInterface} from "../interfaces/Collection.interface.ts";
 import {UserInteface} from "../interfaces/User.interface.ts";
 import {LoginInterface, SigninInterface} from "../interfaces/Login.interface.ts";
+import {CreateCollectionsInterface} from "../interfaces/CreacteCollectionInteface.ts";
 
 
 export const getTopCollections = async (): Promise<CollectionInterface[]> => {
@@ -98,8 +99,25 @@ export const getMyColletion = async ():Promise<CollectionInterface[]|undefined>=
         withCredentials:true
     })
     if(response.status == 200){
-        return response.data
+        return response.data.reverse()
     }
+}
+
+export const createCollection = async ({name,description,theme,photo}:CreateCollectionsInterface)=>{
+    console.log(photo)
+    const response = await axios.post('http://localhost:5000/api/collections/create' ,{
+    collections:{
+        name,
+        description ,
+        theme
+    }},{
+        withCredentials:true
+    })
+    if(response.status == 200){
+        console.log('added')
+        console.log(response.data)
+    }
+
 }
 
 

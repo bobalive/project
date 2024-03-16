@@ -4,21 +4,28 @@ import {Input} from "../components/ui/input.tsx";
 import {Button} from "../components/ui/button.tsx";
 import {Textarea} from "../components/ui/textarea.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select.tsx";
-import {useNavigate} from "react-router-dom";
 import {useForm ,Controller } from "react-hook-form";
 
 import {CollectionInterface} from "../interfaces/Collection.interface.ts";
+import {createCollection} from "../api/api.ts";
+import {CreateCollectionsInterface} from "../interfaces/CreacteCollectionInteface.ts";
+import {useNavigate} from "react-router-dom";
+
 
 
 export  function AddCollection() {
     const navigate = useNavigate()
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
 
-    const onSubmit = (data:CollectionInterface)=>{
-        console.log(data)
-        navigate('/my-collections')
+    const onSubmit = (data:CreateCollectionsInterface)=>{
+
+         createCollection({...data})
+
+          navigate("/my-collections")
     }
+
     const handleThemeChange = (event:any) => {
+
 
         setValue("theme", event);
     };
@@ -78,7 +85,7 @@ export  function AddCollection() {
                             <Label className="sm:col-span-2" htmlFor="image">
                                 Image
                             </Label>
-                            <Input id="image" className="bg-gray-300" type="file"/>
+                            <Input id="photo" className="bg-gray-300" type="file" />
                             <div>Upload an image to represent your collection. Max file size: 25MB</div>
                         </div>
                     </div>

@@ -35,6 +35,7 @@ export const Collection = () => {
         {collection ? (<>
                 <h1 className="text-3xl font-bold tracking-tight my-1.5">Title :{collection[0].name}</h1>
                 <p className="text-gray-500 dark:text-gray-400">Description:{collection[0].description}</p>
+                <p className="text-gray-500 dark:text-gray-400">UserId: {collection[0].userId}</p>
                 <h2 className="text-2xl font-bold tracking-tight my-1.5">Items:</h2>
                 {<TableMenu item={collection[0].items}></TableMenu>}
             </>
@@ -42,6 +43,6 @@ export const Collection = () => {
             "Loading..."
         )}
         </>
-            );
+    );
 
 };

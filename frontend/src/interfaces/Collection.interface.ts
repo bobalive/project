@@ -19,7 +19,7 @@ export interface CollectionInterface {
         custom_boolean?: CustomField[];
         custom_date?: CustomField[];
     };
-    items: ItemInterface[];
+    items?: ItemInterface[];
 }
 
 // Example usage

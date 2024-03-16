@@ -23,7 +23,7 @@ class CollectionControler{
         try{
             let collections = await Collections.find()
             collections = collections.sort((a,b)=> b.items.length - a.items.length)
-            return res.status(200).json(collections.filter((item, i)=> (item.items.length>0 && i< 5)))
+            return res.status(200).json(collections.filter((item,i) => ((item.items&&item.items.length>0&&i<5))))
         }catch (e){
             return res.status(400).json(e)
         }
@@ -46,12 +46,12 @@ class CollectionControler{
     async createCollections(req,res){
         try{
 
-        const id = req.user._id
+        const id = req.user[0]._id
         const {collections} = req.body
-        
+
         if(id && collections){
             const userCollections = await Collections.create({...collections , userId:id})
-            
+            console.log(userCollections)
             return res.status(200).json(userCollections)
         }else{
             res.redirect('/')
@@ -98,7 +98,7 @@ class CollectionControler{
         
     }
     async getUserCollection(req,res){
-        const userId= req.user._id
+        const userId= req.user[0]._id
         try{
             const collection = await Collections.find({userId:userId})
             return res.status(200).json(collection)

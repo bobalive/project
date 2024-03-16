@@ -2,21 +2,12 @@ import {Package2Icon} from "../../helpers/Icons/Package2Icon.tsx";
 import {PackageIcon} from "../../helpers/Icons/PackageIcon.tsx";
 import {NavLink} from "react-router-dom";
 import {Hash} from "lucide-react";
-import {useDispatch, useSelector} from "react-redux";
-import {StoreInterface} from "../../interfaces/Store.interface.ts";
-import {setActiveTab} from "../../Store/Slices/ActiveTab.ts";
 
 
 
 export const Sidebar = ()=>{
-    const activeTab = useSelector((state:StoreInterface) => state.activeTab.active)
-    const dispatch = useDispatch()
-    console.log(activeTab)
 
-    const puActiveTab = (activeTab:number)=>{
-        dispatch(setActiveTab(activeTab))
-    }
-    // const [activeTab , setActiveTab] = useState(0)
+
     return (
         <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-[60px] items-center border-b px-6">
@@ -28,26 +19,41 @@ export const Sidebar = ()=>{
             <div className="flex-1 overflow-auto py-2">
                 <nav className="grid items-start px-4 text-sm font-medium">
                     <NavLink
-                        className={(activeTab == 0 ? "dark:bg-gray-800 " : ' dark:text-gray-400 ') + "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 dark:hover:text-gray-50"}
+                        className={({ isActive }) =>
+                            [
+                                isActive ? "dark:bg-gray-800 " : "dark:text-gray-400",
+                                "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"
+
+                            ].join(" ")
+                        }
                         to="/"
 
-                        onClick={() => puActiveTab(0)}
                     >
                         <PackageIcon className="h-4 w-4"/>
                         Top collections
                     </NavLink>
                     <NavLink
-                        className={(activeTab == 1 ? "dark:bg-gray-800 " : 'dark:text-gray-400 ') + "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"}
-                        to="recent-items"
-                        onClick={() => puActiveTab(1)}
+                        className={({ isActive }) =>
+                            [
+                                isActive ? "dark:bg-gray-800 " : "dark:text-gray-400",
+                                "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"
+
+                            ].join(" ")
+                        }                        to="recent-items"
+
                     >
                         <Package2Icon className="h-4 w-4"/>
                         Recent items
                     </NavLink>
                     <NavLink
-                        className={(activeTab == 2 ? "dark:bg-gray-800 " : 'dark:text-gray-400 ') + "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"}
-                        to="tag-cloud"
-                        onClick={() => puActiveTab(2)}
+                        className={({ isActive }) =>
+                            [
+                                isActive ? "dark:bg-gray-800 " : "dark:text-gray-400",
+                                "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"
+
+                            ].join(" ")
+                        }                        to="tag-cloud"
+
                     >
                         <Hash className="h-4 w-4"/>
                         Tag Cloud
@@ -55,9 +61,14 @@ export const Sidebar = ()=>{
 
                     <span className="px-3 mt-5 mb-2">Course project</span>
                     <NavLink
-                        className={(activeTab == 3 ? "dark:bg-gray-800 " : 'dark:text-gray-400 ') + "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"}
-                        to="my-collections"
-                        onClick={() => puActiveTab(3)}
+                        className={({ isActive }) =>
+                            [
+                                isActive ? "dark:bg-gray-800 " : "dark:text-gray-400",
+                                "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"
+
+                            ].join(" ")
+                        }                        to="my-collections"
+
                     >
                         <Package2Icon className="h-4 w-4"/>
                         My collections
