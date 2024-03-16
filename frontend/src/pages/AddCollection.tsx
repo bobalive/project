@@ -12,7 +12,7 @@ import {CollectionInterface} from "../interfaces/Collection.interface.ts";
 
 export  function AddCollection() {
     const navigate = useNavigate()
-    const {register, handleSubmit, formState: { errors },setValue,control} = useForm<CollectionInterface>()
+    const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
 
     const onSubmit = (data:CollectionInterface)=>{
         console.log(data)
