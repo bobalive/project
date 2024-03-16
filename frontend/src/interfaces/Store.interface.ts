@@ -6,5 +6,6 @@ export interface StoreInterface{
     collections:{
         topCollections:CollectionInterface[],
         myCollections:CollectionInterface[]
-    }
+    },
+    activeTab:{active:number}
 }

@@ -19,10 +19,11 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form"
 import {UserInteface} from "../../interfaces/User.interface.ts";
 import {useDispatch} from "react-redux";
-import {login, signin} from "../../api/api.ts";
+import {getMyColletion, login, signin} from "../../api/api.ts";
 import {useState} from "react";
 import {putUser} from "../../Store/Slices/userSlice.ts";
 import {SigninInterface} from "../../interfaces/Login.interface.ts";
+import {setMyCollection} from "../../Store/Slices/collectionSlice.ts";
 
 export function Login() {
     const {register:newregister , handleSubmit:signinSubmit , formState:{errors:newerrors}} = useForm<UserInteface>()
@@ -35,10 +36,17 @@ export function Login() {
 
 
         const onLogin: SubmitHandler<UserInteface> = async (data) => {
+
         const user = await login(data)
-            console.log(user)
+
+
         if(user){
             dispatch(putUser({...user[0]}))
+            const collections = await getMyColletion()
+            if(collections){
+                dispatch(setMyCollection([...collections]))
+            }
+
         }else {
             setErr(true)
         }

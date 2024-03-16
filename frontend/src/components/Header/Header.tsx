@@ -8,7 +8,7 @@ import {
 import {Package2Icon} from "../../helpers/Icons/Package2Icon.tsx";
 import {UserIcon} from "../../helpers/Icons/UserIcon.tsx";
 import {SearchIcon} from "../../helpers/Icons/SearchIcon.tsx";
-import {PlusIcon} from "../../helpers/Icons/PlusIcon.tsx";
+
 import {Login} from "../Login/Login.tsx";
 import {useSelector} from "react-redux";
 import {StoreInterface} from "../../interfaces/Store.interface.ts";
@@ -47,10 +47,6 @@ export const Header = () => {
                     </div>
                 </form>
             </div>
-            <Button className="rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800" size="icon">
-                <PlusIcon className="h-4 w-4"/>
-                <span className="sr-only">New collection</span>
-            </Button>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button

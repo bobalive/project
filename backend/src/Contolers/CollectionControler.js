@@ -46,14 +46,15 @@ class CollectionControler{
     async createCollections(req,res){
         try{
 
-       
-        const {id , collections} = req.body
+        const id = req.user._id
+        const {collections} = req.body
         
         if(id && collections){
             const userCollections = await Collections.create({...collections , userId:id})
             
             return res.status(200).json(userCollections)
         }else{
+            res.redirect('/')
             return res.status(400).json('incorrect data')
         }
 

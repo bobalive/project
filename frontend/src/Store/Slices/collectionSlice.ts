@@ -3,8 +3,8 @@ import {CollectionInterface} from "../../interfaces/Collection.interface.ts";
 
 
 interface InitialStateInterface{
-    topCollections?:CollectionInterface[],
-    myCollections?:CollectionInterface[]
+    topCollections:CollectionInterface[],
+    myCollections:CollectionInterface[]
 }
 
 const initialState:InitialStateInterface = {
@@ -40,9 +40,12 @@ export const collectionSlice = createSlice({
         },
         setMyCollection:(state:InitialStateInterface , action:PayloadAction<CollectionInterface[]>)=>{
             state.myCollections= [...action.payload]
+        },
+        addMyCollection:(state:InitialStateInterface , action:PayloadAction<CollectionInterface>)=>{
+            state.myCollections = [{...action.payload} , ...state.myCollections]
         }
     }
 })
 
-export const {setCollection, setMyCollection} = collectionSlice.actions
+export const {setCollection, setMyCollection,addMyCollection} = collectionSlice.actions
 export default collectionSlice.reducer
