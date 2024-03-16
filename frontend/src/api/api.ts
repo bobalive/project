@@ -45,7 +45,7 @@ export const login = async ({ email, password }: LoginInterface): Promise<UserIn
         });
         console.log(response);
 
-        // Handle status 200
+
         if (response.status === 200) {
             return response.data;
         }

@@ -32,6 +32,7 @@ export const MyCollections = ()=>{
                     Add collection
                 </Button>
             </div>
+
             {myCollections
                 ? <TableMenu collection={[...myCollections]}/>
                 : 'loading'
