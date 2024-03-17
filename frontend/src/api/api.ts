@@ -120,4 +120,18 @@ export const createCollection = async ({name,description,theme,photo}:CreateColl
 
 }
 
+export const deleteColections = async (id:string[])=>{
+    console.log(id)
+    try{
+        const response:AxiosResponse<CollectionInterface[]> = await axios.delete('http://localhost:5000/api/collections/delete',{data:{id}, withCredentials:true})
+        if(response.status == 200){
+            return response.data
+        }
+    }catch (e){
+        console.log(e)
+    }
+
+
+}
+
 

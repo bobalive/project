@@ -2,20 +2,23 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../
 import {TableInterface} from "./Table.interface.ts";
 import {NavLink} from "react-router-dom";
 import {Input} from "../ui/input.tsx";
-import {useState} from "react";
 
 
-export const TableMenu = ({collection,item}:TableInterface)=>{
-    const [selectedCollections , setSelectedCollections]= useState<string[]>([])
+export const TableMenu = ({collection,item,setSelectedCollections,selectedCollections}:TableInterface)=>{
+
     function selectUser(item:string) {
-        if (selectedCollections.includes(item)) {
-             setSelectedCollections(selectedCollections.filter((prev) => prev !== item))
-        } else {
-            setSelectedCollections([...selectedCollections, item])
+        if(selectedCollections &&setSelectedCollections){
+            if (selectedCollections.includes(item)) {
+                setSelectedCollections(selectedCollections.filter((prev) => prev !== item))
+            } else {
+                setSelectedCollections([...selectedCollections, item])
+            }
         }
+
     }
-    console.log(selectedCollections)
+
     const selectAllCollections = ()=>{
+        if(selectedCollections &&setSelectedCollections){
         if(collection){
             if(selectedCollections.length == collection.length){
                 setSelectedCollections([])
@@ -30,6 +33,7 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
                 setSelectedCollections(item?.map(item=>item._id))
             }
         }
+        }
 
     }
 
@@ -38,9 +42,10 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
             <Table >
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-4">
-                            <Input type="checkbox" className="w-4" onChange={selectAllCollections}></Input>
-                        </TableHead>
+                        {selectedCollections&&<TableHead className="w-4">
+                            <Input type="checkbox" className="w-4" onChange={selectAllCollections}
+                                   checked={selectedCollections.length != 0&&(selectedCollections.length == collection?.length || selectedCollections.length == item?.length)}></Input>
+                        </TableHead>}
                         <TableHead  className="w-[150px]">Id</TableHead>
                         <TableHead className="w-[150px]">{item?'Name':"Collection"}</TableHead>
                         <TableHead>{item?'Tags':"Description"}</TableHead>
@@ -65,9 +70,10 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
                     {collection&&collection.map(item=> {
                             return(
                                 <TableRow key={item._id} >
-                                    <TableCell>
-                                        <Input type="checkbox" className="w-4" onClick={()=>selectUser(item._id)} checked={selectedCollections.includes(item._id)}></Input>
-                                    </TableCell>
+                                    {selectedCollections&&<TableCell>
+                                        <Input type="checkbox" className="w-4" onClick={() => selectUser(item._id)}
+                                               checked={selectedCollections.includes(item._id)}></Input>
+                                    </TableCell>}
                                     <TableCell>
                                         <NavLink className="font-semibold" to={"/collection/" + item._id}>
                                             {item._id}
@@ -87,9 +93,10 @@ export const TableMenu = ({collection,item}:TableInterface)=>{
                     {item&& item.length>0&&item.map(data=>{
 
                         return(<TableRow key={data._id} >
-                            <TableCell>
-                                <Input type="checkbox" className="w-4" onClick={()=>selectUser(data._id)} checked={selectedCollections.includes(data._id)}></Input>
-                            </TableCell>
+                            {selectedCollections&&<TableCell>
+                                <Input type="checkbox" className="w-4" onClick={() => selectUser(data._id)}
+                                       checked={selectedCollections.includes(data._id)}></Input>
+                            </TableCell>}
                             <TableCell>
                                 <NavLink className="font-semibold" to={"/item/" + data._id}>
                                     {data._id}

@@ -6,7 +6,6 @@ class CollectionControler{
         const { id } = req.params;
 
         if (id) {
-            console.log(req.params);
             try {
                 const collections = await Collections.find({ userId: id });
                 return res.status(200).json(collections);
@@ -23,7 +22,7 @@ class CollectionControler{
         try{
             let collections = await Collections.find()
             collections = collections.sort((a,b)=> b.items.length - a.items.length)
-            return res.status(200).json(collections.filter((item,i) => ((item.items&&item.items.length>0&&i<5))))
+            return res.status(200).json(collections.filter((item,i) => ((true))))
         }catch (e){
             return res.status(400).json(e)
         }
@@ -48,10 +47,10 @@ class CollectionControler{
 
         const id = req.user[0]._id
         const {collections} = req.body
+            console.log(req.files)
 
         if(id && collections){
             const userCollections = await Collections.create({...collections , userId:id})
-            console.log(userCollections)
             return res.status(200).json(userCollections)
         }else{
             res.redirect('/')
@@ -104,6 +103,18 @@ class CollectionControler{
             return res.status(200).json(collection)
         }catch (e){
             return res.status(500).json(e)
+        }
+    }
+    async deleteCollection(req,res){
+        const {id} = req.body
+
+        try{
+            const collection = await Collections.deleteMany({_id:{$in:id}})
+            const newCollections = await Collections.find()
+
+            res.status(200).json(newCollections)
+        }catch (e){
+            res.status(400).json(e)
         }
     }
 

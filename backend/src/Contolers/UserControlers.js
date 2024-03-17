@@ -74,7 +74,6 @@ class UserContolers{
             if (user[0] && (user[0].password === ecryptedPass && user[0].status !== 'blocked')) {
                 const newToken = jwt.sign({ user }, process.env.TOKENKEY, { expiresIn:"24h"});
 
-                console.log(newToken)
                 res.cookie('token', newToken, {
                     secure: true, // Ensures cookie is only sent over HTTPS
                     httpOnly: true, // Prevents access from client-side JavaScript

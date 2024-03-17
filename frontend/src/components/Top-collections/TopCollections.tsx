@@ -10,7 +10,7 @@ export const TopCollections = ()=>{
     const topCollections = useSelector((state:StoreInterface) => state.collections.topCollections)
     const dispatch = useDispatch()
     useEffect(() => {
-        if(topCollections[0]._id == '0'){
+        if(topCollections.length>0){
             const getCollections = async ()=>{
                 const topCollections = await getTopCollections()
                 dispatch(setCollection(topCollections))
@@ -21,7 +21,7 @@ export const TopCollections = ()=>{
     }, []);
     return(
         <>
-            {topCollections[0]._id != '0'?
+            {topCollections.length==0||(topCollections.length>0&&topCollections[0]._id != '0')?
                 <TableMenu collection={topCollections}/>
                 :"Loading ..."
             }
