@@ -42,18 +42,21 @@ export const MyCollections = ()=>{
             <div className="flex justify-between">
 
                 <h1 className="text-3xl font-bold tracking-tight my-1.5">My Collections:</h1>
+                <img width='200' height='500'
+                     src=" https://www.dropbox.com/scl/fi/eani41vl6btoysnxyz5ie/undefinedphoto_2024-03-10_02-04-21.jpg?rlkey=7udixhhb7tfs1hwcq4ao7rqj4&raw=1"/>
                 <div className='flex gap-1'>
                     <Button onClick={handleDeleteCollection} size='lg'>
                         <Trash/>
                     </Button>
-                    <Button onClick={()=>navigate('/add-collection')} size='lg'>
-                    <PlusIcon/>
-                </Button>
+                    <Button onClick={() => navigate('/add-collection')} size='lg'>
+                        <PlusIcon/>
+                    </Button>
                 </div>
             </div>
 
             {myCollections
-                ? <TableMenu collection={[...myCollections]} selectedCollections={selectedCollections} setSelectedCollections={setSelectedCollections}/>
+                ? <TableMenu collection={[...myCollections]} selectedCollections={selectedCollections}
+                             setSelectedCollections={setSelectedCollections}/>
                 : 'loading'
             }
         </>

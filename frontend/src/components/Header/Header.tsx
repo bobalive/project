@@ -27,7 +27,7 @@ export const Header = () => {
                 <DropdownMenuTrigger>
                     <NavLink className="lg:hidden flex items-center gap-2 font-semibold" to="/">
                         <Package2Icon className="h-6 w-6"/>
-                        <span>Course project</span>
+                                               <span>Course project</span>
                     </NavLink>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>

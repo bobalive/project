@@ -1,5 +1,8 @@
 const Users = require("../db/Users")
 const Collections = require('../db/Collections')
+const fs = require('fs');
+const path = require('path')
+const Dropbox = require('dropbox').Dropbox;
 
 class CollectionControler{
     async getAllCollections(req,res){
@@ -32,8 +35,7 @@ class CollectionControler{
         if(id){
             try{
                 const colletion = await Collections.find({_id:id})
-                
-               
+
                 res.status(200).json(colletion)
             }catch(e){
                 res.status(500)
@@ -42,25 +44,50 @@ class CollectionControler{
             res.status(400).json("no id")
         }
     }
-    async createCollections(req,res){
-        try{
+    async createCollections(req, res) {
+        try {
+            const id = req.user[0]._id;
+            const collections = req.body;
+            console.log(collections)
+            if (!req.file) {
+                return res.status(400).json('No file uploaded');
+            }
 
-        const id = req.user[0]._id
-        const {collections} = req.body
-            console.log(req.files)
+            const dbx = new Dropbox({ accessToken: 'sl.BxlGDAZPozdDgp6vR0pd3hldk3OJMf4NDuOAf8avLx4_zmXhtf7hAF7Mj5WypeVNLPJdmb8rkzP1-3YqL-z7nRtx42Rqfnko6L7jFY3Peoe-7RYHnTjBWOzWS73Uc5c5STI9SKY18yoqfSAHgSPB' });
+            const fileData = req.file.buffer
+            const dropboxFilePath = '/uploads/' +  collections._id+req.file.originalname  ; // Adjust as needed
 
-        if(id && collections){
-            const userCollections = await Collections.create({...collections , userId:id})
-            return res.status(200).json(userCollections)
-        }else{
-            res.redirect('/')
-            return res.status(400).json('incorrect data')
-        }
+            // Upload the file to Dropbox
+            const fileuploaded = await dbx.filesUpload({ path: dropboxFilePath, contents: fileData })
 
-        }catch{
-            return res.status(500)
+            console.log(fileuploaded)
+            const link = dbx.sharingCreateSharedLinkWithSettings({ path:fileuploaded.result.path_display })
+                .then(response => {
+                    const rawLink =  response.result.url.split('&')
+                    rawLink[1] = "raw=1"
+                    console.log('Shared link to the image:', rawLink.join("&"));
+                })
+                .catch(error => {
+                    console.error('Error creating shared link:', error);
+                });
+
+
+            if (id && collections) {
+
+                const userCollections = await Collections.create({ ...collections, userId: id });
+
+
+                return res.status(200).json(userCollections);
+            } else {
+
+                return res.status(400).json('Incorrect data');
+            }
+        } catch (error) {
+            console.error('Error creating collections:', error);
+            return res.status(500).json('Internal server error');
         }
     }
+
     async addFields(req,res){
         try{
            const {collection_id,data} = req.body

@@ -6,9 +6,11 @@ const cors = require('cors');
 const router = require('./router/router');
 const crypto = require('crypto')
 const cookieParser = require('cookie-parser');
-const fileUpload = require("express-fileupload")
 
 
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 
 const app = express()
@@ -18,12 +20,17 @@ app.use(cors({
     origin: 'http://localhost:5173', // Replace with the actual origin of your frontend application
     credentials: true // Allow credentials (cookies) to be sent with requests
 }))
-app.use(fileUpload())
-app.use(fileUpload({}))
+
+
 app.use(express.json())
 app.use(cookieParser());
+app.use(upload.single('photo'))
 app.get('/',(req,res)=>{
     res.send('server is working')
+})
+app.post('/upload',(req,res)=>{
+    console.log(req.file.path)
+    res.send('fileuloaded')
 })
 app.use('/api',router)
 

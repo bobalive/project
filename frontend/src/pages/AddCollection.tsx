@@ -8,19 +8,20 @@ import {useForm ,Controller } from "react-hook-form";
 
 import {CollectionInterface} from "../interfaces/Collection.interface.ts";
 import {createCollection} from "../api/api.ts";
-import {CreateCollectionsInterface} from "../interfaces/CreacteCollectionInteface.ts";
 import {useNavigate} from "react-router-dom";
+import {useRef} from "react";
 
 
 
 export  function AddCollection() {
     const navigate = useNavigate()
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
+    const formRef=  useRef()
+    const onSubmit = ()=>{
 
-    const onSubmit = (data:CreateCollectionsInterface)=>{
+         const formData = new FormData(formRef.current)
 
-         createCollection({...data})
-
+            createCollection(formData)
           navigate("/my-collections")
     }
 
@@ -33,7 +34,7 @@ export  function AddCollection() {
 
 
         <Card className="w-full max-w-3xl mx-auto  left-[25%] z-10">
-            <form className="w-[100%] relative p-5 " onSubmit={handleSubmit(onSubmit)} action="">
+            <form className="w-[100%] relative p-5 " onSubmit={handleSubmit(onSubmit)} action=""  ref={formRef}>
                 <CardHeader>
                     <CardTitle>My Book Collection</CardTitle>
                     <CardDescription>
@@ -46,7 +47,7 @@ export  function AddCollection() {
                             <Label className="sm:col-span-2" htmlFor="name">
                                 Collection Name
                             </Label>
-                            <Input placeholder={"name of the collection"} id="name" {...register('name' , {required:true}) } />
+                            <Input placeholder={"name of the collection"} id="name"  {...register('name' , {required:true}) } />
                         </div>
                         <div className="grid gap-4">
                             <Label className="sm:col-span-2" htmlFor="description">
@@ -85,7 +86,7 @@ export  function AddCollection() {
                             <Label className="sm:col-span-2" htmlFor="image">
                                 Image
                             </Label>
-                            <Input id="photo" className="bg-gray-300" type="file" />
+                            <Input id="photo" className="bg-gray-300" name="photo" type="file" />
                             <div>Upload an image to represent your collection. Max file size: 25MB</div>
                         </div>
                     </div>
