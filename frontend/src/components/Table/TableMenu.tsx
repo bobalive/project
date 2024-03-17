@@ -6,7 +6,7 @@ import {Input} from "../ui/input.tsx";
 
 export const TableMenu = ({collection,item,setSelectedCollections,selectedCollections}:TableInterface)=>{
 
-    function selectUser(item:string) {
+    const selectCollection=(item:string)=> {
         if(selectedCollections &&setSelectedCollections){
             if (selectedCollections.includes(item)) {
                 setSelectedCollections(selectedCollections.filter((prev) => prev !== item))
@@ -16,7 +16,6 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
         }
 
     }
-
     const selectAllCollections = ()=>{
         if(selectedCollections &&setSelectedCollections){
         if(collection){
@@ -46,6 +45,11 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
                             <Input type="checkbox" className="w-4" onChange={selectAllCollections}
                                    checked={selectedCollections.length != 0&&(selectedCollections.length == collection?.length || selectedCollections.length == item?.length)}></Input>
                         </TableHead>}
+                        {collection&&
+                            <TableHead className="w-4">
+                               Photo
+                            </TableHead>
+                        }
                         <TableHead  className="w-[150px]">Id</TableHead>
                         <TableHead className="w-[150px]">{item?'Name':"Collection"}</TableHead>
                         <TableHead>{item?'Tags':"Description"}</TableHead>
@@ -71,9 +75,14 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
                             return(
                                 <TableRow key={item._id} >
                                     {selectedCollections&&<TableCell>
-                                        <Input type="checkbox" className="w-4" onClick={() => selectUser(item._id)}
+                                        <Input type="checkbox" className="w-4" onClick={() => selectCollection(item._id)}
                                                checked={selectedCollections.includes(item._id)}></Input>
                                     </TableCell>}
+                                    <TableCell className="" >
+                                        <NavLink to={"/collection/" + item._id}>
+                                            <img src = {item.photo&&item.photo} className="w-11 h-11 border-2 border-gray-100 rounded object-contain"/>
+                                        </NavLink>
+                                    </TableCell>
                                     <TableCell>
                                         <NavLink className="font-semibold" to={"/collection/" + item._id}>
                                             {item._id}
@@ -94,7 +103,7 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
 
                         return(<TableRow key={data._id} >
                             {selectedCollections&&<TableCell>
-                                <Input type="checkbox" className="w-4" onClick={() => selectUser(data._id)}
+                                <Input type="checkbox" className="w-4" onClick={() => selectCollection(data._id)}
                                        checked={selectedCollections.includes(data._id)}></Input>
                             </TableCell>}
                             <TableCell>

@@ -1,6 +1,6 @@
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator} from "../ui/dropdown-menu.tsx";
 import {ProfileInterface} from "./Profile.interface.ts";
-import {logout} from "../../api/api.ts";
+import {logout} from "../../api/user.api.ts";
 import {useDispatch} from "react-redux";
 import {putUser} from "../../Store/Slices/userSlice.ts";
 import {setMyCollection} from "../../Store/Slices/collectionSlice.ts";

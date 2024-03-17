@@ -19,7 +19,8 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form"
 import {UserInteface} from "../../interfaces/User.interface.ts";
 import {useDispatch} from "react-redux";
-import {getMyColletion, login, signin} from "../../api/api.ts";
+import { login, signin} from "../../api/user.api.ts";
+import {getMyColletion} from "../../api/collection.api.ts";
 import { useState} from "react";
 import {putUser} from "../../Store/Slices/userSlice.ts";
 import {SigninInterface} from "../../interfaces/Login.interface.ts";

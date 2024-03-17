@@ -1,14 +1,29 @@
 const Collections = require("../db/Collections")
+const Item = require('../db/item')
 
 class ItemsControler{
+    async getItems(req,res){
+        const {id}  = req.param
+        try{
+            const items = await Item.find({collectionId:id})
+            res.status(200).json(items)
+        }catch (e){
+            res.status(400).json(e)
+        }
+
+    }
     async createItem(req, res){
         const item  = req.body 
         if(item){
             try{
-                const newCollection = await Collections.findOne({_id:item.collectionId})
-                newCollection.items.push({...item})
-                newCollection.save()
-                return res.status(200).json(newCollection)
+                const newItem = await Item.create({...req.body})
+                const Collection = await Collections.findOneAndUpdate(
+                    { _id: item.collectionId }, // filter: find the document by its _id
+                    { $push: { items: value } }, // update: push the value into the arrayField
+                    { returnOriginal: false } // options: return the updated document, not the original
+                )
+
+                return res.status(200).json(newItem)
             }catch (e){
                 return res.status(500).json(e)
             }

@@ -3,6 +3,7 @@ const Collections = require('../db/Collections')
 const fs = require('fs');
 const path = require('path')
 const Dropbox = require('dropbox').Dropbox;
+require('dotenv').config();
 
 class CollectionControler{
     async getAllCollections(req,res){
@@ -48,35 +49,30 @@ class CollectionControler{
         try {
             const id = req.user[0]._id;
             const collections = req.body;
-            console.log(collections)
             if (!req.file) {
                 return res.status(400).json('No file uploaded');
             }
 
-            const dbx = new Dropbox({ accessToken: 'sl.BxlGDAZPozdDgp6vR0pd3hldk3OJMf4NDuOAf8avLx4_zmXhtf7hAF7Mj5WypeVNLPJdmb8rkzP1-3YqL-z7nRtx42Rqfnko6L7jFY3Peoe-7RYHnTjBWOzWS73Uc5c5STI9SKY18yoqfSAHgSPB' });
+            let rawlink = []
+            const dbx = new Dropbox({ accessToken: process.env.ACCES_TOKEN });
             const fileData = req.file.buffer
-            const dropboxFilePath = '/uploads/' +  collections._id+req.file.originalname  ; // Adjust as needed
+            const dropboxFilePath = '/uploads/' +(Math.random()*10000)+req.file.originalname  ; // Adjust as needed
 
-            // Upload the file to Dropbox
+
             const fileuploaded = await dbx.filesUpload({ path: dropboxFilePath, contents: fileData })
+            const response = await dbx.sharingCreateSharedLinkWithSettings({ path:fileuploaded.result.path_display })
 
-            console.log(fileuploaded)
-            const link = dbx.sharingCreateSharedLinkWithSettings({ path:fileuploaded.result.path_display })
-                .then(response => {
-                    const rawLink =  response.result.url.split('&')
-                    rawLink[1] = "raw=1"
-                    console.log('Shared link to the image:', rawLink.join("&"));
-                })
-                .catch(error => {
-                    console.error('Error creating shared link:', error);
-                });
+            if( response.status  === 200){
+                rawlink =  response.result.url.split('&')
+                rawlink[1] = "raw=1"
+                rawlink = rawlink.join("&")
+            }
+            collections.photo = rawlink
 
 
             if (id && collections) {
 
                 const userCollections = await Collections.create({ ...collections, userId: id });
-
-
                 return res.status(200).json(userCollections);
             } else {
 

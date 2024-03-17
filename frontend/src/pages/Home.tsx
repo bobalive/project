@@ -1,7 +1,7 @@
 import {Sidebar} from "../components/Sidebar/Sidebar.tsx";
 import {Header} from "../components/Header/Header.tsx";
 import {useEffect } from 'react'
-import { getUser} from "../api/api.ts";
+import { getUser} from "../api/user.api.ts";
 import {useDispatch} from "react-redux";
 import {putUser} from "../Store/Slices/userSlice.ts";
 import {Route, Routes} from "react-router";

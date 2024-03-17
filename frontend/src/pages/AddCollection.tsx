@@ -5,9 +5,8 @@ import {Button} from "../components/ui/button.tsx";
 import {Textarea} from "../components/ui/textarea.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select.tsx";
 import {useForm ,Controller } from "react-hook-form";
-
 import {CollectionInterface} from "../interfaces/Collection.interface.ts";
-import {createCollection} from "../api/api.ts";
+import {createCollection} from "../api/collection.api.ts";
 import {useNavigate} from "react-router-dom";
 import {useRef} from "react";
 
@@ -16,25 +15,21 @@ import {useRef} from "react";
 export  function AddCollection() {
     const navigate = useNavigate()
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
-    const formRef=  useRef()
-    const onSubmit = ()=>{
+    const formRef=  useRef<any>()
 
+    const onSubmit = async ()=>{
          const formData = new FormData(formRef.current)
-
-            createCollection(formData)
+          await createCollection(formData)
           navigate("/my-collections")
     }
 
     const handleThemeChange = (event:any) => {
-
-
         setValue("theme", event);
     };
     return (
 
-
         <Card className="w-full max-w-3xl mx-auto  left-[25%] z-10">
-            <form className="w-[100%] relative p-5 " onSubmit={handleSubmit(onSubmit)} action=""  ref={formRef}>
+            <form className="w-[100%] relative p-5 " onSubmit={handleSubmit(onSubmit)} action="" ref={formRef}>
                 <CardHeader>
                     <CardTitle>My Book Collection</CardTitle>
                     <CardDescription>
