@@ -1,7 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {CollectionInterface} from "../interfaces/Collection.interface.ts";
 
-
 export const getTopCollections = async (): Promise<CollectionInterface[]> => {
     try {
         const response: AxiosResponse<CollectionInterface[]> = await axios.get("http://localhost:5000/api/collections/top");
@@ -31,7 +30,7 @@ export const deleteColections = async (id:string[])=>{
 }
 export const createCollection = async (formData:FormData)=>{
 
-    const response = await axios.post('http://localhost:5000/api/collections/create' ,formData,{
+    const response = await axios.post('http://localhost:5000/api/collections/create' , formData,{
         withCredentials:true
     })
     if(response.status == 200){

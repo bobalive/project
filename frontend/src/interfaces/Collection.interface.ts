@@ -1,9 +1,6 @@
 import {ItemInterface} from "./Item.interface.ts";
+import {CustomFiedInteface} from "./CustomFied.inteface.ts";
 
-interface CustomField {
-    name: string;
-    state?: boolean;
-}
 
 
 export interface CollectionInterface {
@@ -13,12 +10,7 @@ export interface CollectionInterface {
     theme?: "Books" | "Signs" | "Silverware";
     description:string;
     photo?: string;
-    custom_Fields: {
-        custom_string?: CustomField[];
-        custom_int?: CustomField[];
-        custom_boolean?: CustomField[];
-        custom_date?: CustomField[];
-    };
+    custom_fields: CustomFiedInteface;
     items?: ItemInterface[];
 }
 

@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import {Input} from "../ui/input.tsx";
 
 
-export const TableMenu = ({collection,item,setSelectedCollections,selectedCollections}:TableInterface)=>{
+export const TableMenu = ({collection,item,setSelectedCollections,selectedCollections,custom_fields}:TableInterface)=>{
 
     const selectCollection=(item:string)=> {
         if(selectedCollections &&setSelectedCollections){
@@ -36,6 +36,7 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
 
     }
 
+    console.log(item&&custom_fields&&item.length>0)
     return (
         <div className="border shadow-sm rounded-lg">
             <Table >
@@ -57,16 +58,22 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
                             <TableHead className="w-[150px]">Theme</TableHead>
                             <TableHead className="w-[150px]">Items</TableHead>
                             </>}
-                        {item&&item.length>0 &&
+                        {item&&custom_fields&&
                             <>
-                            {item[0].fields.map(field=>(
-                                <TableHead className="w-[150px]">{field.name}</TableHead>
+                            {custom_fields.custom_string.map(item=>(
+                                 <TableHead className="w-[150px]">{item}</TableHead>
                             ))}
-                            {item[0].req_fields &&
-                                item[0].req_fields.map(field=>(
-                                    <TableHead className="w-[150px]">{field.name}</TableHead>
+                                {custom_fields.custom_int.map(item=>(
+                                <TableHead className="w-[150px]">{item}</TableHead>
                                 ))}
-                        </>}
+                                {custom_fields.custom_boolean.map(item=>(
+                                <TableHead className="w-[150px]">{item}</TableHead>
+                                ))}
+                                {custom_fields.custom_date.map(item=>(
+                                <TableHead className="w-[150px]">{item}</TableHead>
+                                ))}
+                            </>
+                        }
 
                     </TableRow>
                 </TableHeader>
@@ -80,7 +87,7 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
                                     </TableCell>}
                                     <TableCell className="" >
                                         <NavLink to={"/collection/" + item._id}>
-                                            <img src = {item.photo&&item.photo} className="w-11 h-11 border-2 border-gray-100 rounded object-contain"/>
+                                            <img src = {item.photo&&item.photo} className="w-11 h-11 border-2 border-gray-100 rounded object-contain" loading={"lazy"}/>
                                         </NavLink>
                                     </TableCell>
                                     <TableCell>
@@ -117,13 +124,8 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
                                 </NavLink>
                             </TableCell>
                             <TableCell className="w-[150px]">{data.tags&&[...data.tags]}</TableCell>
-                            {data.fields.map(field=>(
-                                <TableCell className="w-[150px]">{field.value}</TableCell>
-                            ))}
-                            {data.req_fields &&
-                                data.req_fields.map(field=>(
-                                    <TableCell>{field.value}</TableCell>
-                                ))}
+
+
 
                         </TableRow>)
                     })}

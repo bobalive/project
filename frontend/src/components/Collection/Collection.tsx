@@ -38,7 +38,7 @@ export const Collection = () => {
         {collection ? (<>
                 <img
                     alt="Item preview"
-                    className="w-full h-auto w-[200px]"
+                    className="h-auto w-[200px]"
 
                     src={collection[0].photo}
                     style={{
@@ -62,7 +62,7 @@ export const Collection = () => {
                     </div>
                 </div>
 
-                {<TableMenu item={collection[0].items}></TableMenu>}
+                {<TableMenu item={collection[0].items} custom_fields={collection[0].custom_fields}></TableMenu>}
             </>
         ) : (
             "Loading..."

@@ -5,5 +5,5 @@ export interface ItemInterface {
     name: string;
     tags?: string[];
     fields: { name: string; value: string }[];
-    req_fields?: { name: string; value: string }[];
+    сustom_fields?: { name: string; value: string }[];
 }

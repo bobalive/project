@@ -1,13 +1,13 @@
 import {useDispatch, useSelector} from "react-redux";
-import {StoreInterface} from "../../interfaces/Store.interface.ts";
+import {StoreInterface} from "../../../interfaces/Store.interface.ts";
 import {useEffect, useState} from "react";
-import {deleteColections, getMyColletion} from "../../api/collection.api.ts";
-import {setMyCollection} from "../../Store/Slices/collectionSlice.ts";
-import {TableMenu} from "../Table/TableMenu.tsx";
-import {Button} from "../ui/button.tsx";
+import {deleteColections, getMyColletion} from "../../../api/collection.api.ts";
+import {setMyCollection} from "../../../Store/Slices/collectionSlice.ts";
+import {TableMenu} from "../../../components/Table/TableMenu.tsx";
+import {Button} from "../../../components/ui/button.tsx";
 import { useNavigate} from "react-router-dom";
 import {Trash} from "lucide-react";
-import {PlusIcon} from "../../helpers/Icons/PlusIcon.tsx";
+import {PlusIcon} from "../../../helpers/Icons/PlusIcon.tsx";
 
 
 export const MyCollections = ()=>{

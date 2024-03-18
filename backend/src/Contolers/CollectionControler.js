@@ -46,9 +46,12 @@ class CollectionControler{
         }
     }
     async createCollections(req, res) {
+
         try {
             const id = req.user[0]._id;
             const collections = req.body;
+            collections.custom_fields = JSON.parse(req.body.custom_fields)
+            console.log(collections)
             if (!req.file) {
                 return res.status(400).json('No file uploaded');
             }

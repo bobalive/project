@@ -9,11 +9,11 @@ const CollectionSchema = new mongoose.Schema({
         },
         description:String,
         photo: String,
-        custom_Fields:{
-            custom_string: [{ name: String , state: Boolean  }],
-            custom_int:[{name:String , state:Boolean}],
-            custom_boolean:[{name:String}],
-            custom_date:[{name:String}]
+        custom_fields:{
+            custom_string: [],
+            custom_int:[],
+            custom_boolean:[],
+            custom_date:[]
         }, 
         items:[{
             collectionId:String,

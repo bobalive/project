@@ -8,7 +8,8 @@ import {useForm ,Controller } from "react-hook-form";
 import {CollectionInterface} from "../interfaces/Collection.interface.ts";
 import {createCollection} from "../api/collection.api.ts";
 import {useNavigate} from "react-router-dom";
-import {useRef} from "react";
+import {useRef, useState} from "react";
+import {CustomFiedInteface} from "../interfaces/CustomFied.inteface.ts";
 
 
 
@@ -16,9 +17,50 @@ export  function AddCollection() {
     const navigate = useNavigate()
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
     const formRef=  useRef<any>()
+    const [customField , setCustomField ] = useState<CustomFiedInteface>({
+        custom_int:[],
+        custom_boolean:[],
+        custom_date:[],
+        custom_string:[]
+    })
+    const [field , setField] = useState('')
+    const [inputValue , setInputValue ] = useState('')
 
+
+    console.log(customField)
+    const handleFieds = (field:string)=>{
+        console.log(field)
+        if(inputValue){
+
+        switch (field){
+            case 'string':
+                if(customField.custom_string.length<3 ){
+                    setCustomField({...customField , custom_string:[...customField.custom_string , inputValue]})
+                }
+                break;
+            case "int":
+                if(customField.custom_int.length<3 ) {
+                    setCustomField({...customField, custom_int: [...customField.custom_int, inputValue]})
+                }
+                break;
+            case "bool":
+                if(customField.custom_int.length<3 ) {
+                setCustomField({...customField , custom_boolean:[...customField.custom_boolean , inputValue]})
+                }
+                break;
+            case "date":
+                if(customField.custom_int.length<3 ) {
+                    setCustomField({...customField, custom_date: [...customField.custom_date, inputValue]})
+                }
+                break;
+            default:
+                break;
+        }}
+    }
     const onSubmit = async ()=>{
          const formData = new FormData(formRef.current)
+        const customFieldsSrting = JSON.stringify(customField)
+        formData.append('custom_fields', customFieldsSrting)
           await createCollection(formData)
           navigate("/my-collections")
     }
@@ -76,12 +118,80 @@ export  function AddCollection() {
                                     </Select>
                                 )}
                             />
+
                         </div>
+                        <div className="flex flex-col w-fit gap-4">
+                            <Label className="sm:col-span-2 text-3xl">
+                                Add custom field
+                            </Label>
+
+                            <Select onValueChange={(e)=> setField(e)} value={field}>
+                                <SelectTrigger>
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="string">String Value</SelectItem>
+                                    <SelectItem value="int">Int Value</SelectItem>
+                                    <SelectItem value="bool">Bool Value</SelectItem>
+                                    <SelectItem value="date">Date Value</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            {field &&
+                                <>
+                                    <Label className="sm:col-span-2">
+                                        custom {field}
+                                    </Label>
+                                    <Input type="text" className="block" value={inputValue} onChange={(e)=> setInputValue(e.target.value)}/>
+                                    <Button onClick={(e)=> {
+                                        e.preventDefault()
+                                        handleFieds(field)
+                                        setField('')
+                                        setInputValue('')
+                                    }}>Save</Button>
+                                </>
+                                }
+
+                        </div>
+                        <h1 className="text-xl">Custom Fields:</h1>
+                        <div className="flex justify-between">
+                            <div className="flex flex-col w-fit gap-4">
+                                <h4>Custom string name:</h4>
+                                {customField.custom_string.map(item => (
+                                    <div
+                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
+                                ))}
+                            </div>
+
+                            <div className="flex flex-col w-fit gap-4">
+                                <h4>Custom int name:</h4>
+                                {customField.custom_int.map(item => (
+                                    <div
+                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
+                                ))}
+                            </div>
+
+                            <div className="flex flex-col w-fit gap-4">
+                                <h4>Custom bool name:</h4>
+                                {customField.custom_boolean.map(item => (
+                                    <div
+                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
+                                ))}
+                            </div>
+
+                            <div className="flex flex-col w-fit gap-4">
+                                <h4>Custom date name:</h4>
+                                {customField.custom_date.map(item => (
+                                    <div
+                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
+                                ))}
+                            </div>
+                        </div>
+
                         <div className="grid gap-4">
                             <Label className="sm:col-span-2" htmlFor="image">
                                 Image
                             </Label>
-                            <Input id="photo" className="bg-gray-300" name="photo" type="file" />
+                            <Input id="photo" className="bg-gray-300" name="photo" type="file"/>
                             <div>Upload an image to represent your collection. Max file size: 25MB</div>
                         </div>
                     </div>

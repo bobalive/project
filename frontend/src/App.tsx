@@ -5,6 +5,7 @@ import {Home} from "./pages/Home.tsx";
 import {BrowserRouter} from "react-router-dom";
 import {Route, Routes} from "react-router";
 import {AddCollection} from "./pages/AddCollection.tsx";
+import {AddItems} from "./pages/AddItems.tsx";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
 
                 <Route path={'/*'} element={<Home/>} />
                 <Route path={'/add-collection'} element={<AddCollection/>}/>
+                <Route path={'/add-item/:id'} element={<AddItems/>}/>
             </Routes>
 
 

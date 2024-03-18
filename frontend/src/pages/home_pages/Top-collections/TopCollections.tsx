@@ -1,9 +1,9 @@
-import {TableMenu} from "../Table/TableMenu.tsx";
+import {TableMenu} from "../../../components/Table/TableMenu.tsx";
 import {useEffect} from "react";
-import {getTopCollections} from "../../api/collection.api.ts";
-import {setCollection} from "../../Store/Slices/collectionSlice.ts";
+import {getTopCollections} from "../../../api/collection.api.ts";
+import {setCollection} from "../../../Store/Slices/collectionSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
-import {StoreInterface} from "../../interfaces/Store.interface.ts";
+import {StoreInterface} from "../../../interfaces/Store.interface.ts";
 
 
 export const TopCollections = ()=>{
