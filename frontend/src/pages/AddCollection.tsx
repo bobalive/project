@@ -59,10 +59,10 @@ export  function AddCollection() {
     }
     const onSubmit = async ()=>{
          const formData = new FormData(formRef.current)
-        const customFieldsSrting = JSON.stringify(customField)
-        formData.append('custom_fields', customFieldsSrting)
-          await createCollection(formData)
-          navigate("/my-collections")
+         const customFieldsSrting = JSON.stringify(customField)
+         formData.append('custom_fields', customFieldsSrting)
+         await createCollection(formData)
+         navigate("/my-collections")
     }
 
     const handleThemeChange = (event:any) => {

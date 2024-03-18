@@ -5,7 +5,12 @@ const ItemSchema = mongoose.Schema({
     collectionId:String,
     name:String,
     tags:[String],
-    custom_fields:[{name:String , value:String}],
+    custom_fields:{
+        custom_string: [],
+        custom_int:[],
+        custom_boolean:[],
+        custom_date:[]
+    },
 
 })
 

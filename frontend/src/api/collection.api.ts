@@ -29,7 +29,6 @@ export const deleteColections = async (id:string[])=>{
     }
 }
 export const createCollection = async (formData:FormData)=>{
-
     const response = await axios.post('http://localhost:5000/api/collections/create' , formData,{
         withCredentials:true
     })

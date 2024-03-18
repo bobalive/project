@@ -56,7 +56,7 @@ export const Collection = () => {
                         <Button size='lg'>
                             <Trash/>
                         </Button>
-                        <Button size='lg'>
+                        <Button size='lg' onClick={()=>naviagte('/add-item/'+id)}>
                             <PlusIcon/>
                         </Button>
                     </div>

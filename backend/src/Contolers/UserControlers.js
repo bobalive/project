@@ -78,7 +78,7 @@ class UserContolers{
                     secure: true, // Ensures cookie is only sent over HTTPS
                     httpOnly: true, // Prevents access from client-side JavaScript
                     sameSite: 'strict', // Helps prevent cross-site request forgery (CSRF) attacks
-                    maxAge: 3600000 // Cookie expiration time (in milliseconds)
+                    maxAge: 360000000 // Cookie expiration time (in milliseconds)
                 });
 
                 return res.status(200).json(user);

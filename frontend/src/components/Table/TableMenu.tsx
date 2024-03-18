@@ -61,16 +61,16 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
                         {item&&custom_fields&&
                             <>
                             {custom_fields.custom_string.map(item=>(
-                                 <TableHead className="w-[150px]">{item}</TableHead>
+                                 <TableHead className="w-[150px] text-center">{item}</TableHead>
                             ))}
                                 {custom_fields.custom_int.map(item=>(
-                                <TableHead className="w-[150px]">{item}</TableHead>
+                                <TableHead className="w-[150px] text-center">{item}</TableHead>
                                 ))}
                                 {custom_fields.custom_boolean.map(item=>(
-                                <TableHead className="w-[150px]">{item}</TableHead>
+                                <TableHead className="w-[150px] text-center">{item}</TableHead>
                                 ))}
                                 {custom_fields.custom_date.map(item=>(
-                                <TableHead className="w-[150px]">{item}</TableHead>
+                                <TableHead className="w-[150px] text-center">{item}</TableHead>
                                 ))}
                             </>
                         }
