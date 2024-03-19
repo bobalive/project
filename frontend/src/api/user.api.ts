@@ -33,7 +33,9 @@ export const login = async ({ email, password }: LoginInterface): Promise<UserIn
 
 export const signin = async ({name, password,email}:SigninInterface):Promise<UserInteface|null|undefined> =>{
     try{
-        const response:AxiosResponse<UserInteface> = await axios.post("http://localhost:5000/api/signin" ,{name,password , email})
+        const response:AxiosResponse<UserInteface> = await axios.post("http://localhost:5000/api/signin" ,{name,password , email},{
+            withCredentials:true
+        })
         if(response.status == 200){
             return response.data
         }

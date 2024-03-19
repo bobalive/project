@@ -4,15 +4,41 @@ import { Input } from "../components/ui/input"
 import { Textarea } from "../components/ui/textarea"
 import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "../components/ui/select"
 import { Button } from "../components/ui/button"
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import { useEffect, useState } from "react"
+import { getOneCollection } from "../api/collection.api"
+import { CollectionInterface } from "../interfaces/Collection.interface"
 
 export  function AddItems() {
     const {id} = useParams()
-    console.log(id)
+    const navigate = useNavigate()
+    const [collection , setCollection] = useState<CollectionInterface|null>()
+    useEffect(()=>{
+        const getCollection = async () => {
+            try {
+                if (id) {
+                    const newCollection = await getOneCollection(id);
+                    if(newCollection){
+                        setCollection(newCollection[0]);
+                    }
+
+                }else{
+                    navigate('/')
+                }
+            } catch (error) {
+                console.error("Error fetching collection:", error);
+            }
+        };
+        getCollection()
+    },[])
+
     return (
-        <Card className="w-full max-w-3xl mx-auto">
+        <div className="flex items-center justify-center h-screen">
+
+        
+        <Card className="w-full max-w-3xl">
             <CardHeader>
-                <CardTitle>My Book Collection</CardTitle>
+                <CardTitle>{collection?.name} Collection</CardTitle>
                 <CardDescription>
                     A collection of my favorite books, complete with author information and publication dates.
                 </CardDescription>
@@ -31,33 +57,48 @@ export  function AddItems() {
                         </Label>
                         <Input placeholder="#" id="tags" />
                     </div>
-                    <div className="grid gap-4">
-                        <Label className="sm:col-span-2" htmlFor="description">
-                            Description
-                        </Label>
-                        <Textarea
-                            className="min-h-[100px]"
-                            id="description"
-                            placeholder="Enter a description for your collection"
-                        />
-                    </div>
-                    <div className="grid gap-4">
-                        <Label className="sm:col-span-2" htmlFor="theme">
-                            Theme
-                        </Label>
-                        <Select>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select a theme" />
-                            </SelectTrigger>
-                            <SelectContent className="w-full max-h-[200px]">
-                                <SelectItem value="adventure">Adventure</SelectItem>
-                                <SelectItem value="mystery">Mystery</SelectItem>
-                                <SelectItem value="romance">Romance</SelectItem>
-                                <SelectItem value="scifi">Science Fiction</SelectItem>
-                                <SelectItem value="fantasy">Fantasy</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+                    <div className="flex flex-col w-fit gap-4">
+                            {collection?.custom_fields?.custom_int[0] &&<h4> Custom integer </h4>}
+                                {collection?.custom_fields?.custom_int.map(item => (
+                                    <div className="flex align-center justify-start gap-4">
+                                        <Label className="flex items-center">
+                                                {item}
+                                        </Label>
+                                            <Input type="text" className="block"/>
+                                
+                                 </div>
+                                ))}
+                                {collection?.custom_fields?.custom_string[0] &&<h4> Custom string </h4>}
+                                {collection?.custom_fields?.custom_string.map(item => (
+                                    <div className=" flex align-center justify-start gap-4">
+                                        <Label className="flex items-center">
+                                                {item}
+                                        </Label>
+                                            <Input type="text" className="block"/>
+                                
+                                 </div>
+                                ))}
+                                {collection?.custom_fields?.custom_boolean[0]&&<h4> Custom boolean </h4>}
+                                {collection?.custom_fields?.custom_boolean.map(item => (
+                                    <div className=" flex align-center justify-start gap-4">
+                                        <Label className="flex items-center">
+                                                {item}
+                                        </Label>
+                                            <Input type="text" className="block"/>
+                                
+                                 </div>
+                                ))}
+                                {collection?.custom_fields?.custom_date[0] &&<h4> Custom date </h4>}
+                                {collection?.custom_fields?.custom_date.map(item => (
+                                    <div className=" flex align-center justify-start gap-4">
+                                        <Label className="flex items-center">
+                                                {item}
+                                        </Label>
+                                            <Input type="text" className="block"/>
+                                
+                                 </div>
+                                ))}
+                            </div>
 
                 </div>
             </CardContent>
@@ -65,6 +106,7 @@ export  function AddItems() {
                 <Button>Save Changes</Button>
             </CardFooter>
         </Card>
+        </div>
     )
 }
 

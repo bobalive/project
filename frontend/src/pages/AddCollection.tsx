@@ -136,8 +136,8 @@ export  function AddCollection() {
                                     <SelectItem value="date">Date Value</SelectItem>
                                 </SelectContent>
                             </Select>
-                            {field &&
-                                <>
+                            
+                                <div className={(field?"h-fit p-3 ":"h-0 " )+'transition-all overflow-hidden gap-2 w-[300px] '}>
                                     <Label className="sm:col-span-2">
                                         custom {field}
                                     </Label>
@@ -147,9 +147,11 @@ export  function AddCollection() {
                                         handleFieds(field)
                                         setField('')
                                         setInputValue('')
-                                    }}>Save</Button>
-                                </>
-                                }
+                                    }}
+                                        className="mt-2" 
+                                    >Save</Button>
+                                </div>
+                                
 
                         </div>
                         <h1 className="text-xl">Custom Fields:</h1>

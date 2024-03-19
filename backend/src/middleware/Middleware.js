@@ -10,7 +10,9 @@ const verifyToken = (req, res, next) => {
         if (err) {
             return res.sendStatus(403); // Forbidden if token is invalid
         }
+
         req.user = decoded.user;
+
         next();
     });
 };

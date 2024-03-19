@@ -16,17 +16,22 @@ class UserContolers{
             const users = await Users.find({email:email})
             const enctyptedPass = enctypt(password)
 
-            console.log(users)
         
             if(users.length == 0){
                 const user = await Users.create({name , email, password:enctyptedPass,status:'active',role:'admin'})
 
-                const token = jwt.sign({ user }, process.env.TOKENKEY, { expiresIn: '7d' })
-                res.cookie('token', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 })
+                console.log(user);
+                const newToken = jwt.sign({ user:[user] }, process.env.TOKENKEY, { expiresIn:"24h"});
 
-                console.log(user)
+                res.cookie('token', newToken, {
+                    secure: true, // Ensures cookie is only sent over HTTPS
+                    httpOnly: true, // Prevents access from client-side JavaScript
+                    sameSite: 'strict', // Helps prevent cross-site request forgery (CSRF) attacks
+                    maxAge: 360000000 // Cookie expiration time (in milliseconds)
+                });
 
-                return res.status(200).json(user)
+                return res.status(200).json(user);
+
             }else{
                 return res.status(400).json('false')
             }
