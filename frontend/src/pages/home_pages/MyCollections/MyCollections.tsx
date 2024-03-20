@@ -15,7 +15,7 @@ export const MyCollections = ()=>{
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [selectedCollections , setSelectedCollections]= useState<string[]>([])
+    const [id , setId]= useState<string[]>([])
     const getCollection = async ()=>{
         const collections=await getMyColletion()
         if(collections){
@@ -24,11 +24,11 @@ export const MyCollections = ()=>{
     }
     const handleDeleteCollection  = async ()=>{
 
-        const res = await deleteColections(selectedCollections)
+        const res = await deleteColections(id)
 
         if(res){
             dispatch(setMyCollection(res))
-            setSelectedCollections([])
+            setId([])
         }
 
 
@@ -53,8 +53,8 @@ export const MyCollections = ()=>{
             </div>
 
             {myCollections
-                ? <TableMenu collection={[...myCollections]} selectedCollections={selectedCollections}
-                             setSelectedCollections={setSelectedCollections}/>
+                ? <TableMenu collection={[...myCollections]} id={id}
+                             setId={setId}/>
                 : 'loading'
             }
         </>

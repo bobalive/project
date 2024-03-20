@@ -12,6 +12,7 @@ class CollectionControler{
         if (id) {
             try {
                 const collections = await Collections.find({ userId: id });
+
                 return res.status(200).json(collections);
             } catch (e) {
                 console.error(e); // Log the error for debugging purposes
@@ -51,16 +52,13 @@ class CollectionControler{
             const id = req.user[0]._id;
             const collections = req.body;
             collections.custom_fields = JSON.parse(req.body.custom_fields)
-            console.log(collections)
-            if (!req.file) {
-                return res.status(400).json('No file uploaded');
-            }
 
+
+            if(req.file){
             let rawlink = []
             const dbx = new Dropbox({ accessToken: process.env.ACCES_TOKEN });
             const fileData = req.file.buffer
             const dropboxFilePath = '/uploads/' +(Math.random()*10000)+req.file.originalname  ; // Adjust as needed
-
 
             const fileuploaded = await dbx.filesUpload({ path: dropboxFilePath, contents: fileData })
             const response = await dbx.sharingCreateSharedLinkWithSettings({ path:fileuploaded.result.path_display })
@@ -71,6 +69,7 @@ class CollectionControler{
                 rawlink = rawlink.join("&")
             }
             collections.photo = rawlink
+            }
 
 
             if (id && collections) {
@@ -105,10 +104,7 @@ class CollectionControler{
 
         const collection = req.body;
         const uId = req.user[0]._id;
-          
-        // if (collection.userId !== uId) {
-        //     return res.status(400).json("access error");
-        // }
+
         
         if (!collection) {
             return res.status(400).json('wrong input');
@@ -133,16 +129,31 @@ class CollectionControler{
     }
     async deleteCollection(req,res){
         const {id} = req.body
+        const userId = req.user._id
 
         try{
             const collection = await Collections.deleteMany({_id:{$in:id}})
-            const newCollections = await Collections.find()
+            const newCollections = await Collections.find({userId:userId})
 
             res.status(200).json(newCollections)
         }catch (e){
             res.status(400).json(e)
         }
     }
+
+    async getCustomFields(req, res) {
+        const { id } = req.params;
+
+        try {
+            const collections = await Collections.find({ items: { $in: [id] } });
+
+            res.status(200).json(collections[0].custom_fields);
+        } catch (error) {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
 
 }
 

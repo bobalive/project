@@ -13,16 +13,10 @@ const CollectionSchema = new mongoose.Schema({
             custom_string: [],
             custom_int:[],
             custom_boolean:[],
-            custom_date:[]
+            custom_date:[],
+            custom_multi_line:[]
         }, 
-        items:[{
-            collectionId:String,
-            userId:String,
-            name:String,
-            tags:[String],
-            fields:[{name:String , value:String}],
-            req_fields:[{name:String, value:String}]
-        }]
+        items:[String]
 })
 
 module.exports = mongoose.model('Collections' , CollectionSchema)

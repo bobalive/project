@@ -12,6 +12,7 @@ CollectionRouter.post("/change",verifyToken, CollectionControler.addFields)
 CollectionRouter.post("/create",verifyToken,CollectionControler.createCollections)
 CollectionRouter.get('/top' , CollectionControler.getTopCollections)
 CollectionRouter.delete('/delete' , verifyToken , CollectionControler.deleteCollection)
+CollectionRouter.get('/customFields/:id' , CollectionControler.getCustomFields)
 
 
 

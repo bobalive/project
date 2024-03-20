@@ -4,47 +4,46 @@ import {NavLink} from "react-router-dom";
 import {Input} from "../ui/input.tsx";
 
 
-export const TableMenu = ({collection,item,setSelectedCollections,selectedCollections,custom_fields}:TableInterface)=>{
+export const TableMenu = ({collection,item,setId,id,custom_fields}:TableInterface)=>{
 
     const selectCollection=(item:string)=> {
-        if(selectedCollections &&setSelectedCollections){
-            if (selectedCollections.includes(item)) {
-                setSelectedCollections(selectedCollections.filter((prev) => prev !== item))
+        if(id &&setId){
+            if (id.includes(item)) {
+                setId(id.filter((prev) => prev !== item))
             } else {
-                setSelectedCollections([...selectedCollections, item])
+                setId([...id, item])
             }
         }
 
     }
     const selectAllCollections = ()=>{
-        if(selectedCollections &&setSelectedCollections){
-        if(collection){
-            if(selectedCollections.length == collection.length){
-                setSelectedCollections([])
-            }else{
-                setSelectedCollections(collection?.map(item=>item._id))
+        if(id &&setId){
+            if(collection){
+                if(id.length == collection.length){
+                    setId([])
+                }else{
+                    setId(collection?.map(item=>item._id))
+                }
             }
-        }
-        if(item){
-            if(selectedCollections.length == item.length){
-                setSelectedCollections([])
-            }else{
-                setSelectedCollections(item?.map(item=>item._id))
+            if(item){
+                if(id.length == item.length){
+                    setId([])
+                }else{
+                    setId(item?.map(item=>item._id))
+                }
             }
-        }
         }
 
     }
 
-    console.log(item&&custom_fields&&item.length>0)
     return (
         <div className="border shadow-sm rounded-lg">
             <Table >
                 <TableHeader>
                     <TableRow>
-                        {selectedCollections&&<TableHead className="w-4">
+                        {id&&<TableHead className="w-4">
                             <Input type="checkbox" className="w-4" onChange={selectAllCollections}
-                                   checked={selectedCollections.length != 0&&(selectedCollections.length == collection?.length || selectedCollections.length == item?.length)}></Input>
+                                   checked={id.length != 0&&(id.length == collection?.length || id.length == item?.length)}></Input>
                         </TableHead>}
                         {collection&&
                             <TableHead className="w-4">
@@ -77,17 +76,17 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
 
                     </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody  >
                     {collection&&collection.map(item=> {
                             return(
                                 <TableRow key={item._id} >
-                                    {selectedCollections&&<TableCell>
+                                    {id&&<TableCell>
                                         <Input type="checkbox" className="w-4" onClick={() => selectCollection(item._id)}
-                                               checked={selectedCollections.includes(item._id)}></Input>
+                                               checked={id.includes(item._id)}></Input>
                                     </TableCell>}
                                     <TableCell className="" >
                                         <NavLink to={"/collection/" + item._id}>
-                                            <img src = {item.photo&&item.photo} className="w-11 h-11 border-2 border-gray-100 rounded object-contain" loading={"lazy"}/>
+                                            <img src = {item.photo?item.photo:'/vite.svg'} className="w-11 h-11 border-2 border-gray-100 rounded object-contain" loading={"lazy"}/>
                                         </NavLink>
                                     </TableCell>
                                     <TableCell>
@@ -106,12 +105,12 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
                                 </TableRow>
                             )
                     })}
-                    {item&& item.length>0&&item.map(data=>{
-
-                        return(<TableRow key={data._id} >
-                            {selectedCollections&&<TableCell>
+                    {item&&item.length>0
+                        && item.map(data=>{
+                        return(<TableRow key={data._id}>
+                            {id&&<TableCell>
                                 <Input type="checkbox" className="w-4" onClick={() => selectCollection(data._id)}
-                                       checked={selectedCollections.includes(data._id)}></Input>
+                                       checked={id.includes(data._id)}></Input>
                             </TableCell>}
                             <TableCell>
                                 <NavLink className="font-semibold" to={"/item/" + data._id}>
@@ -123,9 +122,27 @@ export const TableMenu = ({collection,item,setSelectedCollections,selectedCollec
                                     {data.name}
                                 </NavLink>
                             </TableCell>
-                            <TableCell className="w-[150px]">{data.tags&&[...data.tags]}</TableCell>
+                            <TableCell>{data.tags
+                                && data.tags.map(tag=>(
+                                    <span>{tag}</span>
+                                ))
 
-
+                            }</TableCell>
+                            {data.custom_fields.custom_int.length>0
+                                ?data.custom_fields.custom_int.map(item=>(
+                                <TableCell className="w-[150px] text-center">{item}</TableCell>
+                            ))
+                            :<TableCell className="w-[150px] text-center"></TableCell>
+                            }
+                            {data.custom_fields.custom_string.map(item=>(
+                                <TableCell className="w-[150px] text-center">{item}</TableCell>
+                            ))}
+                            {data.custom_fields.custom_boolean.map(item=>(
+                                <TableCell className="w-[150px] text-center">{item}</TableCell>
+                            ))}
+                            {data.custom_fields.custom_date.map(item=>(
+                                <TableCell className="w-[150px] text-center">{item}</TableCell>
+                            ))}
 
                         </TableRow>)
                     })}

@@ -1,15 +1,16 @@
 const mongoose = require('mongoose')
 
-const ItemSchema = mongoose.Schema({
+const ItemSchema = new mongoose.Schema({
     usrId:String,
     collectionId:String,
     name:String,
     tags:[String],
     custom_fields:{
-        custom_string: [],
-        custom_int:[],
-        custom_boolean:[],
-        custom_date:[]
+        custom_string: [String],
+        custom_int:[Number],
+        custom_boolean:[Boolean],
+        custom_date:[String],
+        custom_multi_line:[String]
     },
 
 })

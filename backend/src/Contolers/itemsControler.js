@@ -3,25 +3,31 @@ const Item = require('../db/item')
 
 class ItemsControler{
     async getItems(req,res){
-        const {id}  = req.param
+        const { id } = req.params;
         try{
             const items = await Item.find({collectionId:id})
-            res.status(200).json(items)
+            res.status(200).json(items.reverse())
         }catch (e){
             res.status(400).json(e)
         }
 
     }
     async createItem(req, res){
-        const item  = req.body 
+
+        const {item} = req.body
+        const id = req.user._id
+        item.tags = item.tags.join(' ')
+
         if(item){
             try{
-                const newItem = await Item.create({...req.body})
+                const newItem = await Item.create({...item , userId:id})
+
                 const Collection = await Collections.findOneAndUpdate(
                     { _id: item.collectionId }, // filter: find the document by its _id
-                    { $push: { items: value } }, // update: push the value into the arrayField
+                    { $push: { items: newItem._id } }, // update: push the value into the arrayField
                     { returnOriginal: false } // options: return the updated document, not the original
                 )
+
 
                 return res.status(200).json(newItem)
             }catch (e){
@@ -35,8 +41,7 @@ class ItemsControler{
     async changeItem(req,res){
         const {collectionId, item:newItem } = req.body
         const collection = await Collections.findOne({_id:collectionId})
-        
-        console.log(newItem);
+
         collection.items = collection.items.map(item =>{
             if(item._id == newItem._id){
                 return {...newItem}
@@ -46,6 +51,35 @@ class ItemsControler{
 
         collection.save()
         res.status(200).json(collection)
+    }
+    async deleteItem(req,res){
+        const {id, collectionId} = req.body
+        console.log(req.body)
+        try{
+            const collection = await Item.deleteMany({_id:{$in:id}},)
+            const result = await Collections.updateMany(
+                { _id:collectionId},
+                { $pull: { items: { $in: id } } }
+            );
+
+
+            console.log(collection)
+            res.status(200).json(collection)
+        }catch (e){
+            res.status(400).json(e)
+        }
+    }
+    async getItem(req,res){
+        const {id}= req.params
+        console.log(id)
+        try{
+            const newCollections = await Item.find({_id: id})
+
+            console.log(newCollections)
+            res.status(200).json(newCollections[0])
+        }catch (e){
+            res.status(400).json(e)
+        }
     }
 
 }

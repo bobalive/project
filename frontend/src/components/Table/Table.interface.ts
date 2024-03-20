@@ -7,7 +7,7 @@ export interface TableInterface {
     collection?:CollectionInterface[];
     item?:ItemInterface[]
     custom_fields?:CustomFiedInteface
-    selectedCollections?:string[]
-    setSelectedCollections?:Dispatch<SetStateAction<string[]>>
+    id?:string[]
+    setId?:Dispatch<SetStateAction<string[]>>
 
 }

@@ -9,7 +9,7 @@ import {CollectionInterface} from "../interfaces/Collection.interface.ts";
 import {createCollection} from "../api/collection.api.ts";
 import {useNavigate} from "react-router-dom";
 import {useRef, useState} from "react";
-import {CustomFiedInteface} from "../interfaces/CustomFied.inteface.ts";
+import { CustomFiedNameInteface} from "../interfaces/CustomFied.inteface.ts";
 
 
 
@@ -17,11 +17,12 @@ export  function AddCollection() {
     const navigate = useNavigate()
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
     const formRef=  useRef<any>()
-    const [customField , setCustomField ] = useState<CustomFiedInteface>({
+    const [customField , setCustomField ] = useState<CustomFiedNameInteface>({
         custom_int:[],
         custom_boolean:[],
         custom_date:[],
-        custom_string:[]
+        custom_string:[],
+        custom_multi_line:[]
     })
     const [field , setField] = useState('')
     const [inputValue , setInputValue ] = useState('')
@@ -29,7 +30,7 @@ export  function AddCollection() {
 
     console.log(customField)
     const handleFieds = (field:string)=>{
-        console.log(field)
+
         if(inputValue){
 
         switch (field){
@@ -44,13 +45,18 @@ export  function AddCollection() {
                 }
                 break;
             case "bool":
-                if(customField.custom_int.length<3 ) {
+                if(customField.custom_boolean.length<3 ) {
                 setCustomField({...customField , custom_boolean:[...customField.custom_boolean , inputValue]})
                 }
                 break;
             case "date":
-                if(customField.custom_int.length<3 ) {
+                if(customField.custom_date.length<3 ) {
                     setCustomField({...customField, custom_date: [...customField.custom_date, inputValue]})
+                }
+                break;
+            case "multi_line":
+                if(customField.custom_multi_line.length<3 ) {
+                    setCustomField({...customField, custom_multi_line: [...customField.custom_multi_line, inputValue]})
                 }
                 break;
             default:
@@ -134,6 +140,7 @@ export  function AddCollection() {
                                     <SelectItem value="int">Int Value</SelectItem>
                                     <SelectItem value="bool">Bool Value</SelectItem>
                                     <SelectItem value="date">Date Value</SelectItem>
+                                    <SelectItem value="multi_line">Multiline Value</SelectItem>
                                 </SelectContent>
                             </Select>
                             
@@ -155,9 +162,9 @@ export  function AddCollection() {
 
                         </div>
                         <h1 className="text-xl">Custom Fields:</h1>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between gap-4">
                             <div className="flex flex-col w-fit gap-4">
-                                <h4>Custom string name:</h4>
+                                <h4>Custom string </h4>
                                 {customField.custom_string.map(item => (
                                     <div
                                         className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
@@ -165,7 +172,7 @@ export  function AddCollection() {
                             </div>
 
                             <div className="flex flex-col w-fit gap-4">
-                                <h4>Custom int name:</h4>
+                                <h4>Custom int</h4>
                                 {customField.custom_int.map(item => (
                                     <div
                                         className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
@@ -173,7 +180,7 @@ export  function AddCollection() {
                             </div>
 
                             <div className="flex flex-col w-fit gap-4">
-                                <h4>Custom bool name:</h4>
+                                <h4>Custom bool </h4>
                                 {customField.custom_boolean.map(item => (
                                     <div
                                         className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
@@ -181,8 +188,15 @@ export  function AddCollection() {
                             </div>
 
                             <div className="flex flex-col w-fit gap-4">
-                                <h4>Custom date name:</h4>
+                                <h4>Custom date </h4>
                                 {customField.custom_date.map(item => (
+                                    <div
+                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
+                                ))}
+                            </div>
+                            <div className="flex flex-col w-fit gap-4">
+                                <h4>Custom Multiline</h4>
+                                {customField.custom_multi_line.map(item => (
                                     <div
                                         className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
                                 ))}

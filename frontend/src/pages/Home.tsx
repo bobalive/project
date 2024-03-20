@@ -5,10 +5,11 @@ import { getUser} from "../api/user.api.ts";
 import {useDispatch} from "react-redux";
 import {putUser} from "../Store/Slices/userSlice.ts";
 import {Route, Routes} from "react-router";
-import {Collection} from "../components/Collection/Collection.tsx";
+import {Collection} from "./home_pages/Collection/Collection.tsx";
 import {TopCollections} from "./home_pages/Top-collections/TopCollections.tsx";
 import {TagCloud} from "./home_pages/Tag-cloud/Tag-cloud.tsx";
 import {MyCollections} from "./home_pages/MyCollections/MyCollections.tsx";
+import {Item} from "./home_pages/Item/Item.tsx";
 
 
 
@@ -39,6 +40,7 @@ export const Home = ()=> {
                         <Route path={'/tag-cloud'} element={<TagCloud/>}/>
                         <Route path={'collection/:id'} element={<Collection/>}></Route>
                         <Route path={'my-collections/'} element={<MyCollections/>}></Route>
+                        <Route path={'item/:id'} element={<Item/>}></Route>
                     </Routes>
 
                 </main>
