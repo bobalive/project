@@ -7,7 +7,6 @@ interface InitialStateInterface{
     topCollections:CollectionInterface[],
     myCollections:CollectionInterface[]
 }
-
 const initialState:InitialStateInterface = {
     topCollections:[{
         name: '',
@@ -43,7 +42,6 @@ const initialState:InitialStateInterface = {
     }]
 }
 
-
 export const collectionSlice = createSlice({
     name:'collections',
     initialState,
@@ -59,6 +57,5 @@ export const collectionSlice = createSlice({
         }
     }
 })
-
 export const {setCollection, setMyCollection,addMyCollection} = collectionSlice.actions
 export default collectionSlice.reducer
