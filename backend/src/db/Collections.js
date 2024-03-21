@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const CollectionSchema = new mongoose.Schema({
         userId:String,
+        userName:String,
         name: { type: String, required: true },
         theme: {
             type: String,

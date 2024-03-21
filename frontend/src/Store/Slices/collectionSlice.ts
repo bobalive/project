@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {CollectionInterface} from "../../interfaces/Collection.interface.ts";
 
 
+
 interface InitialStateInterface{
     topCollections:CollectionInterface[],
     myCollections:CollectionInterface[]
@@ -11,7 +12,13 @@ const initialState:InitialStateInterface = {
     topCollections:[{
         name: '',
         items: [],
-        custom_Fields: {},
+        custom_fields: {
+            custom_string:[],
+            custom_multi_line:[],
+            custom_int:[],
+            custom_date:[],
+            custom_boolean:[]
+        },
         photo: '',
         userId: '',
         description:'',
@@ -21,7 +28,13 @@ const initialState:InitialStateInterface = {
     myCollections:[{
         name: '',
         items: [],
-        custom_Fields: {},
+        custom_fields: {
+            custom_boolean:[],
+            custom_date:[],
+            custom_int:[],
+            custom_multi_line:[],
+            custom_string:[]
+        },
         photo: '',
         userId: '',
         description:'',

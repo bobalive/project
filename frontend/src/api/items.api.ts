@@ -2,7 +2,7 @@ import axios, {AxiosResponse} from "axios";
 import {DeleteItemsInterface, ItemInterface, SendItemInterface} from "../interfaces/Item.interface.ts";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
-import {CustomFiedNameInteface} from "../interfaces/CustomFied.inteface.ts";
+import {CollectionInfoInterface} from "../interfaces/СollectionInfo.interface.ts";
 
 
 
@@ -58,8 +58,8 @@ export const deleteItems = async ({id, collectionId}:DeleteItemsInterface):Promi
 
 }
 
-export const getCustomCollections = async (id:string)=>{
-    const response:AxiosResponse<CustomFiedNameInteface> = await axios.get('http://localhost:5000/api/collections/customFields/'+id)
+export const getСollectionInfo = async (id:string)=>{
+    const response:AxiosResponse<CollectionInfoInterface> = await axios.get('http://localhost:5000/api/collections/customFields/'+id)
     if(response.status == 200){
         return response.data
     }

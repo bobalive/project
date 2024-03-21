@@ -34,8 +34,6 @@ export const Collection = () => {
     };
 
     useEffect(() => {
-
-
         getCollection();
     }, [id]);
 
@@ -46,10 +44,7 @@ export const Collection = () => {
             if(newItem){
                 getCollection()
             }
-
-
         }
-
     }
 
 
