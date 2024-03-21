@@ -10,6 +10,7 @@ import {TopCollections} from "./home_pages/Top-collections/TopCollections.tsx";
 import {TagCloud} from "./home_pages/Tag-cloud/Tag-cloud.tsx";
 import {MyCollections} from "./home_pages/MyCollections/MyCollections.tsx";
 import {Item} from "./home_pages/Item/Item.tsx";
+import {LatestItems} from "./home_pages/LatestItems/LatestItems.tsx";
 
 
 
@@ -38,6 +39,7 @@ export const Home = ()=> {
                     <Routes>
                         <Route path={'/'} element={<TopCollections/>}/>
                         <Route path={'/tag-cloud'} element={<TagCloud/>}/>
+                        <Route path={"/recent-items"} element={<LatestItems/>}/>
                         <Route path={'collection/:id'} element={<Collection/>}></Route>
                         <Route path={'my-collections/'} element={<MyCollections/>}></Route>
                         <Route path={'item/:id'} element={<Item/>}></Route>

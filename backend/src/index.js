@@ -6,6 +6,8 @@ const cors = require('cors');
 const router = require('./router/router');
 const crypto = require('crypto')
 const cookieParser = require('cookie-parser');
+const wsConnect = require('./ws.js')
+
 
 
 const multer = require('multer');
@@ -42,6 +44,7 @@ async function startApp(){
         })
 
         app.listen(process.env.PORT , ()=> console.log('Server started ' + process.env.PORT  ))
+        wsConnect()
 
     }catch (e){
         console.log(e)

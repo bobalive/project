@@ -147,7 +147,11 @@ class CollectionControler{
         try {
             const collections = await Collections.find({ items: { $in: [id] } });
 
-            res.status(200).json(collections[0].custom_fields);
+            res.status(200).json({
+                custom_fields:collections[0].custom_fields,
+                collectionName:collections[0].name,
+                userName:collections[0].userName
+            });
         } catch (error) {
             console.error('Error:', error);
             res.status(500).json({ error: 'Internal Server Error' });

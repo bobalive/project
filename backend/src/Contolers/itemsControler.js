@@ -71,11 +71,10 @@ class ItemsControler{
     }
     async getItem(req,res){
         const {id}= req.params
-        console.log(id)
+
         try{
             const newCollections = await Item.find({_id: id})
 
-            console.log(newCollections)
             res.status(200).json(newCollections[0])
         }catch (e){
             res.status(400).json(e)
