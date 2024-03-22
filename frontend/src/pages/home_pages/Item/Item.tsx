@@ -1,4 +1,4 @@
-import {NavLink, useParams} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getItem, getСollectionInfo} from "../../../api/items.api.ts";
 import {CustomFiedNameInteface} from "../../../interfaces/CustomFied.inteface.ts";
@@ -6,18 +6,25 @@ import {ItemInterface} from "../../../interfaces/Item.interface.ts";
 
 import {Button} from "../../../components/ui/button.tsx";
 import {Input} from "../../../components/ui/input.tsx";
-import {ArrowLeftIcon, HeartIcon,  MoreVerticalIcon, ShareIcon} from "lucide-react";
+import {ArrowLeftIcon, Edit, MoreVerticalIcon} from "lucide-react";
 import {Comment} from "../../../components/Comment/Comment.tsx";
 import {CustomFields} from "../../../components/CustomFields/CustomField.tsx";
 import {useSelector} from "react-redux";
 import {StoreInterface} from "../../../interfaces/Store.interface.ts";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "../../../components/ui/dropdown-menu.tsx";
 
 
 
 export const Item = () => {
 
     const {id} = useParams<string>()
-    const {id:userId , name} = useSelector((state:StoreInterface) => state.user)
+    const {_id:userId , name} = useSelector((state:StoreInterface) => state.user)
+    const navigate = useNavigate()
 
     const [item , setItem] = useState<ItemInterface>()
     const [custfields ,setCustField ] = useState<CustomFiedNameInteface|undefined>()
@@ -69,7 +76,7 @@ export const Item = () => {
     const handeComments =  (e:any)=>{
         e.preventDefault()
         setComment('')
-        if(item?.collectionId && id){
+        if(item?.collectionId && id && comment){
             const data:SendCommentInterface = {
                 action:'setComment',
                 comment:{
@@ -91,13 +98,19 @@ export const Item = () => {
                 <div className="flex items-center justify-between mb-6">
                     <NavLink to={'/collection/' + item?.collectionId} className="flex items-center">
                         <ArrowLeftIcon className="mr-2"/>
-                        Back{"\n          "}
+                        Back{"\n     "}
                     </NavLink>
-                    <div className="flex items-center space-x-4">
-                        <HeartIcon className=""/>
-                        <ShareIcon className=""/>
-                        <MoreVerticalIcon className=""/>
-                    </div>
+                    <DropdownMenu >
+                        <DropdownMenuTrigger>
+                            <MoreVerticalIcon className=""/>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem className='text-lg gap-1' onClick={()=>navigate(`/edit-item/${item?.collectionId}/${item?._id}`)}>
+                                <Edit/>
+                                Edit
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
                 <div className="mb-6">
                     <h1 className="text-2xl font-bold">Item "{item.name}"</h1>
@@ -108,15 +121,13 @@ export const Item = () => {
                 <div className="mb-6 flex items-center gap-1">
                     <h2 className="text-lg font-semibold">Tags:</h2>
                     <div className="flex space-x-2">
-                        <Button className="text-sm" variant="ghost">
-                            #books
-                        </Button>
-                        <Button className="text-sm" variant="ghost">
-                            #leisure
-                        </Button>
+                        {item.tags.map(item =>(
+                            <Button className="text-sm" variant="ghost">
+                                {item}
+                            </Button>
+                        ))}
                     </div>
                 </div>
-
                 <div className='flex gap-2 flex-wrap'>
 
 
@@ -140,7 +151,6 @@ export const Item = () => {
                         <CustomFields field={field} fieldName={custfields?.custom_date[i]}></CustomFields>
                     ))
                 }
-
                 </div>
                 {
                     item.custom_fields.custom_multi_line.map((field, i) => (
@@ -151,8 +161,6 @@ export const Item = () => {
                                     {field}
                                 </p>
                             </div>
-
-
                         </div>
                     ))
                 }
@@ -160,13 +168,10 @@ export const Item = () => {
 
                 <div className="mb-6">
                     <h2 className="text-lg font-semibold mb-2">Comments</h2>
-
                         <form onSubmit={handeComments} className="flex items-center space-x-2 mb-4">
                             <Input className="flex-1" placeholder="Add comment..." value={comment} onChange={(e)=>setComment(e.target.value)}/>
                             <Button variant="secondary">Send</Button>
                         </form>
-
-
                     {
                         userComments?.map(item=>{
                            return <Comment date={item.date} userName={item.userName} userId={item.userId} _id={item._id} content={item.content} />

@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {UserInteface} from "../../interfaces/User.interface.ts";
 
 const initialState:UserInteface = {
-    id:"",
+    _id:"",
     name:'',
     email:'',
     password:'',

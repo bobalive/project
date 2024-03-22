@@ -39,31 +39,22 @@ class ItemsControler{
         
     }
     async changeItem(req,res){
-        const {collectionId, item:newItem } = req.body
-        const collection = await Collections.findOne({_id:collectionId})
+        const item = req.body
 
-        collection.items = collection.items.map(item =>{
-            if(item._id == newItem._id){
-                return {...newItem}
-            }
-            return item
-        })
+        const collection = await Item.findOneAndUpdate({_id:item._id} ,{...item , usrId:req.user[0]._id},{returnOriginal:false})
 
-        collection.save()
+        console.log(collection)
+
         res.status(200).json(collection)
     }
     async deleteItem(req,res){
         const {id, collectionId} = req.body
-        console.log(req.body)
         try{
             const collection = await Item.deleteMany({_id:{$in:id}},)
             const result = await Collections.updateMany(
                 { _id:collectionId},
                 { $pull: { items: { $in: id } } }
             );
-
-
-            console.log(collection)
             res.status(200).json(collection)
         }catch (e){
             res.status(400).json(e)

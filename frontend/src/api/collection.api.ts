@@ -46,7 +46,7 @@ export const getMyColletion = async ():Promise<CollectionInterface[]|undefined>=
         return response.data.reverse()
     }
 }
-export const getOneCollection = async (id:string):Promise<CollectionInterface[]| null>=>{
+export const getOneCollection = async (id:string):Promise<CollectionInterface[]>=>{
     try{
         const response:AxiosResponse<CollectionInterface[]> = await axios.get("http://localhost:5000/api/collections/collection/"+id)
         if(response.status == 200){
@@ -54,6 +54,41 @@ export const getOneCollection = async (id:string):Promise<CollectionInterface[]|
         }else{
             throw new Error("Failed to fetch top collections. Status code " + response.data)
         }
+    }catch (error) {
+        // Handle network errors or exceptions
+        console.error("Error fetching top collections:", error);
+        throw error;
+    }
+}
+
+export const deleteCustomField = async (collectionId:string,valueId:number,field:string)=>{
+
+    try {
+        const response:AxiosResponse<CollectionInterface> = await axios.delete(`http://localhost:5000/api/collections/customFields/delete?collectionId=${collectionId}&valueId=${valueId}&field=${field}`)
+        if(response.status === 200){
+            return response.data
+        }else{
+            throw new Error("Failed to fetch top collections. Status code " + response.data)
+        }
+
+    }catch (error) {
+        // Handle network errors or exceptions
+        console.error("Error fetching top collections:", error);
+        throw error;
+    }
+}
+
+export const editCollection = async (formData:FormData)=>{
+    try{
+        const response:AxiosResponse<CollectionInterface> = await axios.post('http://localhost:5000/api/collections/edit' , formData,{
+            withCredentials:true
+        })
+        if(response.status === 200){
+            return response.data
+        }else{
+            throw new Error("Failed to fetch top collections. Status code " + response.data)
+        }
+
     }catch (error) {
         // Handle network errors or exceptions
         console.error("Error fetching top collections:", error);

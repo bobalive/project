@@ -1,5 +1,5 @@
 import {ItemInterface} from "./Item.interface.ts";
-import {CustomFiedInteface} from "./CustomFied.inteface.ts";
+import { CustomFiedNameInteface} from "./CustomFied.inteface.ts";
 
 
 
@@ -10,7 +10,7 @@ export interface CollectionInterface {
     theme?: "Books" | "Signs" | "Silverware";
     description:string;
     photo?: string;
-    custom_fields: CustomFiedInteface;
+    custom_fields: CustomFiedNameInteface;
     items?: ItemInterface[];
 }
 

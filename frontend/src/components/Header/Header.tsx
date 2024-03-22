@@ -60,7 +60,7 @@ export const Header = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center">
                     {user.name !== '' ? (
-                        <Profile id={user.id} name={user.name} email={user.email} />
+                        <Profile id={user._id} name={user.name} email={user.email} />
                     ) : (
                         <Login />
                     )}

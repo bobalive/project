@@ -6,9 +6,8 @@ import {setMyCollection} from "../../../Store/Slices/collectionSlice.ts";
 import {TableMenu} from "../../../components/Table/TableMenu.tsx";
 import {Button} from "../../../components/ui/button.tsx";
 import { useNavigate} from "react-router-dom";
-import {Trash} from "lucide-react";
+import { Trash} from "lucide-react";
 import {PlusIcon} from "../../../helpers/Icons/PlusIcon.tsx";
-
 
 export const MyCollections = ()=>{
     const myCollections= useSelector((state:StoreInterface) => state.collections.myCollections);
@@ -50,7 +49,9 @@ export const MyCollections = ()=>{
                         <PlusIcon/>
                     </Button>
                 </div>
+
             </div>
+
 
             {myCollections
                 ? <TableMenu collection={[...myCollections]} id={id}

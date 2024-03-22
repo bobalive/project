@@ -4,15 +4,19 @@ const verifyToken = require('../middleware/Middleware')
 const CollectionRouter = new Router()
 
 
-CollectionRouter.post("/edit" , verifyToken , CollectionControler.editCollection)
+CollectionRouter.get('/top' , CollectionControler.getTopCollections)
 CollectionRouter.get("/my-collection" , verifyToken , CollectionControler.getUserCollection)
 CollectionRouter.get("/collection/:id" , CollectionControler.getOneCollection)
 CollectionRouter.get("/user/:id" , verifyToken, CollectionControler.getAllCollections)
+CollectionRouter.get('/customFields/:id' , CollectionControler.getCustomFields)
+
+CollectionRouter.post("/edit" , verifyToken , CollectionControler.editCollection)
 CollectionRouter.post("/change",verifyToken, CollectionControler.addFields)
 CollectionRouter.post("/create",verifyToken,CollectionControler.createCollections)
-CollectionRouter.get('/top' , CollectionControler.getTopCollections)
+
 CollectionRouter.delete('/delete' , verifyToken , CollectionControler.deleteCollection)
-CollectionRouter.get('/customFields/:id' , CollectionControler.getCustomFields)
+CollectionRouter.delete('/customFields/delete' ,CollectionControler.deleteCustomFields)
+
 
 
 

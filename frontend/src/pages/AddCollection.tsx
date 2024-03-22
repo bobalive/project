@@ -1,4 +1,4 @@
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../components/ui/card.tsx";
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "../components/ui/card.tsx";
 import {Label} from "../components/ui/label.tsx";
 import {Input} from "../components/ui/input.tsx";
 import {Button} from "../components/ui/button.tsx";
@@ -6,14 +6,16 @@ import {Textarea} from "../components/ui/textarea.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select.tsx";
 import {useForm ,Controller } from "react-hook-form";
 import {CollectionInterface} from "../interfaces/Collection.interface.ts";
-import {createCollection} from "../api/collection.api.ts";
-import {useNavigate} from "react-router-dom";
-import {useRef, useState} from "react";
+import {createCollection, editCollection, getOneCollection} from "../api/collection.api.ts";
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useRef, useState} from "react";
 import { CustomFiedNameInteface} from "../interfaces/CustomFied.inteface.ts";
+import {CustomFieldsTable} from "../components/CustomFieldsTable/CustomFieldsTable.tsx";
 
 
 
 export  function AddCollection() {
+    const {id} = useParams()
     const navigate = useNavigate()
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
     const formRef=  useRef<any>()
@@ -28,11 +30,18 @@ export  function AddCollection() {
     const [inputValue , setInputValue ] = useState('')
 
 
-    console.log(customField)
+    useEffect(() => {
+        if(id){
+            getOneCollection(id).then(res=>{
+                setValue('name', res[0].name)
+                setValue('description' , res[0].description)
+                setValue('theme' , res[0].theme)
+                setCustomField(res[0].custom_fields)
+            })
+        }
+    }, []);
     const handleFieds = (field:string)=>{
-
         if(inputValue){
-
         switch (field){
             case 'string':
                 if(customField.custom_string.length<3 ){
@@ -63,26 +72,34 @@ export  function AddCollection() {
                 break;
         }}
     }
+
     const onSubmit = async ()=>{
          const formData = new FormData(formRef.current)
          const customFieldsSrting = JSON.stringify(customField)
+
          formData.append('custom_fields', customFieldsSrting)
-         await createCollection(formData)
-         navigate("/my-collections")
+
+        if(id){
+            formData.append('_id' , id)
+            await editCollection(formData)
+            navigate("/collection/"+id)
+        }else{
+            await createCollection(formData)
+            navigate("/my-collections")
+        }
+
+
+
     }
 
     const handleThemeChange = (event:any) => {
         setValue("theme", event);
     };
     return (
-
         <Card className="w-full max-w-3xl mx-auto  left-[25%] z-10">
             <form className="w-[100%] relative p-5 " onSubmit={handleSubmit(onSubmit)} action="" ref={formRef}>
                 <CardHeader>
-                    <CardTitle>My Book Collection</CardTitle>
-                    <CardDescription>
-                        A collection of my favorite books, complete with author information and publication dates.
-                    </CardDescription>
+                    <CardTitle>My Collection</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
                     <div className="grid gap-4 md:gap-8 p-4">
@@ -158,51 +175,8 @@ export  function AddCollection() {
                                         className="mt-2" 
                                     >Save</Button>
                                 </div>
-                                
-
                         </div>
-                        <h1 className="text-xl">Custom Fields:</h1>
-                        <div className="flex justify-between gap-4">
-                            <div className="flex flex-col w-fit gap-4">
-                                <h4>Custom string </h4>
-                                {customField.custom_string.map(item => (
-                                    <div
-                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
-                                ))}
-                            </div>
-
-                            <div className="flex flex-col w-fit gap-4">
-                                <h4>Custom int</h4>
-                                {customField.custom_int.map(item => (
-                                    <div
-                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
-                                ))}
-                            </div>
-
-                            <div className="flex flex-col w-fit gap-4">
-                                <h4>Custom bool </h4>
-                                {customField.custom_boolean.map(item => (
-                                    <div
-                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
-                                ))}
-                            </div>
-
-                            <div className="flex flex-col w-fit gap-4">
-                                <h4>Custom date </h4>
-                                {customField.custom_date.map(item => (
-                                    <div
-                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
-                                ))}
-                            </div>
-                            <div className="flex flex-col w-fit gap-4">
-                                <h4>Custom Multiline</h4>
-                                {customField.custom_multi_line.map(item => (
-                                    <div
-                                        className="border border-gray-100 flex align-middle justify-center rounded-2xl">{item}</div>
-                                ))}
-                            </div>
-                        </div>
-
+                        <CustomFieldsTable customField={customField} setCustomField={setCustomField} _id = {id}></CustomFieldsTable>
                         <div className="grid gap-4">
                             <Label className="sm:col-span-2" htmlFor="image">
                                 Image

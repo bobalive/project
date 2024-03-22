@@ -1,8 +1,9 @@
-import axios, {AxiosResponse} from "axios";
+import axios, { AxiosResponse} from "axios";
 import {DeleteItemsInterface, ItemInterface, SendItemInterface} from "../interfaces/Item.interface.ts";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
 import {CollectionInfoInterface} from "../interfaces/СollectionInfo.interface.ts";
+
 
 
 
@@ -76,4 +77,17 @@ export const getItem = async (id:string)=>{
         throw error
     }
 
+}
+export const changeItem  = async(item:ItemInterface)=>{
+    try {
+        const response:AxiosResponse<ItemInterface> = await  axios.post('http://localhost:5000/api/item/edit' ,item,{
+            withCredentials:true
+        })
+        if(response.status === 200){
+            return response.data
+        }
+    }catch (e){
+        console.log(e)
+        throw e
+    }
 }

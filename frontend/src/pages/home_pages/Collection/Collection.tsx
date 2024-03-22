@@ -5,17 +5,26 @@ import { getOneCollection } from "../../../api/collection.api.ts";
 
 import {TableMenu} from "../../../components/Table/TableMenu.tsx";
 import {Button} from "../../../components/ui/button.tsx";
-import {ArrowLeftIcon, Trash} from "lucide-react";
+import {ArrowLeftIcon, Edit, MoreVerticalIcon, Trash} from "lucide-react";
 import {PlusIcon} from "../../../helpers/Icons/PlusIcon.tsx";
 import {ItemInterface} from "../../../interfaces/Item.interface.ts";
 import {deleteItems, getItems} from "../../../api/items.api.ts";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "../../../components/ui/dropdown-menu.tsx";
 
 
 export const Collection = () => {
     const { id } = useParams<{ id: string }>();
+
     const [collection, setCollection] = useState<CollectionInterface[] | null>(null);
     const [items , setItems] = useState<ItemInterface[]|null>()
     const [ids, setIds] = useState<string[]>([])
+
+
     const naviagte = useNavigate()
     const getCollection = async () => {
         try {
@@ -55,6 +64,7 @@ export const Collection = () => {
                     <ArrowLeftIcon className="mr-2"/>
                     Back{"\n          "}
                 </NavLink>
+                <div className='flex justify-between items-start'>
                 <img
                     alt="Item preview"
                     className="h-auto w-[200px]"
@@ -63,9 +73,19 @@ export const Collection = () => {
                     style={{
                         aspectRatio: "200/200",
                         objectFit: "cover",
-                    }}
-
-                />
+                    }}/>
+                <DropdownMenu >
+                    <DropdownMenuTrigger>
+                        <MoreVerticalIcon className=""/>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem className='text-lg gap-1' onClick={()=>naviagte(`/edit-collection/${collection[0]._id}`)}>
+                            <Edit/>
+                            Edit
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                </div>
                 <h1 className="text-3xl font-bold tracking-tight my-1.5">Title :{collection[0].name}</h1>
                 <p className="text-gray-500 dark:text-gray-400">Description:{collection[0].description}</p>
                 <p className="text-gray-500 dark:text-gray-400">UserId: {collection[0].userId}</p>

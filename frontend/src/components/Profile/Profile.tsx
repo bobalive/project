@@ -11,7 +11,7 @@ export const Profile = ({name , email}:ProfileInterface)=>{
         const isLogout = await logout()
         console.log(isLogout)
         if(isLogout){
-            dispatch(putUser({name:'',email:'',id:'0',password:'',status:'blocked',role:'user'}))
+            dispatch(putUser({name:'',email:'',_id:'0',password:'',status:'blocked',role:'user'}))
             dispatch(setMyCollection([]))
         }
     }

@@ -36,6 +36,7 @@ export const TableMenu = ({collection,item,setId,id,custom_fields}:TableInterfac
 
     }
 
+
     return (
         <div className="border shadow-sm rounded-lg">
             <Table >
@@ -105,7 +106,7 @@ export const TableMenu = ({collection,item,setId,id,custom_fields}:TableInterfac
                                 </TableRow>
                             )
                     })}
-                    {item&&item.length>0
+                    {item &&item.length>0 && custom_fields
                         && item.map(data=>{
                         return(<TableRow key={data._id}>
                             {id&&<TableCell>
@@ -128,21 +129,19 @@ export const TableMenu = ({collection,item,setId,id,custom_fields}:TableInterfac
                                 ))
 
                             }</TableCell>
-                            {data.custom_fields.custom_int.length>0
-                                ?data.custom_fields.custom_int.map(item=>(
-                                <TableCell className="w-[150px] text-center">{item}</TableCell>
+                            {custom_fields.custom_int.map((_item,i)=>(
+                                <TableCell className="w-[150px] text-center">{data.custom_fields.custom_int[i]}</TableCell>
+                            ))}
+                            {custom_fields.custom_string.map((_item,i)=>(
+                                <TableCell className="w-[150px] text-center">{data.custom_fields.custom_string[i]}</TableCell>
+                            ))}
+                            {custom_fields.custom_boolean.map((_item,i)=>(
+                                <TableCell className="w-[150px] text-center">{data.custom_fields.custom_boolean[i]}</TableCell>
+                            ))}
+                            {custom_fields.custom_date.map((_item,i)=>(
+                                <TableCell className="w-[150px] text-center">{data.custom_fields.custom_date[i]}</TableCell>
                             ))
-                            :<TableCell className="w-[150px] text-center"></TableCell>
                             }
-                            {data.custom_fields.custom_string.map(item=>(
-                                <TableCell className="w-[150px] text-center">{item}</TableCell>
-                            ))}
-                            {data.custom_fields.custom_boolean.map(item=>(
-                                <TableCell className="w-[150px] text-center">{item}</TableCell>
-                            ))}
-                            {data.custom_fields.custom_date.map(item=>(
-                                <TableCell className="w-[150px] text-center">{item}</TableCell>
-                            ))}
 
                         </TableRow>)
                     })}

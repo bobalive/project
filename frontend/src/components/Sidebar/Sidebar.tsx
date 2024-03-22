@@ -2,11 +2,14 @@ import {Package2Icon} from "../../helpers/Icons/Package2Icon.tsx";
 import {PackageIcon} from "../../helpers/Icons/PackageIcon.tsx";
 import {NavLink} from "react-router-dom";
 import {Hash} from "lucide-react";
+import {useSelector} from "react-redux";
+import {StoreInterface} from "../../interfaces/Store.interface.ts";
 
 
 
 export const Sidebar = ()=>{
 
+    const userName = useSelector((store:StoreInterface) => store.user.name)
 
     return (
         <div className="flex h-full max-h-screen flex-col gap-2">
@@ -50,29 +53,33 @@ export const Sidebar = ()=>{
                             [
                                 isActive ? "dark:bg-gray-800 " : "dark:text-gray-400",
                                 "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"
-
                             ].join(" ")
-                        }                        to="tag-cloud"
+                        } to="tag-cloud"
 
                     >
                         <Hash className="h-4 w-4"/>
                         Tag Cloud
                     </NavLink>
 
-                    <span className="px-3 mt-5 mb-2">Course project</span>
-                    <NavLink
-                        className={({ isActive }) =>
-                            [
-                                isActive ? "dark:bg-gray-800 " : "dark:text-gray-400",
-                                "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"
 
-                            ].join(" ")
-                        }                        to="my-collections"
+                    {userName
+                        &&
+                        <>
+                            <span className="px-3 mt-5 mb-2">Course project</span>
+                            <NavLink
+                                className={({isActive}) =>
+                                    [
+                                        isActive ? "dark:bg-gray-800 " : "dark:text-gray-400",
+                                        "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"
+                                    ].join(" ")
+                                } to="my-collections">
+                                <Package2Icon className="h-4 w-4"/>
+                                My collections
+                            </NavLink>
+                        </>
 
-                    >
-                        <Package2Icon className="h-4 w-4"/>
-                        My collections
-                    </NavLink>
+                    }
+
                 </nav>
             </div>
 
