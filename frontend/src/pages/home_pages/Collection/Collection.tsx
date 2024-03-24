@@ -55,8 +55,6 @@ export const Collection = () => {
             }
         }
     }
-
-
     return (
         <>
         {collection && items? (<>

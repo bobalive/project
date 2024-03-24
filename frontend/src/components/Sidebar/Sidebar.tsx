@@ -1,7 +1,7 @@
 import {Package2Icon} from "../../helpers/Icons/Package2Icon.tsx";
 import {PackageIcon} from "../../helpers/Icons/PackageIcon.tsx";
 import {NavLink} from "react-router-dom";
-import {Hash} from "lucide-react";
+import {Hash, LucideComputer} from "lucide-react";
 import {useSelector} from "react-redux";
 import {StoreInterface} from "../../interfaces/Store.interface.ts";
 
@@ -9,7 +9,7 @@ import {StoreInterface} from "../../interfaces/Store.interface.ts";
 
 export const Sidebar = ()=>{
 
-    const userName = useSelector((store:StoreInterface) => store.user.name)
+    const user = useSelector((store:StoreInterface) => store.user)
 
     return (
         <div className="flex h-full max-h-screen flex-col gap-2">
@@ -62,7 +62,7 @@ export const Sidebar = ()=>{
                     </NavLink>
 
 
-                    {userName
+                    {user._id
                         &&
                         <>
                             <span className="px-3 mt-5 mb-2">Course project</span>
@@ -76,10 +76,19 @@ export const Sidebar = ()=>{
                                 <Package2Icon className="h-4 w-4"/>
                                 My collections
                             </NavLink>
+                            {user.status =='active'&&user.role =='admin'&&<NavLink
+                                className={({isActive}) =>
+                                    [
+                                        isActive ? "dark:bg-gray-800 " : "dark:text-gray-400",
+                                        "flex items-center gap-3 rounded-lg px-3 py-2  transition-all hover:text-gray-900 dark:hover:text-gray-50"
+                                    ].join(" ")
+                                } to="admin">
+                                <LucideComputer className="h-4 w-4"/>
+                                Admin Panel
+                            </NavLink>}
                         </>
 
                     }
-
                 </nav>
             </div>
 

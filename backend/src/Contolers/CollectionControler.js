@@ -123,7 +123,6 @@ class CollectionControler{
                 collections.photo = rawlink
             }
 
-
             if (id && collections) {
 
                 const userCollections = await Collections.findOneAndUpdate({_id:collections._id},{ ...collections, userId: id } ,{new:true});

@@ -12,7 +12,7 @@ export const getItems = async (id:string): Promise<ItemInterface[]|undefined > =
         const response:AxiosResponse<ItemInterface[]> = await axios.get('http://localhost:5000/api/item/getCollections/'+id)
 
         if(response.status){
-            console.log(response)
+
             return response.data
         }
 
@@ -29,8 +29,6 @@ export const createItems = async (item:SendItemInterface)=>{
         if(response.status ===200){
             console.log('created')
         }
-
-
     }catch (e){
         console.error(e)
 

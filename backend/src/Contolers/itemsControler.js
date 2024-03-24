@@ -18,10 +18,12 @@ class ItemsControler{
         const id = req.user._id
         item.tags = item.tags.join(' ')
 
+
         if(item){
             try{
                 const newItem = await Item.create({...item , userId:id})
 
+                console.log(newItem)
                 const Collection = await Collections.findOneAndUpdate(
                     { _id: item.collectionId }, // filter: find the document by its _id
                     { $push: { items: newItem._id } }, // update: push the value into the arrayField

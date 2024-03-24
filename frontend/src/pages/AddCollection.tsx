@@ -6,11 +6,12 @@ import {Textarea} from "../components/ui/textarea.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select.tsx";
 import {useForm ,Controller } from "react-hook-form";
 import {CollectionInterface} from "../interfaces/Collection.interface.ts";
-import {createCollection, editCollection, getOneCollection} from "../api/collection.api.ts";
+import {createCollection, editCollection} from "../api/collection.api.ts";
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useRef, useState} from "react";
-import { CustomFiedNameInteface} from "../interfaces/CustomFied.inteface.ts";
+import { useRef, useState} from "react";
+
 import {CustomFieldsTable} from "../components/CustomFieldsTable/CustomFieldsTable.tsx";
+import {useGetCollection} from "../CustomHooks/UseGetCollection.tsx";
 
 
 
@@ -19,66 +20,16 @@ export  function AddCollection() {
     const navigate = useNavigate()
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
     const formRef=  useRef<any>()
-    const [customField , setCustomField ] = useState<CustomFiedNameInteface>({
-        custom_int:[],
-        custom_boolean:[],
-        custom_date:[],
-        custom_string:[],
-        custom_multi_line:[]
-    })
+
     const [field , setField] = useState('')
     const [inputValue , setInputValue ] = useState('')
 
-
-    useEffect(() => {
-        if(id){
-            getOneCollection(id).then(res=>{
-                setValue('name', res[0].name)
-                setValue('description' , res[0].description)
-                setValue('theme' , res[0].theme)
-                setCustomField(res[0].custom_fields)
-            })
-        }
-    }, []);
-    const handleFieds = (field:string)=>{
-        if(inputValue){
-        switch (field){
-            case 'string':
-                if(customField.custom_string.length<3 ){
-                    setCustomField({...customField , custom_string:[...customField.custom_string , inputValue]})
-                }
-                break;
-            case "int":
-                if(customField.custom_int.length<3 ) {
-                    setCustomField({...customField, custom_int: [...customField.custom_int, inputValue]})
-                }
-                break;
-            case "bool":
-                if(customField.custom_boolean.length<3 ) {
-                setCustomField({...customField , custom_boolean:[...customField.custom_boolean , inputValue]})
-                }
-                break;
-            case "date":
-                if(customField.custom_date.length<3 ) {
-                    setCustomField({...customField, custom_date: [...customField.custom_date, inputValue]})
-                }
-                break;
-            case "multi_line":
-                if(customField.custom_multi_line.length<3 ) {
-                    setCustomField({...customField, custom_multi_line: [...customField.custom_multi_line, inputValue]})
-                }
-                break;
-            default:
-                break;
-        }}
-    }
+    const {customField,setCustomField,handleFieds} = useGetCollection({setValue,id})
 
     const onSubmit = async ()=>{
          const formData = new FormData(formRef.current)
          const customFieldsSrting = JSON.stringify(customField)
-
          formData.append('custom_fields', customFieldsSrting)
-
         if(id){
             formData.append('_id' , id)
             await editCollection(formData)
@@ -87,11 +38,7 @@ export  function AddCollection() {
             await createCollection(formData)
             navigate("/my-collections")
         }
-
-
-
     }
-
     const handleThemeChange = (event:any) => {
         setValue("theme", event);
     };
@@ -141,13 +88,11 @@ export  function AddCollection() {
                                     </Select>
                                 )}
                             />
-
                         </div>
                         <div className="flex flex-col w-fit gap-4">
                             <Label className="sm:col-span-2 text-3xl">
                                 Add custom field
                             </Label>
-
                             <Select onValueChange={(e)=> setField(e)} value={field}>
                                 <SelectTrigger>
                                     <SelectValue />
@@ -168,7 +113,7 @@ export  function AddCollection() {
                                     <Input type="text" className="block" value={inputValue} onChange={(e)=> setInputValue(e.target.value)}/>
                                     <Button onClick={(e)=> {
                                         e.preventDefault()
-                                        handleFieds(field)
+                                        handleFieds(field, inputValue)
                                         setField('')
                                         setInputValue('')
                                     }}

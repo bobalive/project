@@ -6,10 +6,14 @@ const UserRouter = new Router()
 UserRouter.get('/users',UserControlers.users)
 UserRouter.get('/', UserControlers.getUser)
 UserRouter.get("/logout" , UserControlers.logout)
+
 UserRouter.post('/signin', UserControlers.createUsers);
 UserRouter.post('/auth' , UserControlers.login)
-UserRouter.put('/block' ,verifyToken,UserControlers.block)
-UserRouter.delete('/delete/:id' ,verifyToken, UserControlers.delete)
+
+UserRouter.put('/change-status' ,verifyToken,UserControlers.changeStatus)
+UserRouter.put('/change-role' , verifyToken , UserControlers.changeRole)
+
+UserRouter.delete('/delete/' ,verifyToken, UserControlers.delete)
 
 
 module.exports = UserRouter;

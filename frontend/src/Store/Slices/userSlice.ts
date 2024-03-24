@@ -15,7 +15,8 @@ export const userSlice = createSlice({
     initialState,
     reducers:{
         putUser(state:UserInteface, action:PayloadAction<UserInteface>){
-            const {status,name,email,password,role}= action.payload
+            const {_id,status,name,email,password,role}= action.payload
+            state._id = _id
             state.role = role
             state.status = status
             state.name= name

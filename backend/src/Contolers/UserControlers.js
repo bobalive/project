@@ -18,7 +18,7 @@ class UserContolers{
 
         
             if(users.length == 0){
-                const user = await Users.create({name , email, password:enctyptedPass,status:'active',role:'admin'})
+                const user = await Users.create({name , email, password:enctyptedPass,status:'active',role:'user'})
 
                 console.log(user);
                 const newToken = jwt.sign({ user:[user] }, process.env.TOKENKEY, { expiresIn:"24h"});
@@ -98,40 +98,37 @@ class UserContolers{
             }
         }
 
-    async block(req,res){
+    async changeStatus(req, res) {
+        try {
+            const { ids, status } = req.body;
+
+            const updatedUsers = await Users.updateMany({ _id: { $in: ids } }, { $set: { status: status } });
+
+            return res.status(200).json('updated');
+        } catch (e) {
+            res.status(500).json(e);
+        }
+    }
+
+    async changeRole(req,res){
         try{
-            const users = req.body.users
-            const newStatus = req.body.type
-            
-            const updatedUsers = []
+            const {ids,role}= req.body
 
-            users.forEach( async (id)=>{
-
-                if(!id){
-                    res.status(400).json({message:'no id'})
-                 }
-                
-                 const updateUser = await Users.findByIdAndUpdate(id , {status:newStatus} , {new:true})
-                 
-                 updatedUsers.push(updateUser)
-            })
-
-
-            return res.status(200).json(updatedUsers)
+            const updatedUsers = await Users.updateMany({_id: {$in: ids}} ,{$set:{role:role}})
+            return res.status(200).json('updated')
         }catch (e){
             res.status(500).json(e)
         }
     }
-
     async delete(req,res){
         try{
-            const {id} = req.params
+            const {ids} = req.body
 
-            if(!id){
+            if(!ids){
                 res.status(400).json({message:'no id'})
             }
-            const user = await User.findByIdAndDelete(id)
-            return res.json(user)
+            const user = await Users.deleteMany({_id: {$in: ids}})
+            return res.status(200).json('deleted')
 
         }catch (e){
             res.status(500).json(e)

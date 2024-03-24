@@ -37,9 +37,7 @@ export function Login() {
 
 
         const onLogin: SubmitHandler<UserInteface> = async (data) => {
-
         const user = await login(data)
-
 
         if(user){
             dispatch(putUser({...user[0]}))
@@ -49,12 +47,10 @@ export function Login() {
                 location.reload()
             }
 
-
         }else {
             setErr(true)
         }
     }
-
 
     const onSignin:SubmitHandler<SigninInterface> = async (data)=>{
         const newUser:UserInteface|null|undefined = await signin(data)

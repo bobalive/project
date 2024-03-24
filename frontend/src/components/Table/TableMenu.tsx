@@ -5,7 +5,6 @@ import {Input} from "../ui/input.tsx";
 
 
 export const TableMenu = ({collection,item,setId,id,custom_fields}:TableInterface)=>{
-
     const selectCollection=(item:string)=> {
         if(id &&setId){
             if (id.includes(item)) {
@@ -35,7 +34,6 @@ export const TableMenu = ({collection,item,setId,id,custom_fields}:TableInterfac
         }
 
     }
-
 
     return (
         <div className="border shadow-sm rounded-lg">
@@ -127,7 +125,6 @@ export const TableMenu = ({collection,item,setId,id,custom_fields}:TableInterfac
                                 && data.tags.map(tag=>(
                                     <span>{tag}</span>
                                 ))
-
                             }</TableCell>
                             {custom_fields.custom_int.map((_item,i)=>(
                                 <TableCell className="w-[150px] text-center">{data.custom_fields.custom_int[i]}</TableCell>
@@ -136,7 +133,7 @@ export const TableMenu = ({collection,item,setId,id,custom_fields}:TableInterfac
                                 <TableCell className="w-[150px] text-center">{data.custom_fields.custom_string[i]}</TableCell>
                             ))}
                             {custom_fields.custom_boolean.map((_item,i)=>(
-                                <TableCell className="w-[150px] text-center">{data.custom_fields.custom_boolean[i]}</TableCell>
+                                <TableCell className="w-[150px] text-center">{''+!!data.custom_fields.custom_boolean[i]}</TableCell>
                             ))}
                             {custom_fields.custom_date.map((_item,i)=>(
                                 <TableCell className="w-[150px] text-center">{data.custom_fields.custom_date[i]}</TableCell>
