@@ -8,11 +8,13 @@ import {Button} from "../../../components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
 import { Trash} from "lucide-react";
 import {PlusIcon} from "../../../helpers/Icons/PlusIcon.tsx";
+import {useTranslation} from "react-i18next";
 
 export const MyCollections = ()=>{
     const myCollections= useSelector((state:StoreInterface) => state.collections.myCollections);
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const {t} = useTranslation()
 
     const [id , setId]= useState<string[]>([])
     const getCollection = async ()=>{
@@ -36,7 +38,7 @@ export const MyCollections = ()=>{
     return(
         <>
             <div className="flex justify-between">
-                <h1 className="text-3xl font-bold tracking-tight my-1.5">My Collections:</h1>
+                <h1 className="text-3xl font-bold tracking-tight my-1.5">{t('my_collections')}:</h1>
                 <div className='flex gap-1'>
                     <Button onClick={handleDeleteCollection} size='lg'>
                         <Trash/>

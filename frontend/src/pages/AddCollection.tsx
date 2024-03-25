@@ -8,10 +8,14 @@ import {useForm ,Controller } from "react-hook-form";
 import {CollectionInterface} from "../interfaces/Collection.interface.ts";
 import {createCollection, editCollection} from "../api/collection.api.ts";
 import {useNavigate, useParams} from "react-router-dom";
-import { useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 import {CustomFieldsTable} from "../components/CustomFieldsTable/CustomFieldsTable.tsx";
-import {useGetCollection} from "../CustomHooks/UseGetCollection.tsx";
+import {useGetCollection} from "../CustomHooks/useGetCollection.tsx";
+import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
+import {StoreInterface} from "../interfaces/Store.interface.ts";
+import {UserInteface} from "../interfaces/User.interface.ts";
 
 
 
@@ -21,11 +25,13 @@ export  function AddCollection() {
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
     const formRef=  useRef<any>()
 
+    const user = useSelector<StoreInterface ,UserInteface>(store => store.user )
+
     const [field , setField] = useState('')
     const [inputValue , setInputValue ] = useState('')
 
     const {customField,setCustomField,handleFieds} = useGetCollection({setValue,id})
-
+    const {t} = useTranslation()
     const onSubmit = async ()=>{
          const formData = new FormData(formRef.current)
          const customFieldsSrting = JSON.stringify(customField)
@@ -42,34 +48,39 @@ export  function AddCollection() {
     const handleThemeChange = (event:any) => {
         setValue("theme", event);
     };
+    useEffect(() => {
+        if(!(user._id == id || user.role =='admin')){
+            navigate('/')
+        }
+    }, []);
     return (
         <Card className="w-full max-w-3xl mx-auto  left-[25%] z-10">
             <form className="w-[100%] relative p-5 " onSubmit={handleSubmit(onSubmit)} action="" ref={formRef}>
                 <CardHeader>
-                    <CardTitle>My Collection</CardTitle>
+                    <CardTitle>{t('addCollection.collectionTitle')}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
                     <div className="grid gap-4 md:gap-8 p-4">
                         <div className="grid gap-4">
                             <Label className="sm:col-span-2" htmlFor="name">
-                                Collection Name
+                                {t('addCollection.collectionNameLabel')}
                             </Label>
                             <Input placeholder={"name of the collection"} id="name"  {...register('name' , {required:true}) } />
                         </div>
                         <div className="grid gap-4">
                             <Label className="sm:col-span-2" htmlFor="description">
-                                Description
+                                {t('addCollection.descriptionLabel')}
                             </Label>
                             <Textarea
                                 className="min-h-[100px]"
                                 id="description"
-                                placeholder="Enter a description for your collection"
+                                placeholder={t('addCollection.descriptionPlaceholder')}
                                 {...register('description' ,)}
                             />
                         </div>
                         <div className="grid gap-4">
                             <Label className="sm:col-span-2" htmlFor="theme">
-                                Theme
+                                {t('addCollection.themePlaceholder')}
                             </Label>
                             <Controller
                                 name="theme" // Provide a name for your select field
@@ -81,9 +92,9 @@ export  function AddCollection() {
                                             <SelectValue placeholder="Books" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="Books">Books</SelectItem>
-                                            <SelectItem value="Signs">Signs</SelectItem>
-                                            <SelectItem value="Silverware">Silverware</SelectItem>
+                                            <SelectItem value="Books">{t('addCollection.booksOption')}</SelectItem>
+                                            <SelectItem value="Signs">{t('addCollection.signsOption')}</SelectItem>
+                                            <SelectItem value="Silverware">{t('addCollection.silverwareOption')}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 )}
@@ -91,24 +102,24 @@ export  function AddCollection() {
                         </div>
                         <div className="flex flex-col w-fit gap-4">
                             <Label className="sm:col-span-2 text-3xl">
-                                Add custom field
+                                {t('addCollection.addFieldLabel')}
                             </Label>
                             <Select onValueChange={(e)=> setField(e)} value={field}>
                                 <SelectTrigger>
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="string">String Value</SelectItem>
-                                    <SelectItem value="int">Int Value</SelectItem>
-                                    <SelectItem value="bool">Bool Value</SelectItem>
-                                    <SelectItem value="date">Date Value</SelectItem>
-                                    <SelectItem value="multi_line">Multiline Value</SelectItem>
+                                    <SelectItem value="string"> {t('addCollection.stringValue')}</SelectItem>
+                                    <SelectItem value="int"> {t('addCollection.intValue')}</SelectItem>
+                                    <SelectItem value="bool"> {t('addCollection.boolValue')}</SelectItem>
+                                    <SelectItem value="date"> {t('addCollection.dateValue')}</SelectItem>
+                                    <SelectItem value="multi_line"> {t('addCollection.multilineValue')}</SelectItem>
                                 </SelectContent>
                             </Select>
-                            
+
                                 <div className={(field?"h-fit p-3 ":"h-0 " )+'transition-all overflow-hidden gap-2 w-[300px] '}>
                                     <Label className="sm:col-span-2">
-                                        custom {field}
+                                        {t('addCollection.customFieldLabel')} {field}
                                     </Label>
                                     <Input type="text" className="block" value={inputValue} onChange={(e)=> setInputValue(e.target.value)}/>
                                     <Button onClick={(e)=> {
@@ -117,22 +128,22 @@ export  function AddCollection() {
                                         setField('')
                                         setInputValue('')
                                     }}
-                                        className="mt-2" 
-                                    >Save</Button>
+                                        className="mt-2"
+                                    >{t('addCollection.saveButton')}</Button>
                                 </div>
                         </div>
                         <CustomFieldsTable customField={customField} setCustomField={setCustomField} _id = {id}></CustomFieldsTable>
                         <div className="grid gap-4">
                             <Label className="sm:col-span-2" htmlFor="image">
-                                Image
+                                {t('addCollection.imageLabel')}
                             </Label>
                             <Input id="photo" className="bg-gray-300" name="photo" type="file"/>
-                            <div>Upload an image to represent your collection. Max file size: 25MB</div>
+                            <div>{t('addCollection.imageUploadInstruction')}</div>
                         </div>
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button >Save Changes</Button>
+                    <Button >{t('form.saveChanges')}</Button>
                 </CardFooter>
             </form>
         </Card>

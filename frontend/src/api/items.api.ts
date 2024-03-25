@@ -89,3 +89,16 @@ export const changeItem  = async(item:ItemInterface)=>{
         throw e
     }
 }
+export const getLatestItems = async()=>{
+    try{
+        const response:AxiosResponse<ItemInterface[]> = await axios.get('http://localhost:5000/api/item/latestItems' ,{
+            withCredentials:true
+        })
+        if(response.status === 200){
+            return response.data
+        }
+    }catch (e){
+        console.log(e)
+        throw e
+    }
+}

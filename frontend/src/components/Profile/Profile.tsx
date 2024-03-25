@@ -4,6 +4,7 @@ import {logout} from "../../api/user.api.ts";
 import {useDispatch} from "react-redux";
 import {putUser} from "../../Store/Slices/userSlice.ts";
 import {setMyCollection} from "../../Store/Slices/collectionSlice.ts";
+import {useTranslation} from "react-i18next";
 
 export const Profile = ({name , email}:ProfileInterface)=>{
     const dispatch = useDispatch()
@@ -15,9 +16,10 @@ export const Profile = ({name , email}:ProfileInterface)=>{
             dispatch(setMyCollection([]))
         }
     }
+    const {t} = useTranslation()
     return(
         <>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('myAccount')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>{name}</DropdownMenuItem>
             <DropdownMenuItem>{email}</DropdownMenuItem>

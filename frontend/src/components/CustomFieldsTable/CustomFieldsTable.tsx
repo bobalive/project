@@ -1,8 +1,11 @@
-import {FieldValue} from "../FieldValue/FieldValue.tsx";
+import {FieldValue} from "./FieldValue/FieldValue.tsx";
 import {CustomFieldsTableInterface} from "./CustomFieldsTable.interface.ts";
 import {deleteCustomField} from "../../api/collection.api.ts";
+import {useTranslation} from "react-i18next";
 
 export const CustomFieldsTable = ({customField,setCustomField,_id}:CustomFieldsTableInterface)=>{
+
+    const {t} = useTranslation()
     const handleDelete  = (name:"String"|"Integer"|'Boolean'|'Date'|'Multiline', item:number)=>{
 
         let field = ''
@@ -41,7 +44,7 @@ export const CustomFieldsTable = ({customField,setCustomField,_id}:CustomFieldsT
     }
     return(
         <>
-            <h1 className="text-xl">Custom Fields:</h1>
+            <h1 className="text-xl">{t('addCollection.customFields')}:</h1>
             <div className="flex justify-between flex-col gap-4">
                 {customField.custom_string.map((item, i) => (
                     <FieldValue item={item} i={i} name={'String'} handleDelete={handleDelete}/>

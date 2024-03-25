@@ -1,5 +1,6 @@
 const Collections = require("../db/Collections")
 const Item = require('../db/item')
+const {resetWatchers} = require("nodemon/lib/monitor/watch");
 
 class ItemsControler{
     async getItems(req,res){
@@ -10,20 +11,18 @@ class ItemsControler{
         }catch (e){
             res.status(400).json(e)
         }
-
     }
     async createItem(req, res){
 
         const {item} = req.body
-        const id = req.user._id
+        const {_id, name} = req.user[0]
         item.tags = item.tags.join(' ')
-
 
         if(item){
             try{
-                const newItem = await Item.create({...item , userId:id})
+                const newItem = await Item.create({...item , userId:_id , userName:name })
 
-                console.log(newItem)
+
                 const Collection = await Collections.findOneAndUpdate(
                     { _id: item.collectionId }, // filter: find the document by its _id
                     { $push: { items: newItem._id } }, // update: push the value into the arrayField
@@ -73,6 +72,15 @@ class ItemsControler{
             res.status(400).json(e)
         }
     }
+    async getLatesItem(req,res){
+        try{
+            const latestCollections =  await Item.find().sort({ timestampField: -1 }).limit(5)
+            res.status(200).json(latestCollections)
+        }catch (e){
+            res.status(400).json(e)
+        }
+    }
+
 
 }
 

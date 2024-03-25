@@ -25,11 +25,12 @@ import { useState} from "react";
 import {putUser} from "../../Store/Slices/userSlice.ts";
 import {SigninInterface} from "../../interfaces/Login.interface.ts";
 import {setMyCollection} from "../../Store/Slices/collectionSlice.ts";
+import {useTranslation} from "react-i18next";
 
 export function Login() {
     const {register:newregister , handleSubmit:signinSubmit , formState:{errors:newerrors}} = useForm<UserInteface>()
     const {register, handleSubmit:loginSubmit, formState: { errors },} = useForm<UserInteface>()
-
+    const { t } = useTranslation();
 
     const dispatch = useDispatch()
 
@@ -64,69 +65,69 @@ export function Login() {
 
     return (
         <Tabs defaultValue="account" className="w-[400px] dark:text-white">
-            <TabsList className="grid w-full grid-cols-2 ">
-                <TabsTrigger value="account" onClick={()=> setErr(false)}>Login</TabsTrigger>
-                <TabsTrigger value="password" onClick={()=> setErr(false)}>Sign In</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="account" onClick={() => setErr(false)}>{t('tabs.login')}</TabsTrigger>
+                <TabsTrigger value="password" onClick={() => setErr(false)}>{t('tabs.signin')}</TabsTrigger>
             </TabsList>
             <TabsContent value="account">
                 <form action="" onSubmit={loginSubmit(onLogin)}>
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Login</CardTitle>
-                        {err && <span className="bg-red-500 p-1"> email or password is incorrect</span>}
-                        <CardDescription>
-                            If you already have account
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                        <div className="space-y-1">
-                            <Label htmlFor="login-email">Email</Label>
-                            <Input id="login-email"  type="email" {...register('email',{required:true})}/>
-                            {errors.email && <span className="text-red-500">Email is required</span>}
-                        </div>
-                        <div className="space-y-1">
-                            <Label htmlFor="login-password">Password</Label>
-                            <Input id="login-password" type="password" {...register('password' ,{required:true,minLength:6})}/>
-                            {errors.password && <span className="text-red-500">Password shoud be at least 6 char </span>}
-                        </div>
-                    </CardContent>
-                    <CardFooter>
-                        <Button>Submit</Button>
-                    </CardFooter>
-                </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>{t('login.title')}</CardTitle>
+                            {err && <span className="bg-red-500 p-1">{t('login.error')}</span>}
+                            <CardDescription>
+                                {t('login.description')}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                            <div className="space-y-1">
+                                <Label htmlFor="login-email">{t('login.email')}</Label>
+                                <Input id="login-email" type="email" {...register('email', { required: true })} />
+                                {errors.email && <span className="text-red-500">{t('login.emailError')}</span>}
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="login-password">{t('login.password')}</Label>
+                                <Input id="login-password" type="password" {...register('password', { required: true, minLength: 6 })} />
+                                {errors.password && <span className="text-red-500">{t('login.passwordError')}</span>}
+                            </div>
+                        </CardContent>
+                        <CardFooter>
+                            <Button>{t('buttons.submit')}</Button>
+                        </CardFooter>
+                    </Card>
                 </form>
             </TabsContent>
             <TabsContent value="password">
                 <form action="" onSubmit={signinSubmit(onSignin)}>
-                <Card className='dark'>
-                    <CardHeader>
-                        <CardTitle>Sign in</CardTitle>
-                        {err && <span className="bg-red-500 p-1"> User alredy exist</span>}
-                        <CardDescription>
-                            Create account
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                        <div className="space-y-1">
-                            <Label htmlFor="current">Name</Label>
-                            <Input id="current" type="text" {...newregister("name" ,{required:true})}/>
-                            {newerrors.name && <span className="text-red-500">Name is required </span>}
-                        </div>
-                        <div className="space-y-1">
-                            <Label htmlFor="new">Email</Label>
-                            <Input id="new" type="email" {...newregister("email" ,{required:true})}/>
-                            {newerrors.email && <span className="text-red-500">Password shoud be at least 6 char </span>}
-                        </div>
-                        <div className="space-y-1">
-                            <Label htmlFor="new">Password</Label>
-                            <Input id="new" type="password" {...newregister("password" , {required:true ,minLength:6}) }/>
-                            {newerrors.password && <span className="text-red-500">Password shoud be at least 6 char </span>}
-                        </div>
-                    </CardContent>
-                    <CardFooter>
-                        <Button>Submit</Button>
-                    </CardFooter>
-                </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>{t('signin.title')}</CardTitle>
+                            {err && <span className="bg-red-500 p-1">{t('signin.error')}</span>}
+                            <CardDescription>
+                                {t('signin.description')}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                            <div className="space-y-1">
+                                <Label htmlFor="current">{t('signin.name')}</Label>
+                                <Input id="current" type="text" {...newregister("name", { required: true })} />
+                                {newerrors.name && <span className="text-red-500">{t('signin.nameError')}</span>}
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="new">{t('signin.email')}</Label>
+                                <Input id="new" type="email" {...newregister("email", { required: true })} />
+                                {newerrors.email && <span className="text-red-500">{t('signin.emailError')}</span>}
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="new">{t('signin.password')}</Label>
+                                <Input id="new" type="password" {...newregister("password", { required: true, minLength: 6 })} />
+                                {newerrors.password && <span className="text-red-500">{t('signin.passwordError')}</span>}
+                            </div>
+                        </CardContent>
+                        <CardFooter>
+                            <Button>{t('buttons.submit')}</Button>
+                        </CardFooter>
+                    </Card>
                 </form>
             </TabsContent>
         </Tabs>

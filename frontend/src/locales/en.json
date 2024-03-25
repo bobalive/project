@@ -1,0 +1,137 @@
+{
+  "sidebar": {
+    "course_project": "Course project",
+    "top_collections": "Top collections",
+    "recent_items": "Recent items",
+    "tag_cloud": "Tag Cloud",
+    "my_collections": "My collections",
+    "admin_panel": "Admin Panel"
+  },
+  "table": {
+    "photo": "Photo",
+    "id": "Id",
+    "name": "Name",
+    "tags": "Tags",
+    "theme": "Theme",
+    "items": "Items",
+    "collection": "Collection",
+    "description": "Description"
+  },
+  "header": {
+    "course_project": "Course project",
+    "search_collections": "Search collections...",
+    "toggle_user_menu": "Toggle user menu"
+  },
+  "latest_item_card": {
+    "from_collection": "from collection",
+    "by": "By",
+    "view_item": "View Item"
+  },
+  "my_collections":"My collections",
+  "admin_table": {
+    "id": "ID",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status"
+  },
+  "admin_panel": "Admin Panel",
+  "navigation": {
+    "back": "Back",
+    "edit": "Edit"
+  },
+  "collection": {
+    "loading": "Loading...",
+    "title": "Title:",
+    "description": "Description:",
+    "user_id": "UserId:",
+    "items": "Items:",
+    "delete": "Delete",
+    "add_item": "Add Item"
+  },  "tabs": {
+  "login": "Login",
+  "signin": "Sign In"
+},
+  "login": {
+    "title": "Login",
+    "error": "Email or password is incorrect",
+    "description": "If you already have an account",
+    "email": "Email",
+    "password": "Password",
+    "emailError": "Email is required",
+    "passwordError": "Password should be at least 6 characters"
+  },
+  "signin": {
+    "title": "Sign In",
+    "error": "User already exists",
+    "description": "Create an account",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "nameError": "Name is required",
+    "emailError": "Email is required",
+    "passwordError": "Password should be at least 6 characters"
+  },
+  "buttons": {
+    "submit": "Submit"
+  },
+  "form": {
+    "collectionName": "Collection",
+    "collectionDescription": "A collection of my favorite books, complete with author information and publication dates.",
+    "itemName": "Item Name",
+    "itemNamePlaceholder": "Name of something",
+    "itemTags": "Item Tags",
+    "tagsPlaceholder": "#",
+    "nameRequired": "Name is required",
+    "tagsRequired": "Tags are required",
+    "customFields": {
+      "customInt": "Custom integer",
+      "customString": "Custom string",
+      "customBoolean": "Custom boolean",
+      "customDate": "Custom date",
+      "customMultiLine": "Custom multi-line"
+    },
+    "saveChanges": "Save Changes"
+  },
+  "addCollection": {
+    "collectionTitle": "My Collection",
+    "collectionNameLabel": "Collection Name",
+    "collectionNamePlaceholder": "Name of the collection",
+    "saveChangesButton": "Save Changes",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Enter a description for your collection",
+    "themeLabel": "Theme",
+    "themePlaceholder": "Select a theme",
+    "booksOption": "Books",
+    "signsOption": "Signs",
+    "silverwareOption": "Silverware",
+    "addFieldLabel": "Add custom field",
+    "stringValue": "String Value",
+    "intValue": "Int Value",
+    "boolValue": "Bool Value",
+    "dateValue": "Date Value",
+    "multilineValue": "Multiline Value",
+    "customFieldLabel": "Custom Field",
+    "saveButton": "Save",
+    "imageLabel": "Image",
+    "imageUploadInstruction": "Upload an image to represent your collection. Max file size: 25MB",
+    "customFields": "Custom Fields"
+  },
+  "item": {
+    "itemTitle": "Item '{{itemName}}'",
+    "itemId": "#id '{{itemId}}'",
+    "collectionLink": "of collection '{{collectionName}}'",
+    "itemAuthor": "Author: '{{userName}}'",
+    "tagsTitle": "Tags:",
+    "loading": "Loading..."
+  },
+  "comment": {
+    "commentsTitle": "Comments",
+    "addCommentPlaceholder": "Add comment...",
+    "sendButton": "Send"
+  },
+  "myAccount": "My Account"
+
+
+
+}

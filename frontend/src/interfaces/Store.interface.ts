@@ -8,4 +8,7 @@ export interface StoreInterface{
         myCollections:CollectionInterface[]
     },
     activeTab:{active:number}
+    theme:{
+        value:string
+    }
 }

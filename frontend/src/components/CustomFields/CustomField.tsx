@@ -14,11 +14,7 @@ export const   CustomFields = ({field ,fieldName}:CustomFieldPropsInterface)=>{
                     <span className="text-start hover:bg-gray-950">
                         {field}
                     </span>
-
                 }
-
-                    {}
-
                 </div>
                 : <></>}
     </>

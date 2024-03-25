@@ -12,6 +12,8 @@ const ItemSchema = new mongoose.Schema({
         custom_date:[String],
         custom_multi_line:[String]
     },
+    userName:String,
+    collectionName:String
 
 })
 

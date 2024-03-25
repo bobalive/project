@@ -7,11 +7,13 @@ import { Lock, Trash, Unlock, UserIcon, UserPlus} from "lucide-react";
 import {UserInteface} from "../../../interfaces/User.interface.ts";
 import {changeRole, changeUserState, deleteUsers, getUsers} from "../../../api/user.api.ts";
 import {AdminTable} from "../../../components/AdminTable/AdminTable.tsx";
+import {useTranslation} from "react-i18next";
 
 
 export const Admin = ()=>{
     const user = useSelector((store:StoreInterface)=> store.user)
     const navigate = useNavigate()
+    const {t} = useTranslation()
 
     const [users,setUsers ] = useState<UserInteface[]>()
     const [ids , setIds] = useState<string[]>([])
@@ -53,7 +55,7 @@ export const Admin = ()=>{
     return(
         <>
             <div className="flex justify-between">
-                <h1 className="text-3xl font-bold tracking-tight my-1.5">Admin Panel:</h1>
+                <h1 className="text-3xl font-bold tracking-tight my-1.5">{t('admin_panel')}:</h1>
                 <div className='flex gap-1'>
                     <Button size='lg' onClick={async ()=> await hadleChangeStatus('blocked')}>
                         <Lock/>

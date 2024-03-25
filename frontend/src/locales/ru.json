@@ -1,0 +1,136 @@
+{
+  "sidebar": {
+    "course_project": "Курсовой проект",
+    "top_collections": "Лучшие коллекции",
+    "recent_items": "Последние элементы",
+    "tag_cloud": "Облако тегов",
+    "my_collections": "Мои коллекции",
+    "admin_panel": "Панель администратора"
+  },
+  "table": {
+    "photo": "Фото",
+    "id": "ID",
+    "name": "Название",
+    "tags": "Теги",
+    "theme": "Тема",
+    "items": "Элементы",
+    "collection": "Коллекция",
+    "description": "Описание"
+  },
+  "header": {
+    "course_project": "Курсовой проект",
+    "search_collections": "Поиск коллекций...",
+    "toggle_user_menu": "Показать меню пользователя"
+  },
+  "latest_item_card": {
+    "from_collection": "из коллекции",
+    "by": "От",
+    "view_item": "Посмотреть элемент"
+  },
+  "my_collections":"Мои коллекции",
+  "admin_table": {
+    "id": "ID",
+    "name": "Имя",
+    "email": "Эл. почта",
+    "role": "Роль",
+    "status": "Статус"
+  },
+  "admin_panel": "Админ Панель",
+  "navigation": {
+    "back": "Назад",
+    "edit": "Редактировать"
+  },
+  "collection": {
+    "loading": "Загрузка...",
+    "title": "Название:",
+    "description": "Описание:",
+    "user_id": "ID пользователя:",
+    "items": "Элементы:",
+    "delete": "Удалить",
+    "add_item": "Добавить элемент"
+  },
+  "tabs": {
+    "login": "Войти",
+    "signin": "Зарегистрироваться"
+  },
+  "login": {
+    "title": "Вход",
+    "error": "Неверный email или пароль",
+    "description": "Если у вас уже есть аккаунт",
+    "email": "Email",
+    "password": "Пароль",
+    "emailError": "Email обязателен",
+    "passwordError": "Пароль должен содержать не менее 6 символов"
+  },
+  "signin": {
+    "title": "Регистрация",
+    "error": "Пользователь уже существует",
+    "description": "Создайте аккаунт",
+    "name": "Имя",
+    "email": "Email",
+    "password": "Пароль",
+    "nameError": "Имя обязательно",
+    "emailError": "Email обязателен",
+    "passwordError": "Пароль должен содержать не менее 6 символов"
+  },
+  "buttons": {
+    "submit": "Отправить"
+  },
+  "form": {
+    "collectionName": "Коллекция",
+    "collectionDescription": "Коллекция моих любимых книг с информацией об авторе и датах публикации.",
+    "itemName": "Наименование элемента",
+    "itemNamePlaceholder": "Название чего-то",
+    "itemTags": "Теги элемента",
+    "tagsPlaceholder": "#",
+    "nameRequired": "Имя обязательно для заполнения",
+    "tagsRequired": "Теги обязательны для заполнения",
+    "customFields": {
+      "customInt": "Пользовательское целое число",
+      "customString": "Пользовательская строка",
+      "customBoolean": "Пользовательский логический",
+      "customDate": "Пользовательская дата",
+      "customMultiLine": "Пользовательские многострочные данные"
+    },
+    "saveChanges": "Сохранить изменения"
+  },
+  "addCollection": {
+    "collectionTitle": "Моя коллекция",
+    "collectionNameLabel": "Название коллекции",
+    "collectionNamePlaceholder": "Название коллекции",
+    "saveChangesButton": "Сохранить изменения",
+    "descriptionLabel": "Описание",
+    "descriptionPlaceholder": "Введите описание для вашей коллекции",
+    "themeLabel": "Тема",
+    "themePlaceholder": "Выберите тему",
+    "booksOption": "Книги",
+    "signsOption": "Знаки",
+    "silverwareOption": "Посуда",
+    "addFieldLabel": "Добавить пользовательское поле",
+    "stringValue": "Строковое значение",
+    "intValue": "Целочисленное значение",
+    "boolValue": "Логическое значение",
+    "dateValue": "Дата",
+    "multilineValue": "Многострочное значение",
+    "customFieldLabel": "Пользовательское поле",
+    "saveButton": "Сохранить",
+    "imageLabel": "Изображение",
+    "imageUploadInstruction": "Загрузите изображение, чтобы представить вашу коллекцию. Максимальный размер файла: 25 МБ",
+    "customFields": "Кастомные поля"
+  },
+  "item": {
+    "itemTitle": "Элемент '{{itemName}}'",
+    "itemId": "#идентификатор '{{itemId}}'",
+    "collectionLink": "коллекции '{{collectionName}}'",
+    "itemAuthor": "Автор: '{{userName}}'",
+    "tagsTitle": "Теги:",
+    "loading": "Загрузка..."
+  },
+  "comment": {
+    "commentsTitle": "Комментарии",
+    "addCommentPlaceholder": "Добавить комментарий...",
+    "sendButton": "Отправить"
+  },
+  "myAccount": "Мой аккаунт"
+
+}

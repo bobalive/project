@@ -6,6 +6,7 @@ import { CustomFiedNameInteface} from "./CustomFied.inteface.ts";
 export interface CollectionInterface {
     _id:string;
     userId: string;
+    userName:string
     name: string;
     theme?: "Books" | "Signs" | "Silverware";
     description:string;

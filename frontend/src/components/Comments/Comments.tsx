@@ -1,11 +1,12 @@
 import {Input} from "../ui/input.tsx";
 import {Button} from "../ui/button.tsx";
-import {Comment} from "../Comment/Comment.tsx";
+import {Comment} from "./Comment/Comment.tsx";
 import {useState} from "react";
 import {ItemInterface} from "../../interfaces/Item.interface.ts";
 import {useSelector} from "react-redux";
 import {StoreInterface} from "../../interfaces/Store.interface.ts";
-import {useWs} from "../../CustomHooks/UseWs.tsx";
+import {useWs} from "../../CustomHooks/useWs.tsx";
+import {useTranslation} from "react-i18next";
 
 
 interface Comments {
@@ -17,12 +18,11 @@ export const Comments = ({item}: Comments) => {
 
     const {_id: userId, name} = useSelector((state: StoreInterface) => state.user)
     const {ws, userComments} = useWs({id: item?._id})
-
+    const {t} = useTranslation()
     const handeComments = (e: any) => {
         e.preventDefault()
-
         setComment('')
-        if (item?.collectionId && item?._id && comment) {
+        if (item?.collectionId && item?._id && comment && userId) {
             const data: SendCommentInterface = {
                 action: 'setComment',
                 comment: {
@@ -38,19 +38,15 @@ export const Comments = ({item}: Comments) => {
     }
     return (
         <div className="mb-6">
-            <h2 className="text-lg font-semibold mb-2">Comments</h2>
-            <form onSubmit={(e) => handeComments(e)} className="flex items-center space-x-2 mb-4">
-                <Input className="flex-1" placeholder="Add comment..." value={comment}
+            <h2 className="text-lg font-semibold mb-2">{t('comment.commentsTitle')}</h2>
+            {userId&& <form onSubmit={(e) => handeComments(e)} className="flex items-center space-x-2 mb-4">
+                <Input className="flex-1" placeholder={t('comment.addCommentPlaceholder')} value={comment}
                        onChange={(e) => setComment(e.target.value)}/>
-                <Button variant="secondary">Send</Button>
-            </form>
-
-            {userComments?.map(item => {
-                return <Comment date={item.date} userName={item.userName} userId={item.userId} _id={item._id}
-                                content={item.content}/>
-            })
-            }
-
+                <Button variant="secondary">{t('comment.sendButton')}</Button>
+            </form>}
+            {userComments?.map((comment) => (
+                <Comment key={comment._id} date={comment.date} userName={comment.userName} userId={comment.userId} _id={comment._id} content={comment.content} />
+            ))}
         </div>
-    )
+    );
 }

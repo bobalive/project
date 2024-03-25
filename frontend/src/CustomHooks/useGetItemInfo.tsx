@@ -4,12 +4,9 @@ import {getСollectionInfo} from "../api/items.api.ts";
 
 interface itemInfoInterface {
     custFields?:CustomFiedNameInteface
-    collectionName:string,
-    userName:string
+
 }
 const infoInitial:itemInfoInterface ={
-    userName:'',
-    collectionName:'',
     custFields:{
         custom_multi_line:[],
         custom_date:[],
@@ -26,8 +23,6 @@ export const useGetItemInfo = (itemId?:string)=>{
                 if (res){
                     setInfo({
                         custFields:res.custom_fields,
-                        collectionName:res.collectionName,
-                        userName:res.userName
                     })
                 }
 

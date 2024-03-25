@@ -8,7 +8,9 @@ interface InitialStateInterface{
     myCollections:CollectionInterface[]
 }
 const initialState:InitialStateInterface = {
+
     topCollections:[{
+        userName:'',
         name: '',
         items: [],
         custom_fields: {
@@ -25,6 +27,7 @@ const initialState:InitialStateInterface = {
         _id:"0"
     }],
     myCollections:[{
+        userName:'',
         name: '',
         items: [],
         custom_fields: {

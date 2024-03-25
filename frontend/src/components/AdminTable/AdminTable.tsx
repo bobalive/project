@@ -2,9 +2,11 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../
 import {Link} from "react-router-dom";
 import {Input} from "../ui/input.tsx";
 import {AdminTablePropsInterface} from "./AdminTable.props.interface.ts";
+import {useTranslation} from "react-i18next";
 
 export const AdminTable = ({users,setIds,ids}:AdminTablePropsInterface)=>{
 
+    const {t} = useTranslation()
     const handleChange = (id:string)=>{
         if(ids.includes(id)){
             setIds(ids.filter(prevId=> prevId != id))
@@ -26,36 +28,34 @@ export const AdminTable = ({users,setIds,ids}:AdminTablePropsInterface)=>{
                 <TableHeader>
                     <TableRow>
                         <TableHead className='w-4'>
-                            <Input type="checkbox" className=' w-4 h-4' onChange={handleSelectAll} checked={users.length === ids.length}/>
+                            <Input type="checkbox" className=' w-4 h-4' onChange={handleSelectAll}
+                                   checked={users.length === ids.length}/>
                         </TableHead>
-                        <TableHead className="w-[150px]">id</TableHead>
-                        <TableHead  className="w-[150px]">Name</TableHead>
-                        <TableHead  className="w-[150px]">email</TableHead>
-                        <TableHead className="w-[150px]">role</TableHead>
-                        <TableHead className="w-[150px]">status</TableHead>
+                        <TableHead className="w-[150px]">{t('admin_table.id')}</TableHead>
+                        <TableHead className="w-[150px]">{t('admin_table.name')}</TableHead>
+                        <TableHead className="w-[150px]">{t('admin_table.email')}</TableHead>
+                        <TableHead className="w-[150px]">{t('admin_table.role')}</TableHead>
+                        <TableHead className="w-[150px]">{t('admin_table.status')}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                        {
-                            users.map(user=>(
-                                <TableRow>
-                                    <TableCell className='w-4'>
-                                        <Input type='checkbox' className='w-4 h-4' onChange={()=>handleChange(user._id)} checked={ids.includes(user._id)}/>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Link className="font-semibold" to="#">
-                                            {user._id}
-                                        </Link>
-                                    </TableCell>
-                                    <TableCell className="text-sm">{user.name}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.role}</TableCell>
-                                    <TableCell>{user.status}</TableCell>
-                                </TableRow>
-                            ))
-                        }
-
-
+                    {users.map(user => (
+                        <TableRow>
+                            <TableCell className='w-4'>
+                                <Input type='checkbox' className='w-4 h-4' onChange={() => handleChange(user._id)}
+                                       checked={ids.includes(user._id)}/>
+                            </TableCell>
+                            <TableCell>
+                                <Link className="font-semibold" to="#">
+                                    {user._id}
+                                </Link>
+                            </TableCell>
+                            <TableCell className="text-sm">{user.name}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.role}</TableCell>
+                            <TableCell>{user.status}</TableCell>
+                        </TableRow>
+                    ))}
                 </TableBody>
             </Table>
         </div>
