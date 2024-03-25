@@ -11,6 +11,9 @@ import {SendItemInterface} from "../interfaces/Item.interface.ts";
 import {changeItem, createItems, getItem} from "../api/items.api.ts";
 import {Textarea} from "../components/ui/textarea.tsx";
 import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
+import {StoreInterface} from "../interfaces/Store.interface.ts";
+import {UserInteface} from "../interfaces/User.interface.ts";
 
 
 export function AddItems() {
@@ -26,6 +29,8 @@ export function AddItems() {
     const [custBool, setCustBool] = useState<boolean[]>([false])
     const [custDate, setCustDate] = useState<string[]>([''])
     const [custLine, setCustLine] = useState<string[]>([''])
+
+    const user = useSelector<StoreInterface,UserInteface>(state => state.user)
 
     const [tags, setTags] = useState('');
 
@@ -44,7 +49,6 @@ export function AddItems() {
                 },
                 name: name,
                 tags: tags.split(' '),
-
             }
             if (itemId && id) {
                 await changeItem({...data, _id:itemId , userName:collection.userName })
@@ -71,9 +75,13 @@ export function AddItems() {
     };
 
     useEffect(() => {
+
         if (itemId && id) {
             getItem(itemId).then(res => {
                 if (res) {
+                    if(!(user.role=='admin'|| user._id!=res.usrId)){
+                        navigate('/')
+                    }
                     let custFields = res.custom_fields
                     setName(res.name)
                     setTags(res.tags.join(' '))

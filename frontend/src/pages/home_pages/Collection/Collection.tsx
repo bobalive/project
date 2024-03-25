@@ -12,10 +12,14 @@ import { ItemInterface } from "../../../interfaces/Item.interface.ts";
 import { deleteItems, getItems } from "../../../api/items.api.ts";
 
 import { Navigation } from "../../../components/Navigation/Navigation.tsx";
+import {useSelector} from "react-redux";
+import {StoreInterface} from "../../../interfaces/Store.interface.ts";
+import {UserInteface} from "../../../interfaces/User.interface.ts";
 
 export const Collection = () => {
     const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
+    const user = useSelector<StoreInterface,UserInteface>(state => state.user)
 
     const [collection, setCollection] = useState<CollectionInterface[] | null>(null);
     const [items, setItems] = useState<ItemInterface[] | null>()
@@ -73,14 +77,14 @@ export const Collection = () => {
                     <p className="text-gray-500 dark:text-gray-400">{t('collection.user_id')}: {collection[0].userId}</p>
                     <div className="flex justify-between">
                         <h2 className="text-2xl font-bold tracking-tight my-1.5">{t('collection.items')}:</h2>
-                        <div className='flex gap-1'>
+                        {(user.role == 'admin'|| user._id == id) && <div className='flex gap-1'>
                             <Button size='lg' onClick={handleDelete}>
-                                <Trash />
+                                <Trash/>
                             </Button>
                             <Button size='lg' onClick={() => navigate('/add-item/' + id)}>
-                                <PlusIcon />
+                                <PlusIcon/>
                             </Button>
-                        </div>
+                        </div>}
                     </div>
                     {<TableMenu item={items} id={ids} setId={setIds} custom_fields={collection[0].custom_fields}></TableMenu>}
                 </>
