@@ -49,7 +49,7 @@ export const Search = ()=>{
                         onChange={(e)=> setValue(e.target.value)}
                         onBlur={()=> setTimeout(()=> {
                             setValue('')
-                        },1000)}
+                        },500)}
                     />
                 <div className={'absolute dark:bg-gray-950 dark:text-white p-3 w-full border transition-all gap-2 ' + (!value&& 'hidden')}>
                     {(options&& options?.length>0)
