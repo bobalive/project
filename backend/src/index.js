@@ -19,7 +19,7 @@ const app = express()
 
 
 app.use(cors({
-    origin: 'https://project-1-8mj0.onrender.com',
+    origin:process.env.FRONTEND ,
     credentials: true
 }))
 
