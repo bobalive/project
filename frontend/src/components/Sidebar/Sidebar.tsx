@@ -5,6 +5,7 @@ import {Hash, LucideComputer} from "lucide-react";
 import {useSelector} from "react-redux";
 import {StoreInterface} from "../../interfaces/Store.interface.ts";
 import {useTranslation} from "react-i18next";
+import {ChangeLang} from "../ChangeLang/ChangeLang.tsx";
 
 
 export const Sidebar = () => {
@@ -62,6 +63,7 @@ export const Sidebar = () => {
                     </>
 
                     }
+                    <ChangeLang className={'lg:hidden'}/>
                 </nav>
             </div>
 

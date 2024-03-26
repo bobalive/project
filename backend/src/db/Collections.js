@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const textSearch = require('mongoose-text-search');
 
 const CollectionSchema = new mongoose.Schema({
         userId:String,
@@ -19,5 +20,4 @@ const CollectionSchema = new mongoose.Schema({
         }, 
         items:[String]
 })
-
 module.exports = mongoose.model('Collections' , CollectionSchema)

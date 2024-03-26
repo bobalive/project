@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const textSearch = require('mongoose-text-search');
 const ItemSchema = new mongoose.Schema({
     usrId:String,
     collectionId:String,

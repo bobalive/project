@@ -1,4 +1,3 @@
-import {Input} from "../ui/input.tsx";
 import {Button} from "../ui/button.tsx";
 import {
     DropdownMenu,
@@ -7,8 +6,6 @@ import {
 } from "../ui/dropdown-menu.tsx";
 import {Package2Icon} from "../../helpers/Icons/Package2Icon.tsx";
 import {UserIcon} from "../../helpers/Icons/UserIcon.tsx";
-import {SearchIcon} from "../../helpers/Icons/SearchIcon.tsx";
-
 import {Login} from "../Login/Login.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreInterface} from "../../interfaces/Store.interface.ts";
@@ -21,8 +18,7 @@ import {setTheme} from "../../Store/Slices/themeSlice.ts";
 
 import {ChangeLang} from "../ChangeLang/ChangeLang.tsx";
 import {useTranslation} from "react-i18next";
-
-
+import {Search} from "./Search/Search.tsx";
 
 export const Header = () => {
     const user = useSelector<StoreInterface ,UserInteface>(state => state.user);
@@ -35,6 +31,7 @@ export const Header = () => {
         theme.value =='dark'?dispatch(setTheme(null)):dispatch(setTheme('dark'))
         theme.value =='dark'?el.classList.remove('dark'):el.classList.add('dark')
     }
+
 
 
     return (
@@ -51,19 +48,8 @@ export const Header = () => {
                 </DropdownMenuContent>
 
             </DropdownMenu>
-            <div className="w-full flex-1">
-                <form>
-                    <div className="relative ">
-                        <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400"/>
-                        <Input
-                            className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3 dark:bg-gray-950 dark:text-white"
-                            placeholder={t('header.search_collections')}
-                            type="search"
-                        />
-                    </div>
-                </form>
-            </div>
-            <ChangeLang/>
+            <Search/>
+            <ChangeLang className={'hidden lg:block'}/>
             <Switch onClick={setThemeValue} checked={theme.value == 'dark'}/>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>

@@ -1,9 +1,11 @@
 import {Tabs} from "@radix-ui/react-tabs";
 import {useLatestItems} from "../../../CustomHooks/useLatestItems.tsx";
 import {LatestItemCard} from "./LatestItemCard/LatestItemCard.tsx";
+import {useParams} from "react-router-dom";
 
 export const LatestItems = ()=>{
-    const latestItem = useLatestItems()
+    const {query} = useParams()
+    const latestItem = useLatestItems(query)
 
     console.log(latestItem)
     return(

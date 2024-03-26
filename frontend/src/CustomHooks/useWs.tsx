@@ -27,8 +27,9 @@ export const useWs = ({id}:useWsInterface)=>{
         setWs(ws)
         return () => {
             ws.close();
+            setUserComments([])
         }
-    }, []);
+    }, [id]);
 
     return {ws,userComments}
 }

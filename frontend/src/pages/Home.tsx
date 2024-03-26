@@ -42,6 +42,7 @@ export const Home = ()=> {
                         <Route path={'user/:id'} element={<MyCollections/>}/>
                         <Route path={'item/:id'} element={<Item/>}></Route>
                         <Route path={'admin/'} element={<Admin/>}/>
+                        <Route path={'search/:query'} element={<LatestItems/>}/>
                     </Routes>
 
                 </main>

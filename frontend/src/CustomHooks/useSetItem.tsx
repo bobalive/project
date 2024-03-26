@@ -12,6 +12,6 @@ export const useSetItem= (itemId?:string)=>{
             })
         }
 
-    }, []);
+    }, [itemId]);
     return item
 }
