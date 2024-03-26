@@ -11,7 +11,7 @@ import {ChangeUserRole, ChangeUserStatus} from "../interfaces/ChangeUserState.ts
 
 export const login = async ({ email, password }: LoginInterface): Promise<UserInteface[]|null|undefined> => {
     try {
-        const response: AxiosResponse<UserInteface[]> = await axios.post('http://localhost:5000/api/auth', { email, password },{
+        const response: AxiosResponse<UserInteface[]> = await axios.post('https://'+import.meta.env.VITE_API+'/api/auth', { email, password },{
             withCredentials:true
         });
         console.log(response);
@@ -32,7 +32,7 @@ export const login = async ({ email, password }: LoginInterface): Promise<UserIn
 
 export const signin = async ({name, password,email}:SigninInterface):Promise<UserInteface|null|undefined> =>{
     try{
-        const response:AxiosResponse<UserInteface> = await axios.post("http://localhost:5000/api/signin" ,{name,password , email},{
+        const response:AxiosResponse<UserInteface> = await axios.post('https://'+import.meta.env.VITE_API+'/api/signin' ,{name,password , email},{
             withCredentials:true
         })
         if(response.status == 200){
@@ -46,7 +46,7 @@ export const signin = async ({name, password,email}:SigninInterface):Promise<Use
 
 export const getUser = async ()=>{
     try{
-        const response = await axios.get('http://localhost:5000/api/',{
+        const response = await axios.get('https://'+import.meta.env.VITE_API+'/api/',{
             withCredentials:true
         })
         return response.data
@@ -56,7 +56,7 @@ export const getUser = async ()=>{
 }
 
 export const logout = async ()=>{
-    const response = await axios.get('http://localhost:5000/api/logout',{
+    const response = await axios.get('https://'+import.meta.env.VITE_API+'/api/logout',{
         withCredentials:true
     })
     if(response.status == 200){
@@ -64,7 +64,7 @@ export const logout = async ()=>{
     }
 }
 export const getUsers = async ()=>{
-    const response:AxiosResponse<UserInteface[]>  = await axios.get('http://localhost:5000/api/users' , {
+    const response:AxiosResponse<UserInteface[]>  = await axios.get('https://'+import.meta.env.VITE_API+'/api/users' , {
         withCredentials:true
     })
     if(response.status === 200){
@@ -72,7 +72,7 @@ export const getUsers = async ()=>{
     }
 }
 export const changeUserState = async ({ids,status}:ChangeUserStatus)=>{
-    const response = await axios.put('http://localhost:5000/api/change-status' ,{ids, status},
+    const response = await axios.put('https://'+import.meta.env.VITE_API+'/api/change-status' ,{ids, status},
         {
             withCredentials:true
         }
@@ -82,7 +82,7 @@ export const changeUserState = async ({ids,status}:ChangeUserStatus)=>{
     }
 }
 export const changeRole = async ({ids,role}:ChangeUserRole)=>{
-    const response = await axios.put('http://localhost:5000/api/change-role',{ids,role},{
+    const response = await axios.put('https://'+import.meta.env.VITE_API+'/api/change-role',{ids,role},{
         withCredentials:true
     })
     if(response.status === 200){
@@ -90,7 +90,7 @@ export const changeRole = async ({ids,role}:ChangeUserRole)=>{
     }
 }
 export const deleteUsers = async (ids:string[])=>{
-    const response = await axios.delete('http://localhost:5000/api/delete' ,{
+    const response = await axios.delete('https://'+import.meta.env.VITE_API+'/api/delete' ,{
         data:{
             ids
         },

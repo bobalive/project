@@ -24,9 +24,6 @@ class UserContolers{
                 const newToken = jwt.sign({ user:[user] }, process.env.TOKENKEY, { expiresIn:"24h"});
 
                 res.cookie('token', newToken, {
-                    secure: true, // Ensures cookie is only sent over HTTPS
-                    httpOnly: true, // Prevents access from client-side JavaScript
-                    sameSite: 'strict', // Helps prevent cross-site request forgery (CSRF) attacks
                     maxAge: 360000000 // Cookie expiration time (in milliseconds)
                 });
 
@@ -80,9 +77,6 @@ class UserContolers{
                 const newToken = jwt.sign({ user }, process.env.TOKENKEY, { expiresIn:"24h"});
 
                 res.cookie('token', newToken, {
-                    secure: true, // Ensures cookie is only sent over HTTPS
-                    httpOnly: true, // Prevents access from client-side JavaScript
-                    sameSite: 'strict', // Helps prevent cross-site request forgery (CSRF) attacks
                     maxAge: 360000000 // Cookie expiration time (in milliseconds)
                 });
 

@@ -61,7 +61,5 @@ export const Search = ()=>{
 
                 </div>
             </form>
-
-
     )
 }
