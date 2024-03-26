@@ -19,10 +19,9 @@ const app = express()
 
 
 app.use(cors({
-    origin: '*', // Replace with the actual origin of your frontend application
-    credentials: true // Allow credentials (cookies) to be sent with requests
+    origin: 'https://project-1-8mj0.onrender.com',
+    credentials: true
 }))
-
 
 app.use(express.json())
 app.use(cookieParser());
