@@ -42,7 +42,7 @@ export const Search = ()=>{
             }}>
                     <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400"/>
                     <Input
-                        className="bg-white shadow-none appearance-none pl-8 dark:bg-gray-950 dark:text-white  "
+                        className="bg-white shadow-none appearance-none pl-8 dark:bg-gray-950 dark:text-white min-w-[150px] "
                         placeholder={t('header.search_collections')}
                         type="searchControler"
                         value={value}
