@@ -35,7 +35,7 @@ export const TableMenu = ({collection, item, setId, id, custom_fields}: TableInt
         }
     }
 
-    return (<div className="border shadow-sm rounded-lg">
+    return (<div className="border shadow-sm rounded-lg ">
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -50,18 +50,18 @@ export const TableMenu = ({collection, item, setId, id, custom_fields}: TableInt
                         <TableHead className="w-[150px]">{item ? t('table.name') : t('table.collection')}</TableHead>
                         <TableHead>{item ? t('table.tags') : t('table.description')}</TableHead>
                         {collection && <>
-                            <TableHead className="w-[150px]">{t('table.theme')}</TableHead>
-                            <TableHead className="w-[150px]">{t('table.items')}</TableHead>
+                            <TableHead className="max-w-[150px]">{t('table.theme')}</TableHead>
+                            <TableHead className="max-w-[150px]">{t('table.items')}</TableHead>
                         </>}
                         {item && custom_fields && <>
                             {custom_fields.custom_string.map(item => (
-                                <TableHead className="w-[150px] text-center">{item}</TableHead>))}
+                                <TableHead className="max-w-[150px] text-center">{item}</TableHead>))}
                             {custom_fields.custom_int.map(item => (
-                                <TableHead className="w-[150px] text-center">{item}</TableHead>))}
+                                <TableHead className="max-w-[150px] text-center">{item}</TableHead>))}
                             {custom_fields.custom_boolean.map(item => (
-                                <TableHead className="w-[150px] text-center">{item}</TableHead>))}
+                                <TableHead className="max-w-[150px] text-center">{item}</TableHead>))}
                             {custom_fields.custom_date.map(item => (
-                                <TableHead className="w-[150px] text-center">{item}</TableHead>))}
+                                <TableHead className="max-w-[150px] text-center">{item}</TableHead>))}
                         </>}
                     </TableRow>
                 </TableHeader>
@@ -112,13 +112,13 @@ export const TableMenu = ({collection, item, setId, id, custom_fields}: TableInt
                             </TableCell>
                             <TableCell>{data.tags && data.tags.map(tag => (<span>{tag}</span>))}</TableCell>
                             {custom_fields.custom_int.map((_item, i) => (<TableCell
-                                    className="w-[150px] text-center">{data.custom_fields.custom_int[i]}</TableCell>))}
+                                    className="max-w-[150px] text-center">{data.custom_fields.custom_int[i]}</TableCell>))}
                             {custom_fields.custom_string.map((_item, i) => (<TableCell
-                                    className="w-[150px] text-center">{data.custom_fields.custom_string[i]}</TableCell>))}
+                                    className="max-w-[150px] text-center">{data.custom_fields.custom_string[i]}</TableCell>))}
                             {custom_fields.custom_boolean.map((_item, i) => (<TableCell
-                                    className="w-[150px] text-center">{'' + !!data.custom_fields.custom_boolean[i]}</TableCell>))}
+                                    className="max-w-[150px] text-center">{'' + !!data.custom_fields.custom_boolean[i]}</TableCell>))}
                             {custom_fields.custom_date.map((_item, i) => (<TableCell
-                                    className="w-[150px] text-center">{data.custom_fields.custom_date[i]}</TableCell>))}
+                                    className="max-w-[150px] text-center">{data.custom_fields.custom_date[i]}</TableCell>))}
 
                         </TableRow>)
                     })}

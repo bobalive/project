@@ -54,9 +54,9 @@ export const Admin = ()=>{
 
     return(
         <>
-            <div className="flex justify-between">
+            <div className="flex justify-between flex-col  ">
                 <h1 className="text-3xl font-bold tracking-tight my-1.5">{t('admin_panel')}:</h1>
-                <div className='flex gap-1'>
+                <div className='flex gap-1 flex-wrap'>
                     <Button size='lg' onClick={async ()=> await hadleChangeStatus('blocked')}>
                         <Lock/>
                     </Button>

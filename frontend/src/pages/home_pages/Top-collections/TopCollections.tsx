@@ -20,7 +20,10 @@ export const TopCollections = ()=>{
     return(
         <>
             {topCollections.length==0||(topCollections.length>0&&topCollections[0]._id != '0')?
-                <TableMenu collection={topCollections}/>
+
+                    <TableMenu collection={topCollections}/>
+
+
                 :"Loading ..."
             }
 

@@ -26,13 +26,13 @@ export const Home = ()=> {
     }, []);
 
     return (
-        <div className="grid min-h-screen items-start w-full gap-4 lg:grid-cols-[280px_1fr] bg-gray-95  0 p-3 ">
+        <div className="grid min-h-screen items-start w-full gap-4 lg:grid-cols-[280px_1fr] bg-gray-95  0 lg:p-3 ">
             <div className=" hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
                <Sidebar/>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col w-screen lg:w-full">
                     <Header/>
-                <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 max-w-5xl  ">
+                <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 max-w-5xl min-w-[300px]">
                     <Routes>
                         <Route path={'/'} element={<TopCollections/>}/>
                         <Route path={'/tag-cloud'} element={<TagCloud/>}/>

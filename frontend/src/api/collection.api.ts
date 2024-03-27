@@ -3,7 +3,7 @@ import {CollectionInterface} from "../interfaces/Collection.interface.ts";
 
 export const getTopCollections = async (): Promise<CollectionInterface[]> => {
     try {
-        const response: AxiosResponse<CollectionInterface[]> = await axios.get("https://"+import.meta.env.VITE_API+"/api/collections/top");
+        const response: AxiosResponse<CollectionInterface[]> = await axios.get(import.meta.env.VITE_API+"/api/collections/top");
 
         if (response.status === 200) {
             return response.data;
@@ -20,7 +20,7 @@ export const getTopCollections = async (): Promise<CollectionInterface[]> => {
 export const deleteColections = async (id:string[])=>{
     console.log(id)
     try{
-        const response:AxiosResponse<CollectionInterface[]> = await axios.delete('https://'+import.meta.env.VITE_API+'/api/collections/delete',{data:{id}, withCredentials:true})
+        const response:AxiosResponse<CollectionInterface[]> = await axios.delete(import.meta.env.VITE_API+'/api/collections/delete',{data:{id}, withCredentials:true})
         if(response.status == 200){
             return response.data
         }
@@ -29,7 +29,7 @@ export const deleteColections = async (id:string[])=>{
     }
 }
 export const createCollection = async (formData:FormData)=>{
-    const response = await axios.post('https://'+import.meta.env.VITE_API+'/api/collections/create' , formData,{
+    const response = await axios.post(import.meta.env.VITE_API+'/api/collections/create' , formData,{
         withCredentials:true
     })
     if(response.status == 200){
@@ -39,7 +39,7 @@ export const createCollection = async (formData:FormData)=>{
 
 }
 export const getMyColletion = async ():Promise<CollectionInterface[]|undefined>=>{
-    const response:AxiosResponse<CollectionInterface[]>= await axios.get('https://'+import.meta.env.VITE_API+'/api/collections/my-collection' ,{
+    const response:AxiosResponse<CollectionInterface[]>= await axios.get(import.meta.env.VITE_API+'/api/collections/my-collection' ,{
         withCredentials:true
     })
     if(response.status == 200){
@@ -48,7 +48,7 @@ export const getMyColletion = async ():Promise<CollectionInterface[]|undefined>=
 }
 export const getOneCollection = async (id:string):Promise<CollectionInterface[]>=>{
     try{
-        const response:AxiosResponse<CollectionInterface[]> = await axios.get('https://'+import.meta.env.VITE_API+'/api/collections/collection/'+id)
+        const response:AxiosResponse<CollectionInterface[]> = await axios.get(import.meta.env.VITE_API+'/api/collections/collection/'+id)
         if(response.status == 200){
             return response.data
         }else{
@@ -64,7 +64,7 @@ export const getOneCollection = async (id:string):Promise<CollectionInterface[]>
 export const deleteCustomField = async (collectionId:string,valueId:number,field:string)=>{
 
     try {
-        const response:AxiosResponse<CollectionInterface> = await axios.delete(`https://${import.meta.env.VITE_API}/api/collections/customFields/delete?collectionId=${collectionId}&valueId=${valueId}&field=${field}`)
+        const response:AxiosResponse<CollectionInterface> = await axios.delete(`${import.meta.env.VITE_API}/api/collections/customFields/delete?collectionId=${collectionId}&valueId=${valueId}&field=${field}`)
         if(response.status === 200){
             return response.data
         }else{
@@ -80,7 +80,7 @@ export const deleteCustomField = async (collectionId:string,valueId:number,field
 
 export const editCollection = async (formData:FormData)=>{
     try{
-        const response:AxiosResponse<CollectionInterface> = await axios.post('https://'+import.meta.env.VITE_API+'/api/collections/edit' , formData,{
+        const response:AxiosResponse<CollectionInterface> = await axios.post(import.meta.env.VITE_API+'/api/collections/edit' , formData,{
             withCredentials:true
         })
         if(response.status === 200){

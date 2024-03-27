@@ -19,7 +19,7 @@ const app = express()
 
 
 app.use(cors({
-    origin:process.env.FRONTEND ,
+    origin:process.env.FRONTEND,
     credentials: true
 }))
 
