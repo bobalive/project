@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken')
 const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
-    console.log(token)
-
     if (!token) {
         return res.sendStatus(401);
     }
