@@ -59,6 +59,21 @@ class SearchControler {
 
         res.status(200).json(response)
     }
+    async topTags(req,res){
+        try {
+            const topTags = await Items.aggregate([
+                { $unwind: "$tags" }, // Unwind the tags array
+                { $group: { _id: "$tags", count: { $sum: 1 } } }, // Group by tags and count occurrences
+                { $sort: { count: -1 } }, // Sort in descending order of count
+                { $limit: 20 } // Limit to top 20
+            ]);
+
+            res.json(topTags);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
 
 
 }

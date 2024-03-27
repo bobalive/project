@@ -1,5 +1,6 @@
 import { useEffect, useState} from "react";
 
+
 interface useWsInterface {
     id?:string
 }
@@ -8,7 +9,7 @@ export const useWs = ({id}:useWsInterface)=>{
     const [userComments , setUserComments] = useState<CommentInterface[]>([])
 
     useEffect(() => {
-        const ws = new WebSocket('ws://localhost:3000')
+        const ws = new WebSocket('ws://'+import.meta.env.VITE_WS)
         const GetComments:GetComments = {
             itemId:id,
             action:'getComments'

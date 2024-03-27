@@ -1,14 +1,12 @@
 const WebSocket = require('ws');
 const Comment = require("./db/Comments");
 const moment = require("moment");
+const server = require("socket.io-client")("https://project-p8yo.onrender.com/");
 
 
+ const wsConnect =  (ws,req)=>{
 
- const wsConnect =  ()=>{
-    const server = new WebSocket.WebSocketServer({port:3000})
     const CLientMap = new Map()
-    server.on('connection' ,(ws)=>{
-        console.log('connected')
 
         const sendComments = (itemId = '', comment) => {
             const clients = CLientMap.get(itemId);
@@ -54,6 +52,5 @@ const moment = require("moment");
             });
         })
 
-    })
 }
 module.exports  = wsConnect

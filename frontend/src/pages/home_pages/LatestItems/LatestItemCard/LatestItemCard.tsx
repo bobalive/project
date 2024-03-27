@@ -23,7 +23,7 @@ export const LatestItemCard = ({itemName , collectionName , itemId, userName}:La
                 <p>{t('latest_item_card.by')} "{userName}"</p>
             </CardContent>
             <CardFooter className="flex justify-between">
-                <NavLink to={"/item/"+itemId} className='bg-gray-50 text-black p-2 rounded'>{t('latest_item_card.view_item')}</NavLink>
+                <NavLink to={"/item/"+itemId} className='dark:bg-gray-50 dark:text-black p-2 rounded bg-gray-950 text-white '>{t('latest_item_card.view_item')}</NavLink>
             </CardFooter>
         </Card>
     )

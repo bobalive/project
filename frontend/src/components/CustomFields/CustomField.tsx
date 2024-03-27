@@ -7,11 +7,11 @@ export const   CustomFields = ({field ,fieldName}:CustomFieldPropsInterface)=>{
                     <h2 className="text-lg font-semibold  mr-2">{fieldName}: </h2>
                 {typeof field == 'boolean'
                     ?
-                    <span className="text-sm text-start hover:bg-gray-950">
+                    <span className="text-sm text-start dark:hover:bg-gray-950">
                         {field ? "YES!":'NO('}
                     </span>
                     :
-                    <span className="text-start hover:bg-gray-950">
+                    <span className="text-start dark:hover:bg-gray-950">
                         {field}
                     </span>
                 }

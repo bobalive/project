@@ -32,8 +32,6 @@ export const Search = ()=>{
         }
     }, [value]);
 
-    console.log(options)
-
     return (
             <form className="flex-1 relative z-10" onSubmit={(e)=> {
                 navigate('search/'+value)

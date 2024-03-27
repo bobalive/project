@@ -15,3 +15,10 @@ export const autocomplete = async(query:string)=>{
     }
     return 'nothing found'
 }
+
+export const getTopTags =async ()=>{
+    const res = await axios.get(import.meta.env.VITE_API+'/api/search/tags/top')
+    if(res.status===200){
+        return res.data
+    }
+}

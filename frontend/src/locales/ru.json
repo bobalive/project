@@ -131,6 +131,7 @@
     "addCommentPlaceholder": "Добавить комментарий...",
     "sendButton": "Отправить"
   },
-  "myAccount": "Мой аккаунт"
+  "myAccount": "Мой аккаунт",
+  "topTags": "Топ тегов"
 
 }
