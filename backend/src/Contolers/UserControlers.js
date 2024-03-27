@@ -23,7 +23,7 @@ class UserContolers{
                 console.log(user);
                 const newToken = jwt.sign({ user:[user] }, process.env.TOKENKEY, { expiresIn:"24h"});
 
-                res.cookie('token', newToken, { domain: 'localhost', path: '/', maxAge: 900000, httpOnly: true });
+                res.cookie('token', newToken, { domain:'.'+process.env.DOMAIN, path: '/', maxAge: 900000, httpOnly: true });
 
                 return res.status(200).json(user);
 
@@ -74,7 +74,7 @@ class UserContolers{
             if (user[0] && (user[0].password === ecryptedPass && user[0].status !== 'blocked')) {
                 const newToken = jwt.sign({ user }, process.env.TOKENKEY, { expiresIn:"24h"});
 
-                res.cookie('token', newToken,{ domain: process.env.DOMAIN, path: '/', maxAge: 900000, httpOnly: true });
+                res.cookie('token', newToken,{ domain: '.'+process.env.DOMAIN, path: '/', maxAge: 900000, httpOnly: true });
 
                 return res.status(200).json(user);
             }

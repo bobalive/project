@@ -46,6 +46,7 @@ class CollectionControler{
         }
     }
     async createCollections(req, res) {
+        console.log(req.user[0])
 
         try {
             const id = req.user[0]._id;

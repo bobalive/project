@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken')
 const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
+    console.log(token)
 
     if (!token) {
-        return res.sendStatus(401); // Unauthorized if token is not present
+        return res.sendStatus(401);
     }
-
     jwt.verify(token,  process.env.TOKENKEY, (err, decoded) => {
         if (err) {
-            return res.sendStatus(403); // Forbidden if token is invalid
+            return res.sendStatus(403);
         }
 
         req.user = decoded.user;
