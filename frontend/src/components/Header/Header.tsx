@@ -31,6 +31,7 @@ export const Header = () => {
         theme.value =='dark'?dispatch(setTheme(null)):dispatch(setTheme('dark'))
         theme.value =='dark'?el.classList.remove('dark'):el.classList.add('dark')
     }
+    console.log(user)
 
 
 
@@ -63,7 +64,7 @@ export const Header = () => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center">
-                    {user.name !== '' ? (
+                    {user.name !== '' && user.status !='blocked' ? (
                         <Profile id={user._id} name={user.name} email={user.email}/>
                     ) : (
                         <Login/>

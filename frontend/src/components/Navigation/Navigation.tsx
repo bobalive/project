@@ -4,6 +4,7 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {useTranslation} from "react-i18next";
 import {useSelector} from "react-redux";
 import {StoreInterface} from "../../interfaces/Store.interface.ts";
+import {UserInteface} from "../../interfaces/User.interface.ts";
 
 interface NavigationIntrface{
     collectionId?:string
@@ -13,14 +14,14 @@ interface NavigationIntrface{
 export const Navigation = ({collectionId , itemId, userId}:NavigationIntrface)=>{
     const navigate = useNavigate()
     const {t} = useTranslation()
-    const user = useSelector<StoreInterface>(store => store.user._id)
+    const user= useSelector<StoreInterface,UserInteface>(store => store.user)
     return (
         <div className="flex items-center justify-between mb-6">
             <NavLink to={itemId?'/collection/' + collectionId: '/'} className="flex items-center">
                 <ArrowLeftIcon className="mr-2"/>
                 {t('navigation.back')}{"\n     "}
             </NavLink>
-            {user == userId&&<DropdownMenu>
+            {(user._id == userId || user.role == 'admin') &&<DropdownMenu>
                 <DropdownMenuTrigger>
                     <MoreVerticalIcon className=""/>
                 </DropdownMenuTrigger>

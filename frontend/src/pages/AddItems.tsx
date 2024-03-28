@@ -11,9 +11,10 @@ import {SendItemInterface} from "../interfaces/Item.interface.ts";
 import {changeItem, createItems, getItem} from "../api/items.api.ts";
 import {Textarea} from "../components/ui/textarea.tsx";
 import {useTranslation} from "react-i18next";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {StoreInterface} from "../interfaces/Store.interface.ts";
-import {UserInteface} from "../interfaces/User.interface.ts";
+import {AppDispatch, UserInteface} from "../interfaces/User.interface.ts";
+import {auth} from "../Store/Slices/userSlice.ts";
 
 
 export function AddItems() {
@@ -22,6 +23,8 @@ export function AddItems() {
     const navigate = useNavigate()
     const [collection, setCollection] = useState<CollectionInterface | null>()
     const { t } = useTranslation();
+
+
 
     const [name, setName] = useState('')
     const [custInt, setCustInt] = useState<number[]>([0])
@@ -34,8 +37,11 @@ export function AddItems() {
 
     const [tags, setTags] = useState('');
 
+    const dispatch = useDispatch<AppDispatch>()
+
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        if(user.role == 'admin' || user._id == collection?.userId || user.status == 'active' ){
         if (collection?._id) {
             let data: SendItemInterface = {
                 collectionId: collection?._id ? collection?._id : '',
@@ -58,6 +64,9 @@ export function AddItems() {
                 navigate('/collection/' + id)
             }
         }
+        }else{
+            navigate('/')
+        }
     }
     const getCollection = async () => {
         try {
@@ -75,11 +84,19 @@ export function AddItems() {
     };
 
     useEffect(() => {
-
+        dispatch(auth())
+        console.log(user)
+        if(user._id !=id){
+            if(user.status !== 'active' && user.role != 'admin'){
+                navigate('/')
+            }
+        }
         if (itemId && id) {
             getItem(itemId).then(res => {
                 if (res) {
+                    console.log(res)
                     if(!(user.role=='admin'|| user._id!=res.usrId)){
+
                         navigate('/')
                     }
                     let custFields = res.custom_fields
@@ -95,7 +112,9 @@ export function AddItems() {
             })
         }
         getCollection()
-    }, [])
+    }, [user])
+
+
 
     return (
         <form onSubmit={(e)=>handleSubmit(e)} className="flex items-center justify-center mt-4">

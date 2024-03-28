@@ -3,7 +3,7 @@ import {Header} from "../components/Header/Header.tsx";
 import {useEffect } from 'react'
 import { getUser} from "../api/user.api.ts";
 import {useDispatch} from "react-redux";
-import {putUser} from "../Store/Slices/userSlice.ts";
+import { putUser} from "../Store/Slices/userSlice.ts";
 import {Route, Routes} from "react-router";
 import {Collection} from "./home_pages/Collection/Collection.tsx";
 import {TopCollections} from "./home_pages/Top-collections/TopCollections.tsx";

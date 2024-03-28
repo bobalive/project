@@ -6,14 +6,24 @@ import {useGetItemInfo} from "../../../CustomHooks/useGetItemInfo.tsx";
 import {Navigation} from "../../../components/Navigation/Navigation.tsx";
 import {Comments} from "../../../components/Comments/Comments.tsx";
 import {useTranslation} from "react-i18next";
+import {useEffect} from "react";
+import {auth} from "../../../Store/Slices/userSlice.ts";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../../interfaces/User.interface.ts";
 
 
 export const Item = () => {
+
 
     const {id} = useParams<string>()
     const item = useSetItem(id)
     const {custFields} = useGetItemInfo(id)
     const {t} = useTranslation()
+
+    const dispatch = useDispatch<AppDispatch>()
+    useEffect(() => {
+        dispatch(auth())
+    }, []);
 
 
     return (

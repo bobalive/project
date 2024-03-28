@@ -38,8 +38,8 @@ export function Login() {
 
 
         const onLogin: SubmitHandler<UserInteface> = async (data) => {
-        const user = await login(data)
 
+        const user = await login(data)
         if(user){
             dispatch(putUser({...user[0]}))
             const collections = await getMyColletion()

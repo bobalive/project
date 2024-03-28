@@ -6,6 +6,7 @@ const UserRouter = new Router()
 UserRouter.get('/users',UserControlers.users)
 UserRouter.get('/', UserControlers.getUser)
 UserRouter.get("/logout" , UserControlers.logout)
+UserRouter.get('/isAuth' ,verifyToken, UserControlers.isAuth)
 
 UserRouter.post('/signin', UserControlers.createUsers);
 UserRouter.post('/auth' , UserControlers.login)

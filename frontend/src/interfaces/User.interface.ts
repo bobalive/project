@@ -1,3 +1,5 @@
+import {store} from "../Store/redux-store.ts";
+
 export interface UserInteface {
     _id:string
     name: string;
@@ -6,3 +8,4 @@ export interface UserInteface {
     role: 'admin' | 'user';
     status: 'blocked' | 'active';
 }
+export type AppDispatch = typeof store.dispatch

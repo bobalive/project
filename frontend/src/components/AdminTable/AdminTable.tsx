@@ -21,7 +21,7 @@ export const AdminTable = ({users,setIds,ids}:AdminTablePropsInterface)=>{
             setIds([])
         }
     }
-    console.log(ids )
+
     return (
         <div className="border shadow-sm rounded-lg">
             <Table>

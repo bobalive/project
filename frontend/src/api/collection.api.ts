@@ -39,11 +39,15 @@ export const createCollection = async (formData:FormData)=>{
 
 }
 export const getMyColletion = async ():Promise<CollectionInterface[]|undefined>=>{
+    try{
     const response:AxiosResponse<CollectionInterface[]>= await axios.get(import.meta.env.VITE_API+'/api/collections/my-collection' ,{
         withCredentials:true
     })
     if(response.status == 200){
         return response.data.reverse()
+    }}catch (e){
+        console.log(e)
+        return []
     }
 }
 export const getOneCollection = async (id:string):Promise<CollectionInterface[]>=>{

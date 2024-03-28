@@ -1,12 +1,14 @@
 import {Input} from "../ui/input.tsx";
 import {Button} from "../ui/button.tsx";
 import {Comment} from "./Comment/Comment.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ItemInterface} from "../../interfaces/Item.interface.ts";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {StoreInterface} from "../../interfaces/Store.interface.ts";
 import {useWs} from "../../CustomHooks/useWs.tsx";
 import {useTranslation} from "react-i18next";
+import {AppDispatch} from "../../interfaces/User.interface.ts";
+import {auth} from "../../Store/Slices/userSlice.ts";
 
 
 interface Comments {
@@ -19,7 +21,13 @@ export const Comments = ({item}: Comments) => {
     const {_id: userId, name} = useSelector((state: StoreInterface) => state.user)
     const {ws, userComments} = useWs({id: item?._id})
     const {t} = useTranslation()
-    const handeComments = (e: any) => {
+    const dispatch = useDispatch<AppDispatch>()
+    useEffect(() => {
+        dispatch(auth())
+    }, []);
+
+    const handeComments = async (e: any) => {
+        dispatch(auth())
         e.preventDefault()
         setComment('')
         if (item?.collectionId && item?._id && comment && userId) {

@@ -1,13 +1,14 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {StoreInterface} from "../../../interfaces/Store.interface.ts";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Button} from "../../../components/ui/button.tsx";
 import { Lock, Trash, Unlock, UserIcon, UserPlus} from "lucide-react";
-import {UserInteface} from "../../../interfaces/User.interface.ts";
+import {AppDispatch, UserInteface} from "../../../interfaces/User.interface.ts";
 import {changeRole, changeUserState, deleteUsers, getUsers} from "../../../api/user.api.ts";
 import {AdminTable} from "../../../components/AdminTable/AdminTable.tsx";
 import {useTranslation} from "react-i18next";
+import {auth} from "../../../Store/Slices/userSlice.ts";
 
 
 export const Admin = ()=>{
@@ -15,10 +16,18 @@ export const Admin = ()=>{
     const navigate = useNavigate()
     const {t} = useTranslation()
 
+    console.log(user)
+
     const [users,setUsers ] = useState<UserInteface[]>()
     const [ids , setIds] = useState<string[]>([])
 
+    const dispatch = useDispatch<AppDispatch>()
+    useEffect(() => {
+        dispatch(auth())
+    }, []);
+
     const handleDelete = async ()=>{
+        await dispatch(auth())
         const res = await deleteUsers(ids)
         if(res){
             getUsers().then(res=>{
@@ -27,6 +36,7 @@ export const Admin = ()=>{
         }
     }
     const hadleChangeStatus = async (status:'blocked'|'active')=>{
+        await dispatch(auth())
         const res = await changeUserState({ids,status})
         if(res){
             getUsers().then(res=>{
@@ -35,22 +45,27 @@ export const Admin = ()=>{
         }
     }
     const handleChangeRole = async (role:'admin'|'user')=>{
+        await dispatch(auth)
         const res = await changeRole({ids,role})
         if(res){
             getUsers().then(res=>{
                 setUsers(res)
+            }).catch(()=>{
+                setUsers([])
             })
         }
     }
 
     useEffect(() => {
-        if(user.role != "admin" || user.status != "active"){
+        if(user.role != "admin" || user.status != "active" || !user._id){
             navigate('/')
         }
         getUsers().then(res=>{
             setUsers(res)
+        }).catch(()=>{
+            setUsers([])
         })
-    }, []);
+    }, [user]);
 
     return(
         <>

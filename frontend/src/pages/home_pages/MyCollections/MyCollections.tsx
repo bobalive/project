@@ -9,10 +9,16 @@ import {useNavigate} from "react-router-dom";
 import { Trash} from "lucide-react";
 import {PlusIcon} from "../../../helpers/Icons/PlusIcon.tsx";
 import {useTranslation} from "react-i18next";
+import {auth} from "../../../Store/Slices/userSlice.ts";
+import {AppDispatch} from "../../../interfaces/User.interface.ts";
+
 
 export const MyCollections = ()=>{
-    const myCollections= useSelector((state:StoreInterface) => state.collections.myCollections);
-    const dispatch = useDispatch()
+    const {myCollections , user}= useSelector((state:StoreInterface) => ({
+        myCollections:state.collections.myCollections,
+        user:state.user
+    }));
+    const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
     const {t} = useTranslation()
 
@@ -24,16 +30,27 @@ export const MyCollections = ()=>{
             dispatch(setMyCollection([...collections]))
         }
     }
+
+
+
     const handleDeleteCollection  = async ()=>{
+        await dispatch(auth())
         const res = await deleteColections(id)
+
         if(res){
             getCollection()
             setId([])
         }
     }
     useEffect(() => {
+        dispatch(auth())
         getCollection()
-    }, []);
+        if(user._id == '' || user.status == 'blocked' ){
+            navigate('/')
+        }
+    }, [user]);
+
+
 
     return(
         <>

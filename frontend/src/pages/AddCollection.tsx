@@ -13,9 +13,10 @@ import {useEffect, useRef, useState} from "react";
 import {CustomFieldsTable} from "../components/CustomFieldsTable/CustomFieldsTable.tsx";
 import {useGetCollection} from "../CustomHooks/useGetCollection.tsx";
 import {useTranslation} from "react-i18next";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {StoreInterface} from "../interfaces/Store.interface.ts";
-import {UserInteface} from "../interfaces/User.interface.ts";
+import {AppDispatch, UserInteface} from "../interfaces/User.interface.ts";
+import {auth} from "../Store/Slices/userSlice.ts";
 
 
 
@@ -26,6 +27,7 @@ export  function AddCollection() {
     const formRef=  useRef<any>()
 
     const user = useSelector<StoreInterface ,UserInteface>(store => store.user )
+    const dispatch = useDispatch<AppDispatch>()
 
     const [field , setField] = useState('')
     const [inputValue , setInputValue ] = useState('')
@@ -49,10 +51,17 @@ export  function AddCollection() {
         setValue("theme", event);
     };
     useEffect(() => {
-        if(!(user._id == id || user.role =='admin')){
-            navigate('/')
+
+        dispatch(auth())
+        console.log(user)
+        if(user._id !=id){
+            if(user.status !== 'active' && user.role != 'admin'){
+                navigate('/')
+            }
         }
-    }, []);
+    }, [user]);
+
+
     return (
         <Card className="w-full max-w-3xl mx-auto  left-[25%] z-10">
             <form className="w-[100%] relative p-5 " onSubmit={handleSubmit(onSubmit)} action="" ref={formRef}>

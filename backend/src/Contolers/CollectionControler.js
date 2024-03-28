@@ -143,24 +143,28 @@ class CollectionControler{
     }
     async getUserCollection(req,res){
         const userId= req.user[0]._id
+        console.log('collection')
+        console.log(req.user[0]._id)
         try{
             const collection = await Collections.find({userId:userId})
+            console.log(collection)
             return res.status(200).json(collection)
         }catch (e){
             return res.status(500).json(e)
         }
     }
     async deleteCollection(req,res){
-        const {id} = req.body
-        const userId = req.user._id
+        const {id,ownerId} = req.body
+        const user = req.user[0]
+        if(ownerId === user._id){
+            try{
+                const collection = await Collections.deleteMany({_id:{$in:id}})
+                const newCollections = await Collections.find({userId:user._id})
 
-        try{
-            const collection = await Collections.deleteMany({_id:{$in:id}})
-            const newCollections = await Collections.find({userId:userId})
-
-            res.status(200).json(newCollections)
-        }catch (e){
-            res.status(400).json(e)
+                res.status(200).json(newCollections)
+            }catch (e){
+                res.status(400).json(e)
+            }
         }
     }
 
@@ -184,18 +188,22 @@ class CollectionControler{
         const collectionId = req.query.collectionId;
         const valueId = req.query.valueId;
         const field = req.query.field
-        console.log(field)
+
         try {
             const updatedCollection = await Collections.findOne({_id:collectionId})
             const updatedItems = await Item.find({collectionId:collectionId})
+            console.log(updatedCollection)
 
-            updatedCollection.custom_fields[field] =updatedCollection.custom_fields[field].filter((_item , i)=> i != valueId)
-            await updatedCollection.save()
+            if(updatedCollection._id === req.user[0]._id){
+                updatedCollection.custom_fields[field] =updatedCollection.custom_fields[field].filter((_item , i)=> i != valueId)
+                await updatedCollection.save()
 
-            await Promise.all(updatedItems.map(async (item) => {
-                item.custom_fields[field] = item.custom_fields[field].filter((value, i) => i != valueId);
-                await item.save();
-            }));
+                await Promise.all(updatedItems.map(async (item) => {
+                    item.custom_fields[field] = item.custom_fields[field].filter((value, i) => i != valueId);
+                    await item.save();
+                }));
+            }
+
 
             if (!updatedCollection) {
                 return res.status(404).json({ error: 'Collection not found' });

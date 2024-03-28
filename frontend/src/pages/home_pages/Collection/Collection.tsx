@@ -12,14 +12,16 @@ import { ItemInterface } from "../../../interfaces/Item.interface.ts";
 import { deleteItems, getItems } from "../../../api/items.api.ts";
 
 import { Navigation } from "../../../components/Navigation/Navigation.tsx";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {StoreInterface} from "../../../interfaces/Store.interface.ts";
-import {UserInteface} from "../../../interfaces/User.interface.ts";
+import {AppDispatch, UserInteface} from "../../../interfaces/User.interface.ts";
+import {auth} from "../../../Store/Slices/userSlice.ts";
 
 export const Collection = () => {
     const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const user = useSelector<StoreInterface,UserInteface>(state => state.user)
+    const dispatch = useDispatch<AppDispatch>()
 
     const [collection, setCollection] = useState<CollectionInterface[] | null>(null);
     const [items, setItems] = useState<ItemInterface[] | null>()
@@ -42,11 +44,14 @@ export const Collection = () => {
         }
     };
 
+
     useEffect(() => {
+        dispatch(auth())
         getCollection();
-    }, [id]);
+    }, [id,user]);
 
     const handleDelete = async (e: any) => {
+        await dispatch(auth())
         e.preventDefault();
         if (collection) {
             const newItem = await deleteItems({ id: ids, collectionId: collection[0]._id });

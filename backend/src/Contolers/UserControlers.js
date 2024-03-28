@@ -35,15 +35,17 @@ class UserContolers{
         }
     }
     async isAuth(req,res){
+        console.log('auth')
+        console.log(req.user[0])
         try{
             const user = req.user[0]
 
             const newUser = await Users.find({_id:user._id })
 
-            const newToken = jwt.sign({ user:[newUser] }, process.env.TOKENKEY, { expiresIn:"24h"});
+            const newToken = jwt.sign({ user:newUser }, process.env.TOKENKEY, { expiresIn:"24h"});
 
             res.cookie('token', newToken, {  maxAge: 900000, sameSite: 'None', secure: true });
-            return res.status(200).json(user);
+            return res.status(200).json(newUser[0].status == 'active'? newUser[0]: []);
         }catch (e){
             res.status(500).json(e)
         }
