@@ -32,7 +32,7 @@ export const Home = ()=> {
             </div>
             <div className="flex flex-col w-screen lg:w-full">
                     <Header/>
-                <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 max-w-5xl min-w-[300px]">
+                <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 w-full min-w-[300px]">
                     <Routes>
                         <Route path={'/'} element={<TopCollections/>}/>
                         <Route path={'/tag-cloud'} element={<TagCloud/>}/>

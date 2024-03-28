@@ -17,9 +17,11 @@ export const useWs = ({id}:useWsInterface)=>{
         ws.onopen = ()=> ws.send(JSON.stringify(GetComments))
         ws.onclose = ()=>  console.log('DISCONNECTED')
         ws.onmessage = (ev:any) => {
-            const comments = JSON.parse(ev.data)
 
-            if(comments.length <= 1){
+            const {comments,action} = JSON.parse(ev.data)
+            console.log(comments)
+
+            if(action==='setComment'){
                 setUserComments(prev => [...comments , ...prev])
             }else{
                 setUserComments([...comments])

@@ -1,18 +1,13 @@
 const WebSocket = require('ws');
 const Comment = require("./db/Comments");
 const moment = require("moment");
-const server = require("socket.io-client")("https://project-p8yo.onrender.com/");
-
-
- const wsConnect =  (ws,req)=>{
-
-    const CLientMap = new Map()
-
-        const sendComments = (itemId = '', comment) => {
+const CLientMap = new Map()
+const wsConnect =  (ws,req)=>{
+        const sendComments = (itemId = '', comments,action) => {
             const clients = CLientMap.get(itemId);
             if (clients) {
                 clients.forEach(client => {
-                    client.send(JSON.stringify(comment));
+                    client.send(JSON.stringify({comments, action}));
                 });
             }
         };
@@ -24,7 +19,7 @@ const server = require("socket.io-client")("https://project-p8yo.onrender.com/")
 
                 const currentDate = moment()
                 const comments = await Comment.create({...data.comment,date:currentDate.format('yyyy-MM-dd HH:mm:ss')})
-                sendComments(data.comment.itemId, [comments])
+                sendComments(data.comment.itemId, [comments] ,'setComment' )
 
             }
             if(data.action == 'getComments'){
@@ -38,7 +33,7 @@ const server = require("socket.io-client")("https://project-p8yo.onrender.com/")
 
                 const comments = await Comment.find({itemId:data.itemId})
                 const reversedComments = comments.reverse();
-                sendComments(data.itemId, reversedComments)
+                sendComments(data.itemId, reversedComments , 'getComments')
 
             }
 

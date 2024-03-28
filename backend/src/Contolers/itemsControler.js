@@ -44,8 +44,6 @@ class ItemsControler{
 
         const collection = await Item.findOneAndUpdate({_id:item._id} ,{...item , usrId:req.user[0]._id},{returnOriginal:false})
 
-        console.log(collection)
-
         res.status(200).json(collection)
     }
     async deleteItem(req,res){

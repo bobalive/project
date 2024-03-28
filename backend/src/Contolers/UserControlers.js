@@ -20,7 +20,6 @@ class UserContolers{
             if(users.length == 0){
                 const user = await Users.create({name , email, password:enctyptedPass,status:'active',role:'user'})
 
-                console.log(user);
                 const newToken = jwt.sign({ user:[user] }, process.env.TOKENKEY, { expiresIn:"24h"});
 
                 res.cookie('token', newToken, {  maxAge: 900000, sameSite: 'None', secure: true });
@@ -31,6 +30,20 @@ class UserContolers{
                 return res.status(400).json('false')
             }
 
+        }catch (e){
+            res.status(500).json(e)
+        }
+    }
+    async isAuth(req,res){
+        try{
+            const user = req.user[0]
+
+            const newUser = await Users.find({_id:user._id })
+
+            const newToken = jwt.sign({ user:[newUser] }, process.env.TOKENKEY, { expiresIn:"24h"});
+
+            res.cookie('token', newToken, {  maxAge: 900000, sameSite: 'None', secure: true });
+            return res.status(200).json(user);
         }catch (e){
             res.status(500).json(e)
         }
@@ -50,7 +63,6 @@ class UserContolers{
         const token = req.cookies.token;
 
         try{
-
                 jwt.verify(token, process.env.TOKENKEY, (err, decoded) => {
                     if (err) {
                         return res.sendStatus(403); // Forbidden if token is invalid
@@ -64,8 +76,6 @@ class UserContolers{
     }
     async login(req,res){
         try{
-
-
 
             const {email , password} = req.body
                 const ecryptedPass = enctypt(password)
