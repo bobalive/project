@@ -35,8 +35,6 @@ class UserContolers{
         }
     }
     async isAuth(req,res){
-        console.log('auth')
-        console.log(req.user[0])
         try{
             const user = req.user[0]
 

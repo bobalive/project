@@ -50,7 +50,6 @@ class CollectionControler{
         try {
             const id = req.user[0]._id;
             const userName = req.user[0].name
-            console.log(userName)
             const collections = req.body;
             collections.custom_fields = JSON.parse(req.body.custom_fields)
 
@@ -128,7 +127,6 @@ class CollectionControler{
             if (id && collections) {
 
                 const userCollections = await Collections.findOneAndUpdate({_id:collections._id},{ ...collections, userId: id } ,{new:true});
-                console.log(userCollections)
 
                 return res.status(200).json(userCollections);
             } else {

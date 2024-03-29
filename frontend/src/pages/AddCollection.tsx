@@ -53,7 +53,6 @@ export  function AddCollection() {
     useEffect(() => {
 
         dispatch(auth())
-        console.log(user)
         if(user._id !=id){
             if(user.status !== 'active' && user.role != 'admin'){
                 navigate('/')
