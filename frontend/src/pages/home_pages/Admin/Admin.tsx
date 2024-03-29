@@ -16,8 +16,6 @@ export const Admin = ()=>{
     const navigate = useNavigate()
     const {t} = useTranslation()
 
-    console.log(user)
-
     const [users,setUsers ] = useState<UserInteface[]>()
     const [ids , setIds] = useState<string[]>([])
 

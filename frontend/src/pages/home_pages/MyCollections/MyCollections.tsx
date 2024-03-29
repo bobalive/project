@@ -25,7 +25,6 @@ export const MyCollections = ()=>{
     const [id , setId]= useState<string[]>([])
     const getCollection = async ()=>{
         const collections=await getMyColletion()
-        console.log(collections)
         if(collections){
             dispatch(setMyCollection([...collections]))
         }

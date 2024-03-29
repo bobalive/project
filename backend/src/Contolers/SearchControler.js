@@ -74,6 +74,32 @@ class SearchControler {
             res.status(500).json({ message: 'Internal server error' });
         }
     }
+    async searchTags(req,res){
+        const {q} = req.params
+        try{
+            const tags = await Items.aggregate([
+                {
+                    $search: {
+                        index: 'autocompete',
+                        text: {
+                            query: q,
+                            path: ['tags'],
+                            fuzzy: {}
+                        }
+                    }
+                },
+                {
+                    $limit: 10 // Set the limit to 10 documents
+                }
+            ]).then(res => res.map(item => item.tags).flat());
+
+            res.status(200).json(tags);
+
+        }catch (e){
+            console.error(e);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
 
 
 }

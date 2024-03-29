@@ -14,7 +14,7 @@ export const LatestItemCard = ({itemName , collectionName , itemId, userName}:La
     const { t } = useTranslation(); // Initialize the useTranslation hook
 
     return(
-        <Card>
+        <Card key={itemId}>
             <CardHeader>
                 <CardTitle>"{itemName}"</CardTitle>
                 <CardDescription>{t('latest_item_card.from_collection')} "{collectionName}"</CardDescription>

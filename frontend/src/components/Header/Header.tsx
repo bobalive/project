@@ -31,9 +31,6 @@ export const Header = () => {
         theme.value =='dark'?dispatch(setTheme(null)):dispatch(setTheme('dark'))
         theme.value =='dark'?el.classList.remove('dark'):el.classList.add('dark')
     }
-    console.log(user)
-
-
 
     return (
         <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">

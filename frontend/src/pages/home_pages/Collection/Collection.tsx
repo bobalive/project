@@ -82,7 +82,7 @@ export const Collection = () => {
                     <p className="text-gray-500 dark:text-gray-400">{t('collection.user_id')}: {collection[0].userId}</p>
                     <div className="flex justify-between">
                         <h2 className="text-2xl font-bold tracking-tight my-1.5">{t('collection.items')}:</h2>
-                        {(user.role == 'admin'|| user._id == id) && <div className='flex gap-1'>
+                        {( user.role =='admin' || (user._id == collection[0].userId && user.status == 'active')) && <div className='flex gap-1'>
                             <Button size='lg' onClick={handleDelete}>
                                 <Trash/>
                             </Button>

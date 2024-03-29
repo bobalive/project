@@ -1,5 +1,4 @@
 import {NavLink, useParams} from "react-router-dom";
-import {Button} from "../../../components/ui/button.tsx";
 import {CustomFields} from "../../../components/CustomFields/CustomField.tsx";
 import {useSetItem} from "../../../CustomHooks/useSetItem.tsx";
 import {useGetItemInfo} from "../../../CustomHooks/useGetItemInfo.tsx";
@@ -41,10 +40,8 @@ export const Item = () => {
                 <div className="mb-6 flex items-center gap-1">
                     <h2 className="text-lg font-semibold">{t('item.tagsTitle')}</h2>
                     <div className="flex space-x-2">
-                        {item.tags.map((tag, index) => (
-                            <Button key={index} className="text-sm" variant="ghost">
-                                {tag}
-                            </Button>
+                        {item.tags.map((tag) => (
+                            <NavLink key={tag} className='p-4 bg-gray-500 m-2 rounded-xl' to={'/search/'+tag.slice(1,tag.length)}>{tag}</NavLink>
                         ))}
                     </div>
                 </div>

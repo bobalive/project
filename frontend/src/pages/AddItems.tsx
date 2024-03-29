@@ -15,7 +15,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {StoreInterface} from "../interfaces/Store.interface.ts";
 import {AppDispatch, UserInteface} from "../interfaces/User.interface.ts";
 import {auth} from "../Store/Slices/userSlice.ts";
-
+import CreatableSelect from "react-select/creatable";
+import {MultiValue} from "react-select";
+import { searchTags} from "../api/search.api.ts";
 
 export function AddItems() {
     const {id, itemId} = useParams()
@@ -35,12 +37,28 @@ export function AddItems() {
 
     const user = useSelector<StoreInterface,UserInteface>(state => state.user)
 
-    const [tags, setTags] = useState('');
+    const [tags, setTags] = useState<MultiValue<{     value: string;     label: string; }>>([]);
+    const [selectValue , setSlectValue ]=  useState('')
+    const [options , setOptions] = useState<MultiValue<{     value: string;     label: string; }>>()
 
+    useEffect(()=>{
+        const timeOut = setTimeout(()=>{
+            searchTags(selectValue).then(res=>{
+                setOptions(res.map((tag:string )=>({
+                    value:tag,
+                    label:tag
+                })))
+            })
+        },1000)
+        return ()=>{
+            clearTimeout(timeOut)
+        }
+    },[selectValue])
     const dispatch = useDispatch<AppDispatch>()
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        console.log(tags.map(tag => tag.value))
         if(user.role == 'admin' || user._id == collection?.userId || user.status == 'active' ){
         if (collection?._id) {
             let data: SendItemInterface = {
@@ -54,7 +72,7 @@ export function AddItems() {
                     custom_multi_line: custLine
                 },
                 name: name,
-                tags: tags.split(' '),
+                tags: tags.map(tag=> tag.value)
             }
             if (itemId && id) {
                 await changeItem({...data, _id:itemId , userName:collection.userName })
@@ -85,7 +103,6 @@ export function AddItems() {
 
     useEffect(() => {
         dispatch(auth())
-        console.log(user)
         if(user._id !=id){
             if(user.status !== 'active' && user.role != 'admin'){
                 navigate('/')
@@ -94,15 +111,15 @@ export function AddItems() {
         if (itemId && id) {
             getItem(itemId).then(res => {
                 if (res) {
-                    console.log(res)
                     if(!(user.role=='admin'|| user._id!=res.usrId)){
-
                         navigate('/')
                     }
                     let custFields = res.custom_fields
                     setName(res.name)
-                    setTags(res.tags.join(' '))
-
+                    setTags(res.tags.map(tag=>({
+                        value:tag,
+                        label:tag
+                    })))
                     setCustInt(custFields.custom_int)
                     setCustStr(custFields.custom_string)
                     setCustBool(custFields.custom_boolean)
@@ -115,6 +132,20 @@ export function AddItems() {
     }, [user])
 
 
+
+    const handleSelectChange = (e: MultiValue<{ value: string; label: string }>) => {
+        setTags(
+            e.map(item => {
+                if (!item.value.includes('#')) {
+                    return ({
+                        value: "#" + item.value,
+                        label: "#" + item.label
+                    });
+                }
+                return item;
+            })
+        );
+    };
 
     return (
         <form onSubmit={(e)=>handleSubmit(e)} className="flex items-center justify-center mt-4">
@@ -136,6 +167,7 @@ export function AddItems() {
                                 id="name"
                                 name="name"
                                 value={name}
+                                required
                                 onChange={(e) => setName(e.target.value)}
 
                             />
@@ -144,21 +176,21 @@ export function AddItems() {
                             <Label className="sm:col-span-2" htmlFor="tags">
                                 {t('form.itemTags')}
                             </Label>
-                            <Input
-                                placeholder={t('form.tagsPlaceholder')}
-                                id="tags"
-                                name="tags"
+                            <CreatableSelect
                                 value={tags}
-                                onChange={(e) => setTags(e.target.value)}
-                                onBlur={(e) => {
-                                    const value = e.target.value.split(' ');
-                                    const newValue = value.map(item => !item.includes('#') && item ? '#' + item : item);
-                                    setTags(newValue.join(' '));
-                                }}
+                                inputValue={selectValue}
 
+                                isMulti
+                                name="tags"
+                                options={options}
+                                onChange={handleSelectChange}
+                                onInputChange={(e)=> setSlectValue(e)}
+                                className="dark-multi-select text-black"
+                                classNamePrefix="select"
+                                required
                             />
 
-                                           </div>
+                        </div>
                         <div className="flex flex-col gap-4">
                             {collection?.custom_fields?.custom_int[0] && <h4>{t('form.customFields.customInt')}</h4>}
                             {collection?.custom_fields?.custom_int.map((item, i) => (

@@ -16,7 +16,6 @@ class ItemsControler{
 
         const {item} = req.body
         const {_id, name} = req.user[0]
-        item.tags = item.tags.join(' ')
 
         if(item){
             try{

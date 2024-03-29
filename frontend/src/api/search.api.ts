@@ -22,3 +22,9 @@ export const getTopTags =async ()=>{
         return res.data
     }
 }
+export const searchTags = async (q:string)=>{
+    const res = await axios.get(import.meta.env.VITE_API+'/api/search/tags/find/f'+q)
+    if(res.status===200){
+        return res.data
+    }
+}

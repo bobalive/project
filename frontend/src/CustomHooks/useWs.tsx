@@ -15,7 +15,6 @@ export const useWs = ({id}:useWsInterface)=>{
             action:'getComments'
         }
         ws.onopen = ()=> ws.send(JSON.stringify(GetComments))
-        ws.onclose = ()=>  console.log('DISCONNECTED')
         ws.onmessage = (ev:any) => {
 
             const {comments,action} = JSON.parse(ev.data)

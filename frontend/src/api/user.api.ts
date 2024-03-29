@@ -124,12 +124,11 @@ export const checkIsAuth = async ()=>{
     const response:AxiosResponse<UserInteface> = await axios.get(import.meta.env.VITE_API+'/api/isAuth',{
         withCredentials:true
     });
-    console.log(response.data)
     if(response.status ==200){
         return response.data;
     }
-
 }
+
 
 
 
