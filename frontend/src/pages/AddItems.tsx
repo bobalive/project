@@ -58,7 +58,7 @@ export function AddItems() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-        console.log(tags.map(tag => tag.value))
+
         if(user.role == 'admin' || user._id == collection?.userId || user.status == 'active' ){
         if (collection?._id) {
             let data: SendItemInterface = {
@@ -72,13 +72,15 @@ export function AddItems() {
                     custom_multi_line: custLine
                 },
                 name: name,
-                tags: tags.map(tag=> tag.value)
+                tags: tags.map(tag=> tag.value),
+                usrId:collection.userId,
+                userName:collection.userName
             }
             if (itemId && id) {
-                await changeItem({...data, _id:itemId , userName:collection.userName })
+                await changeItem({...data, _id:itemId})
                 navigate('/item/' + itemId)
             } else {
-                await createItems({...data})
+                await createItems({...data })
                 navigate('/collection/' + id)
             }
         }

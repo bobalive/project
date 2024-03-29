@@ -41,12 +41,12 @@ export const AdminTable = ({users,setIds,ids}:AdminTablePropsInterface)=>{
                 <TableBody>
                     {users.map(user => (
                         <TableRow>
-                            <TableCell className='w-4'>
+                            <TableCell className='w-4' >
                                 <Input type='checkbox' className='w-4 h-4' onChange={() => handleChange(user._id)}
                                        checked={ids.includes(user._id)}/>
                             </TableCell>
                             <TableCell>
-                                <Link className="font-semibold" to="#">
+                                <Link className="font-semibold" to={"/user/"+user._id}>
                                     {user._id}
                                 </Link>
                             </TableCell>

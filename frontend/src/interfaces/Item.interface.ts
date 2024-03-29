@@ -8,6 +8,7 @@ export interface ItemInterface  extends  SendItemInterface{
 export interface SendItemInterface {
     collectionId: string;
     usrId?: string;
+    userName:string;
     name: string;
     tags:string[];
     custom_fields:CustomFiedInteface;

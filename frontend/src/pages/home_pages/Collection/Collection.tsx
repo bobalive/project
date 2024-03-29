@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CollectionInterface } from "../../../interfaces/Collection.interface.ts";
@@ -79,7 +79,7 @@ export const Collection = () => {
                     </div>
                     <h1 className="text-3xl font-bold tracking-tight my-1.5">{t('collection.title')} {collection[0].name}</h1>
                     <p className="text-gray-500 dark:text-gray-400">{t('collection.description')}: {collection[0].description}</p>
-                    <p className="text-gray-500 dark:text-gray-400">{t('collection.user_id')}: {collection[0].userId}</p>
+                    <NavLink to ={'/user/' + collection[0].userId} className="text-gray-500 dark:text-gray-400">{t('collection.user_id')}: {collection[0].userId}</NavLink>
                     <div className="flex justify-between">
                         <h2 className="text-2xl font-bold tracking-tight my-1.5">{t('collection.items')}:</h2>
                         {( user.role =='admin' || (user._id == collection[0].userId && user.status == 'active')) && <div className='flex gap-1'>

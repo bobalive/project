@@ -15,11 +15,10 @@ class ItemsControler{
     async createItem(req, res){
 
         const {item} = req.body
-        const {_id, name} = req.user[0]
 
         if(item){
             try{
-                const newItem = await Item.create({...item , userId:_id , userName:name })
+                const newItem = await Item.create({...item  })
 
 
                 const Collection = await Collections.findOneAndUpdate(

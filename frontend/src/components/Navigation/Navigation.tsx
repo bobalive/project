@@ -17,7 +17,7 @@ export const Navigation = ({collectionId , itemId, userId}:NavigationIntrface)=>
     const user= useSelector<StoreInterface,UserInteface>(store => store.user)
     return (
         <div className="flex items-center justify-between mb-6">
-            <NavLink to={itemId?'/collection/' + collectionId: '/'} className="flex items-center">
+            <NavLink to={itemId?'/collection/' + collectionId: '/user/'+userId} className="flex items-center">
                 <ArrowLeftIcon className="mr-2"/>
                 {t('navigation.back')}{"\n     "}
             </NavLink>

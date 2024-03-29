@@ -21,7 +21,8 @@ import {auth} from "../Store/Slices/userSlice.ts";
 
 
 export  function AddCollection() {
-    const {id} = useParams()
+    const {id, userId} = useParams()
+    console.log(userId)
     const navigate = useNavigate()
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
     const formRef=  useRef<any>()
@@ -43,17 +44,19 @@ export  function AddCollection() {
             await editCollection(formData)
             navigate("/collection/"+id)
         }else{
+            if(userId){
+                formData.append('userId',userId)
+            }
             await createCollection(formData)
-            navigate("/my-collections")
+            navigate("/user/"+userId)
         }
     }
     const handleThemeChange = (event:any) => {
         setValue("theme", event);
     };
     useEffect(() => {
-
         dispatch(auth())
-        if(user._id !=id){
+        if(user._id !=userId    ){
             if(user.status !== 'active' && user.role != 'admin'){
                 navigate('/')
             }

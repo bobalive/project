@@ -27,7 +27,8 @@
     "by": "By",
     "view_item": "View Item"
   },
-  "my_collections":"My collections",
+  "my": "My",
+  "collections":"collections",
   "admin_table": {
     "id": "ID",
     "name": "Name",

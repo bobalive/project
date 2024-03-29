@@ -27,7 +27,8 @@
     "by": "От",
     "view_item": "Посмотреть элемент"
   },
-  "my_collections":"Мои коллекции",
+  "my": "Мои",
+  "collections":"коллекции",
   "admin_table": {
     "id": "ID",
     "name": "Имя",

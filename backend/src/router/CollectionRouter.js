@@ -5,9 +5,9 @@ const CollectionRouter = new Router()
 
 
 CollectionRouter.get('/top' , CollectionControler.getTopCollections)
-CollectionRouter.get("/my-collection" , verifyToken , CollectionControler.getUserCollection)
+CollectionRouter.get("/my-collection" , verifyToken , CollectionControler.getMyCollection)
 CollectionRouter.get("/collection/:id" , CollectionControler.getOneCollection)
-CollectionRouter.get("/user/:id" , verifyToken, CollectionControler.getAllCollections)
+CollectionRouter.get("/user/" , CollectionControler.getAllCollections)
 CollectionRouter.get('/customFields/:id' , CollectionControler.getCustomFields)
 
 CollectionRouter.post("/edit" , verifyToken , CollectionControler.editCollection)

@@ -17,7 +17,7 @@ export const Home = ()=> {
     const dispatch = useDispatch()
     const checkUser = async () => {
         const user = await getUser()
-        console.log(user)
+
         if(user){
             dispatch(putUser({...user[0]}))
         }
@@ -40,7 +40,7 @@ export const Home = ()=> {
                         <Route path={"/recent-items"} element={<LatestItems/>}/>
                         <Route path={'collection/:id'} element={<Collection/>}></Route>
                         <Route path={'my-collections/'} element={<MyCollections/>}></Route>
-                        <Route path={'user/:id'} element={<MyCollections/>}/>
+                        <Route path={'user/:userId'} element={<MyCollections/>}/>
                         <Route path={'item/:id'} element={<Item/>}></Route>
                         <Route path={'admin/'} element={<Admin/>}/>
                         <Route path={'search/:query'} element={<LatestItems/>}/>

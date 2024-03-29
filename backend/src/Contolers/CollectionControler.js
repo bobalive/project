@@ -1,18 +1,18 @@
 const Collections = require('../db/Collections')
 const Item = require('../db/item')
+const User = require('../db/Users')
 const path = require('path')
 const Dropbox = require('dropbox').Dropbox;
 require('dotenv').config();
 
 class CollectionControler{
     async getAllCollections(req,res){
-        const { id } = req.params;
-
+        const { id } = req.query;
         if (id) {
             try {
+                const user = await User.findOne({_id:id})
                 const collections = await Collections.find({ userId: id });
-
-                return res.status(200).json(collections);
+                return res.status(200).json({collections, name:user.name});
             } catch (e) {
                 console.error(e); // Log the error for debugging purposes
                 return res.status(500).send(e.message); // Send an error response
@@ -48,9 +48,11 @@ class CollectionControler{
     async createCollections(req, res) {
 
         try {
-            const id = req.user[0]._id;
-            const userName = req.user[0].name
             const collections = req.body;
+            const id = collections.userId? collections.userId: req.user[0]._id;
+            if(id === req.user[0]._id || req[0].role === 'admin'){
+            const user = await User.findOne({_id:id})
+
             collections.custom_fields = JSON.parse(req.body.custom_fields)
 
 
@@ -74,11 +76,13 @@ class CollectionControler{
 
             if (id && collections) {
 
-                const userCollections = await Collections.create({ ...collections, userId: id , userName:userName});
+                const userCollections = await Collections.create({ ...collections, userId: id , userName:user.name});
+                console.log(userCollections)
                 return res.status(200).json(userCollections);
             } else {
 
                 return res.status(400).json('Incorrect data');
+            }
             }
         } catch (error) {
             console.error('Error creating collections:', error);
@@ -102,11 +106,9 @@ class CollectionControler{
     }
     async editCollection(req,res){
         try {
-            const id = req.user[0]._id;
             const collections = req.body;
             collections.custom_fields = JSON.parse(req.body.custom_fields)
-
-
+            if(collections.userId === req[0]._id || req[0].user.role === 'admin'){
             if(req.file){
                 let rawlink = []
                 const dbx = new Dropbox({ accessToken: process.env.ACCES_TOKEN });
@@ -124,14 +126,15 @@ class CollectionControler{
                 collections.photo = rawlink
             }
 
-            if (id && collections) {
+            if (collections) {
 
-                const userCollections = await Collections.findOneAndUpdate({_id:collections._id},{ ...collections, userId: id } ,{new:true});
+                const userCollections = await Collections.findOneAndUpdate({_id:collections._id},{ ...collections } ,{new:true});
 
                 return res.status(200).json(userCollections);
             } else {
 
                 return res.status(400).json('Incorrect data');
+            }
             }
         } catch (error) {
             console.error('Error creating collections:', error);
@@ -139,7 +142,7 @@ class CollectionControler{
         }
         
     }
-    async getUserCollection(req,res){
+    async getMyCollection(req,res){
         const userId= req.user[0]._id
         try{
             const collection = await Collections.find({userId:userId})
@@ -151,7 +154,7 @@ class CollectionControler{
     async deleteCollection(req,res){
         const {id,ownerId} = req.body
         const user = req.user[0]
-        if(ownerId === user._id){
+        if(ownerId === user._id || user.role ==='admin'){
             try{
                 const collection = await Collections.deleteMany({_id:{$in:id}})
                 const newCollections = await Collections.find({userId:user._id})

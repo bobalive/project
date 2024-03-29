@@ -17,10 +17,9 @@ export const getTopCollections = async (): Promise<CollectionInterface[]> => {
         throw error;
     }
 };
-export const deleteColections = async (id:string[])=>{
-    console.log(id)
+export const deleteColections = async (id:string[],ownerId:string)=>{
     try{
-        const response:AxiosResponse<CollectionInterface[]> = await axios.delete(import.meta.env.VITE_API+'/api/collections/delete',{data:{id}, withCredentials:true})
+        const response:AxiosResponse<CollectionInterface[]> = await axios.delete(import.meta.env.VITE_API+'/api/collections/delete',{data:{id,ownerId}, withCredentials:true})
         if(response.status == 200){
             return response.data
         }
@@ -95,6 +94,20 @@ export const editCollection = async (formData:FormData)=>{
 
     }catch (error) {
         // Handle network errors or exceptions
+        console.error("Error fetching top collections:", error);
+        throw error;
+    }
+}
+
+export const getUserCollection = async (id:string)=>{
+    try {
+        const response = await axios.get(import.meta.env.VITE_API+`/api/collections/user/?id=${id}`)
+        if(response.status === 200){
+            return response.data
+        }else{
+            throw new Error("Failed to fetch top collections. Status code " + response.data)
+        }
+    }catch (error){
         console.error("Error fetching top collections:", error);
         throw error;
     }
