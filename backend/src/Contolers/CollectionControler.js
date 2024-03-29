@@ -12,6 +12,7 @@ class CollectionControler{
             try {
                 const user = await User.findOne({_id:id})
                 const collections = await Collections.find({ userId: id });
+                console.log(user)
                 return res.status(200).json({collections, name:user.name});
             } catch (e) {
                 console.error(e); // Log the error for debugging purposes
@@ -50,7 +51,7 @@ class CollectionControler{
         try {
             const collections = req.body;
             const id = collections.userId? collections.userId: req.user[0]._id;
-            if(id === req.user[0]._id || req[0].role === 'admin'){
+            if(id === req.user[0]._id || req.user[0].role === 'admin'){
             const user = await User.findOne({_id:id})
 
             collections.custom_fields = JSON.parse(req.body.custom_fields)

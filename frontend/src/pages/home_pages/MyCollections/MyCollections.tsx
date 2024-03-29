@@ -29,12 +29,14 @@ export const MyCollections = ()=>{
     const getCollection = async ()=>{
         if(userId){
             const {collections,name} = await getUserCollection(userId)
+
             setUserName(name)
             if(collections){
                 dispatch(setMyCollection([...collections]))
             }
         }else{
             const collections=await getMyColletion()
+            setUserName(t('my'))
             if(collections){
                 dispatch(setMyCollection([...collections]))
             }
