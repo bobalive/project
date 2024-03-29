@@ -17,6 +17,7 @@ export const Home = ()=> {
     const dispatch = useDispatch()
     const checkUser = async () => {
         const user = await getUser()
+        console.log(user)
         if(user){
             dispatch(putUser({...user[0]}))
         }

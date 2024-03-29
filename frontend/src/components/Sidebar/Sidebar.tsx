@@ -11,6 +11,7 @@ import {ChangeLang} from "../ChangeLang/ChangeLang.tsx";
 export const Sidebar = () => {
     const user = useSelector((store: StoreInterface) => store.user)
     const { t } = useTranslation(); // Initialize the useTranslation hook
+    console.log(user._id)
 
     // Use the translations in your component
     return (

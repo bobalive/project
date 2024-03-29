@@ -10,10 +10,10 @@ export const Profile = ({name , email}:ProfileInterface)=>{
     const dispatch = useDispatch()
     const handleClick = async () => {
         const isLogout = await logout()
-        console.log(isLogout)
         if(isLogout){
-            dispatch(putUser({name:'',email:'',_id:'0',password:'',status:'blocked',role:'user'}))
+            dispatch(putUser({name:'',email:'',_id:'',password:'',status:'blocked',role:'user'}))
             dispatch(setMyCollection([]))
+            location.reload()
         }
     }
     const {t} = useTranslation()

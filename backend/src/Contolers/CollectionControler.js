@@ -141,11 +141,8 @@ class CollectionControler{
     }
     async getUserCollection(req,res){
         const userId= req.user[0]._id
-        console.log('collection')
-        console.log(req.user[0]._id)
         try{
             const collection = await Collections.find({userId:userId})
-            console.log(collection)
             return res.status(200).json(collection)
         }catch (e){
             return res.status(500).json(e)
