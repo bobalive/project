@@ -67,6 +67,7 @@ export const getСollectionInfo = async (id:string)=>{
 export const getItem = async (id:string)=>{
     try{
         const response:AxiosResponse<ItemInterface> = await axios.get(import.meta.env.VITE_API+'/api/item/getItem/'+id);
+        console.log(response.data)
         if(response.status == 200){
             return response.data
         }
@@ -92,6 +93,19 @@ export const changeItem  = async(item:ItemInterface)=>{
 export const getLatestItems = async()=>{
     try{
         const response:AxiosResponse<ItemInterface[]> = await axios.get(import.meta.env.VITE_API+'/api/item/latestItems' ,{
+            withCredentials:true
+        })
+        if(response.status === 200){
+            return response.data
+        }
+    }catch (e){
+        console.log(e)
+        throw e
+    }
+}
+export const sendLikes = async (id:string,likes:string[])=>{
+    try{
+        const response:AxiosResponse<ItemInterface> = await axios.post(import.meta.env.VITE_API+"/api/item/setLikes",{id,likes},{
             withCredentials:true
         })
         if(response.status === 200){

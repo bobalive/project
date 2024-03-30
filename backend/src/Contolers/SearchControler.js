@@ -41,7 +41,7 @@ class SearchControler {
                     index: index,
                     text: {
                         query: q,
-                        path:['name','tags','comments'],
+                        path: ['name'],
                         fuzzy: {}
                     }
                 }
@@ -83,7 +83,7 @@ class SearchControler {
                         index: 'autocompete',
                         text: {
                             query: q,
-                            path: ['tags'],
+                            path:['tags'],
                             fuzzy: {}
                         }
                     }
@@ -92,8 +92,9 @@ class SearchControler {
                     $limit: 10 // Set the limit to 10 documents
                 }
             ]).then(res => res.map(item => item.tags).flat());
+            const uniqueTags = [...new Set(tags)];
 
-            res.status(200).json(tags);
+            res.status(200).json(uniqueTags);
 
         }catch (e){
             console.error(e);

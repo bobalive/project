@@ -9,6 +9,8 @@ itemsRouter.get('/latestItems', itemsControler.getLatesItem)
 
 itemsRouter.post('/create' ,verifyToken, itemsControler.createItem)
 itemsRouter.post('/edit' ,verifyToken, itemsControler.changeItem)
+itemsRouter.post('/setLikes' , verifyToken ,itemsControler.setLikes)
 itemsRouter.delete('/delete/' , verifyToken , itemsControler.deleteItem)
+
 
 module.exports = itemsRouter

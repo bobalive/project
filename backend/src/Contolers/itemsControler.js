@@ -70,8 +70,18 @@ class ItemsControler{
     }
     async getLatesItem(req,res){
         try{
-            const latestCollections =  await Item.find().sort({ timestampField: -1 }).limit(5)
-            res.status(200).json(latestCollections)
+            const latestItem=  await Item.find().sort({ timestampField: -1 }).limit(5)
+            res.status(200).json(latestItem)
+        }catch (e){
+            res.status(400).json(e)
+        }
+    }
+    async setLikes(req,res){
+        const {id,likes} = req.body
+        try{
+            const newItem = await Item.findOneAndUpdate({_id:id} ,{likes: likes},{new:true})
+            console.log(newItem)
+            res.status(200).json(newItem)
         }catch (e){
             res.status(400).json(e)
         }

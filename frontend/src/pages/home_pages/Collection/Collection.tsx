@@ -49,6 +49,7 @@ export const Collection = () => {
         dispatch(auth())
         getCollection();
     }, [id,user]);
+    console.log(id)
 
     const handleDelete = async (e: any) => {
         await dispatch(auth())
@@ -60,12 +61,13 @@ export const Collection = () => {
             }
         }
     };
+    console.log(collection)
 
     return (
         <>
-            {collection && items ? (
+            {collection && collection.length > 0 && items ? (
                 <>
-                    <Navigation collectionId={collection[0]._id} userId={collection[0].userId}/>
+                    <Navigation collectionId={collection[0]?._id} userId={collection[0]?.userId}/>
                     <div className='flex justify-between items-start'>
                         <img
                             alt="Item preview"

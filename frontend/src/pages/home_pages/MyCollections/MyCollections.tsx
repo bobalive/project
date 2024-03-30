@@ -71,7 +71,7 @@ export const MyCollections = ()=>{
                         <Button onClick={handleDeleteCollection} size='lg'>
                             <Trash/>
                         </Button>
-                        <Button onClick={() => navigate('/add-collection/' + userId)} size='lg'>
+                        <Button onClick={() => navigate('/add-collection/' + (userId||user._id))} size='lg'>
                             <PlusIcon/>
                         </Button>
                     </div>

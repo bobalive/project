@@ -5,10 +5,11 @@ import {useGetItemInfo} from "../../../CustomHooks/useGetItemInfo.tsx";
 import {Navigation} from "../../../components/Navigation/Navigation.tsx";
 import {Comments} from "../../../components/Comments/Comments.tsx";
 import {useTranslation} from "react-i18next";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {auth} from "../../../Store/Slices/userSlice.ts";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../interfaces/User.interface.ts";
+
 
 
 export const Item = () => {
@@ -18,18 +19,23 @@ export const Item = () => {
     const item = useSetItem(id)
     const {custFields} = useGetItemInfo(id)
     const {t} = useTranslation()
+    const [likes , setLikes] = useState<string[]>([''])
+    useEffect(() => {
+        setLikes(item?.likes?item.likes:[])
+    }, [item]);
 
     const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
         dispatch(auth())
     }, []);
+    console.log(item)
 
 
     return (
         <>
         {item?._id
             ? <div className="w-full mx-auto p-2">
-                <Navigation itemId={item._id} collectionId={item.collectionId} userId={item.usrId}/>
+                <Navigation itemId={item._id} collectionId={item.collectionId} userId={item?.usrId} likes={likes} setLikes={setLikes} />
                 <div className="mb-6">
                     <h1 className="text-2xl font-bold">{t('item.itemTitle', {itemName: item.name})}</h1>
                     <p className="text-sm text-gray-600">{t('item.itemId', {itemId: item._id})}</p>

@@ -12,7 +12,8 @@ export interface SendItemInterface {
     name: string;
     tags:string[];
     custom_fields:CustomFiedInteface;
-    collectionName:string
+    collectionName:string,
+    likes:string[]
 
 }
 

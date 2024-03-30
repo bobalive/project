@@ -15,7 +15,7 @@ CollectionRouter.post("/change",verifyToken, CollectionControler.addFields)
 CollectionRouter.post("/create",verifyToken,CollectionControler.createCollections)
 
 CollectionRouter.delete('/delete' , verifyToken , CollectionControler.deleteCollection)
-CollectionRouter.delete('/customFields/delete' ,CollectionControler.deleteCustomFields)
+CollectionRouter.delete('/customFields/delete' ,verifyToken,CollectionControler.deleteCustomFields)
 
 
 

@@ -109,7 +109,9 @@ class CollectionControler{
         try {
             const collections = req.body;
             collections.custom_fields = JSON.parse(req.body.custom_fields)
-            if(collections.userId === req[0]._id || req[0].user.role === 'admin'){
+            const oldCollection = await Collections.findOne({_id:collections._id})
+
+            if((oldCollection.userId === req.user[0]._id &&  req.user[0].status === 'active') || req.user[0].role === 'admin'){
             if(req.file){
                 let rawlink = []
                 const dbx = new Dropbox({ accessToken: process.env.ACCES_TOKEN });
@@ -158,6 +160,7 @@ class CollectionControler{
         if(ownerId === user._id || user.role ==='admin'){
             try{
                 const collection = await Collections.deleteMany({_id:{$in:id}})
+                const item = await Item.deleteMany({collectionId:{$in:id}})
                 const newCollections = await Collections.find({userId:user._id})
 
                 res.status(200).json(newCollections)
@@ -188,22 +191,20 @@ class CollectionControler{
         const valueId = req.query.valueId;
         const field = req.query.field
 
+
         try {
             const updatedCollection = await Collections.findOne({_id:collectionId})
             const updatedItems = await Item.find({collectionId:collectionId})
-            console.log(updatedCollection)
-
-            if(updatedCollection._id === req.user[0]._id){
-                updatedCollection.custom_fields[field] =updatedCollection.custom_fields[field].filter((_item , i)=> i != valueId)
+            if(updatedCollection.userId = req.user[0]._id) {
+                updatedCollection.custom_fields[field] = updatedCollection.custom_fields[field].filter((_item, i) => i != valueId)
                 await updatedCollection.save()
 
                 await Promise.all(updatedItems.map(async (item) => {
                     item.custom_fields[field] = item.custom_fields[field].filter((value, i) => i != valueId);
                     await item.save();
                 }));
+
             }
-
-
             if (!updatedCollection) {
                 return res.status(404).json({ error: 'Collection not found' });
             }

@@ -67,7 +67,9 @@ export const getOneCollection = async (id:string):Promise<CollectionInterface[]>
 export const deleteCustomField = async (collectionId:string,valueId:number,field:string)=>{
 
     try {
-        const response:AxiosResponse<CollectionInterface> = await axios.delete(`${import.meta.env.VITE_API}/api/collections/customFields/delete?collectionId=${collectionId}&valueId=${valueId}&field=${field}`)
+        const response:AxiosResponse<CollectionInterface> = await axios.delete(`${import.meta.env.VITE_API}/api/collections/customFields/delete?collectionId=${collectionId}&valueId=${valueId}&field=${field}`,{
+            withCredentials:true
+        })
         if(response.status === 200){
             return response.data
         }else{

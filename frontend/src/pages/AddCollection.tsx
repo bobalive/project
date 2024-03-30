@@ -22,7 +22,7 @@ import {auth} from "../Store/Slices/userSlice.ts";
 
 export  function AddCollection() {
     const {id, userId} = useParams()
-    console.log(userId)
+
     const navigate = useNavigate()
     const {register, handleSubmit,setValue,control} = useForm<CollectionInterface>()
     const formRef=  useRef<any>()
@@ -56,7 +56,7 @@ export  function AddCollection() {
     };
     useEffect(() => {
         dispatch(auth())
-        if(user._id !=userId    ){
+        if(user._id !=userId){
             if(user.status !== 'active' && user.role != 'admin'){
                 navigate('/')
             }

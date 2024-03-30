@@ -74,7 +74,8 @@ export function AddItems() {
                 name: name,
                 tags: tags.map(tag=> tag.value),
                 usrId:collection.userId,
-                userName:collection.userName
+                userName:collection.userName,
+                likes:[]
             }
             if (itemId && id) {
                 await changeItem({...data, _id:itemId})

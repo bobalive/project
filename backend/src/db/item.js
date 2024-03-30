@@ -13,7 +13,8 @@ const ItemSchema = new mongoose.Schema({
         custom_multi_line:[String]
     },
     userName:String,
-    collectionName:String
+    collectionName:String,
+    likes:[String]
 
 })
 
