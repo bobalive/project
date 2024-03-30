@@ -65,7 +65,7 @@ export const MyCollections = ()=>{
     return(
         <>
             <div className="flex justify-between">
-                <h1 className="text-3xl font-bold tracking-tight my-1.5">{userName +' '+ t('collections')}:</h1>
+                <h1 className="text-3xl font-bold tracking-tight my-1.5">{userName +' '+ t('collections')}</h1>
                 {(userId == user._id || user.role ==='admin')&&
                     <div className='flex gap-1'>
                         <Button onClick={handleDeleteCollection} size='lg'>

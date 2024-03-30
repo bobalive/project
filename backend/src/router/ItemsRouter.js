@@ -6,6 +6,7 @@ const itemsRouter = new Router()
 itemsRouter.get('/getCollections/:id',itemsControler.getItems)
 itemsRouter.get('/getItem/:id', itemsControler.getItem)
 itemsRouter.get('/latestItems', itemsControler.getLatesItem)
+itemsRouter.get('/sort' , itemsControler.sortItem)
 
 itemsRouter.post('/create' ,verifyToken, itemsControler.createItem)
 itemsRouter.post('/edit' ,verifyToken, itemsControler.changeItem)

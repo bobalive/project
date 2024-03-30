@@ -3,10 +3,33 @@ import {TableInterface} from "./Table.interface.ts";
 import {NavLink} from "react-router-dom";
 import {Input} from "../ui/input.tsx";
 import {useTranslation} from "react-i18next";
+import {Button} from "../ui/button.tsx";
+import {ArrowUpDown} from "lucide-react";
+import {sortItem} from "../../api/items.api.ts";
+import {useState} from "react";
+import {nameType} from "../CustomFieldsTable/FieldValue/FieldValue.interface.ts";
 
-
-export const TableMenu = ({collection, item, setId, id, custom_fields}: TableInterface) => {
+type SortDirection = 'asc' | 'desc';
+export const TableMenu = ({collection, item, setId, id, custom_fields ,setItem}: TableInterface) => {
     const { t } = useTranslation();
+    const [sortDirection, setSortDirection] = useState<{ [key: string]:SortDirection }>({})
+    const fields:nameType[] = ['custom_string' , 'custom_int', 'custom_boolean',"custom_date"]
+
+    const handleSortClick = (collectionId:string ,field:string,index = -1) => {
+        console.log(field)
+        console.log(index)
+        const newSortDirection = sortDirection[field+index] === 'asc' ? 'desc' : 'asc';
+        sortItem(collectionId, field, newSortDirection,index)
+            .then(res => {
+                if (setItem) {
+                    setItem(res);
+                }
+                setSortDirection(prevState => ({
+                    ...prevState,
+                    [field+index]: newSortDirection
+                }));
+            });
+    };
     const selectCollection = (item: string) => {
         if (id && setId) {
             if (id.includes(item)) {
@@ -46,22 +69,63 @@ export const TableMenu = ({collection, item, setId, id, custom_fields}: TableInt
                         {collection && <TableHead className="w-4">
                             {t('table.photo')}
                         </TableHead>}
-                        <TableHead className="w-[150px]">{t('table.id')}</TableHead>
-                        <TableHead className="w-[150px]">{item ? t('table.name') : t('table.collection')}</TableHead>
-                        <TableHead>{item ? t('table.tags') : t('table.description')}</TableHead>
+                        <TableHead className="w-[150px]">{
+                            item
+                            ? <Button
+                                variant="ghost"
+                                onClick={() =>{
+                                    handleSortClick(item[0].collectionId , '_id')
+                                }}>
+                                {t('table.id')}
+                                <ArrowUpDown className="ml-2 h-4 w-4" />
+                            </Button>
+                            :t('table.id')
+                        }</TableHead>
+                        <TableHead className="w-[150px]">
+                            {item
+                                ? <Button
+                                    variant="ghost"
+                                    onClick={() =>{
+                                        handleSortClick(item[0].collectionId , 'name')
+                                    }}>
+                                    {t('table.name')}
+                                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                                </Button>
+                                :t('table.collection')
+                            }
+
+
+                        </TableHead>
+                        <TableHead>
+                            {item
+                                ? <Button
+                                    variant="ghost"
+                                    onClick={() =>  handleSortClick(item[0].collectionId , 'tags')}>
+                                    {t('table.tags')}
+                                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                                </Button>
+                                :t('table.description')
+                            }
+
+                        </TableHead>
+
+
                         {collection && <>
                             <TableHead className="max-w-[150px]">{t('table.theme')}</TableHead>
                             <TableHead className="max-w-[150px]">{t('table.items')}</TableHead>
                         </>}
                         {item && custom_fields && <>
-                            {custom_fields.custom_string.map(item => (
-                                <TableHead className="max-w-[150px] text-center">{item}</TableHead>))}
-                            {custom_fields.custom_int.map(item => (
-                                <TableHead className="max-w-[150px] text-center">{item}</TableHead>))}
-                            {custom_fields.custom_boolean.map(item => (
-                                <TableHead className="max-w-[150px] text-center">{item}</TableHead>))}
-                            {custom_fields.custom_date.map(item => (
-                                <TableHead className="max-w-[150px] text-center">{item}</TableHead>))}
+                        {fields.map(field=>(
+                            custom_fields[field].map((header,i) => (
+                                <TableHead className="max-w-[150px] text-center">
+                                    <Button
+                                        variant="ghost"
+                                        onClick={() =>handleSortClick(item[0].collectionId , "$custom_fields."+field,i)}>
+                                        {header}
+                                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                                    </Button>
+                                </TableHead>))
+                         ))}
                         </>}
                     </TableRow>
                 </TableHeader>
@@ -110,7 +174,8 @@ export const TableMenu = ({collection, item, setId, id, custom_fields}: TableInt
                                     {data.name}
                                 </NavLink>
                             </TableCell>
-                            <TableCell>{data.tags && data.tags.map(tag => (<span>{tag}</span>))}</TableCell>
+                            <TableCell>{data.tags && data.tags.map(tag => (<span>{tag }</span>))}</TableCell>
+
                             {custom_fields.custom_int.map((_item, i) => (<TableCell
                                     className="max-w-[150px] text-center">{data.custom_fields.custom_int[i]}</TableCell>))}
                             {custom_fields.custom_string.map((_item, i) => (<TableCell

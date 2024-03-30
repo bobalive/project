@@ -12,14 +12,45 @@ class ItemsControler{
             res.status(400).json(e)
         }
     }
+    async sortItem(req, res) {
+        const { collectionId, sort, dir , index} = req.query;
+        const direction = dir === 'asc' ? 1 : -1
+        try {
+            if(index >=0){
+                const indexNumeric = parseInt(index);
+                console.log(indexNumeric)
+                const items = await Item.aggregate([
+                    {
+                        $match: { collectionId: collectionId }
+                    },
+                    {
+                        $addFields: {
+                            custom_string: { $arrayElemAt: [sort, indexNumeric] }
+                        }
+                    },
+                    {
+                        $sort: { custom_string: direction }
+                    }
+                ]).exec();
+                console.log(items)
+
+                res.json(items);
+            } else {
+                let sortObject = {};
+                sortObject[sort] = direction;
+                const items = await Item.find({ collectionId: collectionId }).sort(sortObject);
+                res.json(items);
+            }
+
+        } catch (e) {
+            res.status(500).json({ error: e.message });
+        }
+    }
     async createItem(req, res){
-
         const {item} = req.body
-
         if(item){
             try{
-                const newItem = await Item.create({...item  })
-
+                const newItem = await Item.create({...item ,tags :item.tags.sort() })
 
                 const Collection = await Collections.findOneAndUpdate(
                     { _id: item.collectionId }, // filter: find the document by its _id

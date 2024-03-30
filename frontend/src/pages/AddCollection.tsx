@@ -35,6 +35,7 @@ export  function AddCollection() {
 
     const {customField,setCustomField,handleFieds} = useGetCollection({setValue,id})
     const {t} = useTranslation()
+
     const onSubmit = async ()=>{
          const formData = new FormData(formRef.current)
          const customFieldsSrting = JSON.stringify(customField)

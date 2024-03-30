@@ -116,3 +116,14 @@ export const sendLikes = async (id:string,likes:string[])=>{
         throw e
     }
 }
+export const sortItem = async ( collectionId:string,sort:string, dir:string , index:number)=>{
+    try{
+        const response = await axios.get(import.meta.env.VITE_API+`/api/item/sort?collectionId=${collectionId}&sort=${sort}&dir=${dir}&index=${index}`)
+        if(response.status === 200){
+            return response.data
+        }
+    }catch (e){
+        console.log(e)
+        throw e
+    }
+}

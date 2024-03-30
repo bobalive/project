@@ -17,7 +17,7 @@ import {AppDispatch, UserInteface} from "../interfaces/User.interface.ts";
 import {auth} from "../Store/Slices/userSlice.ts";
 import CreatableSelect from "react-select/creatable";
 import {MultiValue} from "react-select";
-import { searchTags} from "../api/search.api.ts";
+import {useOptions} from "../CustomHooks/useOptions.tsx";
 
 export function AddItems() {
     const {id, itemId} = useParams()
@@ -37,28 +37,16 @@ export function AddItems() {
 
     const user = useSelector<StoreInterface,UserInteface>(state => state.user)
 
-    const [tags, setTags] = useState<MultiValue<{     value: string;     label: string; }>>([]);
+    const [tags, setTags] = useState<MultiValue<{value: string;label: string; }>>([]);
     const [selectValue , setSlectValue ]=  useState('')
-    const [options , setOptions] = useState<MultiValue<{     value: string;     label: string; }>>()
 
-    useEffect(()=>{
-        const timeOut = setTimeout(()=>{
-            searchTags(selectValue).then(res=>{
-                setOptions(res.map((tag:string )=>({
-                    value:tag,
-                    label:tag
-                })))
-            })
-        },1000)
-        return ()=>{
-            clearTimeout(timeOut)
-        }
-    },[selectValue])
+    const options= useOptions(selectValue)
+
+
     const dispatch = useDispatch<AppDispatch>()
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-
         if(user.role == 'admin' || user._id == collection?.userId || user.status == 'active' ){
         if (collection?._id) {
             let data: SendItemInterface = {
@@ -137,17 +125,17 @@ export function AddItems() {
 
 
     const handleSelectChange = (e: MultiValue<{ value: string; label: string }>) => {
-        setTags(
-            e.map(item => {
-                if (!item.value.includes('#')) {
-                    return ({
-                        value: "#" + item.value,
-                        label: "#" + item.label
-                    });
-                }
-                return item;
-            })
-        );
+            setTags(
+                e.map(item => {
+                    if (!item.value.includes('#')) {
+                        return ({
+                            value: "#" + item.value,
+                            label: "#" + item.label
+                        });
+                    }
+                    return item;
+                })
+            );
     };
 
     return (
