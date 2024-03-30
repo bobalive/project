@@ -1,5 +1,5 @@
 import {NavLink, useNavigate, useParams} from "react-router-dom";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
 import { CollectionInterface } from "../../../interfaces/Collection.interface.ts";
 import { getOneCollection } from "../../../api/collection.api.ts";
